@@ -13,41 +13,12 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - StudioApproval
-        - StudioApprovalForAll
-        - StudioArtistRevenueClaimed
-        - StudioArtworkCreated
-        - StudioArtworkDecomposed
-        - StudioAuctionScheduled
-        - StudioOwnershipTransferred
-        - StudioPlatformRevenueClaimed
-        - StudioProjectCreated
-        - StudioTraitsBought
-        - StudioTransfer
+        - Artwork
+        - User
       abis:
         - name: Studio
           file: Studio\abis\Studio.json
       eventHandlers:
-        - event: StudioApproval(indexed address,indexed address,indexed uint256)
-          handler: handleStudioApproval
-        - event: StudioApprovalForAll(indexed address,indexed address,bool)
-          handler: handleStudioApprovalForAll
-        - event: StudioArtistRevenueClaimed(uint256)
-          handler: handleStudioArtistRevenueClaimed
-        - event: StudioArtworkCreated(indexed uint256,uint256[],bytes32,indexed address)
-          handler: handleStudioArtworkCreated
-        - event: StudioArtworkDecomposed(indexed uint256,indexed address)
-          handler: handleStudioArtworkDecomposed
-        - event: StudioAuctionScheduled(uint256,uint256,uint256,uint256)
-          handler: handleStudioAuctionScheduled
-        - event: StudioOwnershipTransferred(indexed address,indexed address)
-          handler: handleStudioOwnershipTransferred
-        - event: StudioPlatformRevenueClaimed(uint256)
-          handler: handleStudioPlatformRevenueClaimed
-        - event: StudioProjectCreated(string,address,uint256,string)
-          handler: handleStudioProjectCreated
-        - event: StudioTraitsBought(indexed address,uint256[],uint256[])
-          handler: handleStudioTraitsBought
         - event: StudioTransfer(indexed address,indexed address,indexed uint256)
           handler: handleStudioTransfer
       file: Studio\Studio.wasm
@@ -62,26 +33,11 @@ dataSources:
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - ApprovalForAll
-        - TraitCreated
-        - TraitsAndTypesCreated
-        - TransferBatch
-        - TransferSingle
-        - URI
+        - Trait
       abis:
         - name: Traits
           file: Traits\abis\Traits.json
       eventHandlers:
-        - event: ApprovalForAll(indexed address,indexed address,bool)
-          handler: handleApprovalForAll
-        - event: TraitCreated(indexed address,indexed string,indexed string)
-          handler: handleTraitCreated
         - event: TraitsAndTypesCreated(string[],string[],string[],string[],uint256[],uint256[])
           handler: handleTraitsAndTypesCreated
-        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
-          handler: handleTransferBatch
-        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
-          handler: handleTransferSingle
-        - event: URI(string,indexed uint256)
-          handler: handleURI
       file: Traits\Traits.wasm
