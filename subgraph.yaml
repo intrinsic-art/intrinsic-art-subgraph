@@ -1,0 +1,50 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Studio
+    network: goerli
+    source:
+      address: "0x4687Fb6b8E02a7c14201Cda5fA79B9B24ae73963"
+      abi: Studio
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - ArtistRevenueClaimed
+        - ArtworkCreated
+        - ArtworkDecomposed
+        - AuctionScheduled
+        - OwnershipTransferred
+        - PlatformRevenueClaimed
+        - TraitsBought
+        - Transfer
+      abis:
+        - name: Studio
+          file: ./abis/Studio.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: ArtistRevenueClaimed(uint256)
+          handler: handleArtistRevenueClaimed
+        - event: ArtworkCreated(indexed uint256,uint256[],bytes32,indexed address)
+          handler: handleArtworkCreated
+        - event: ArtworkDecomposed(indexed uint256,indexed address)
+          handler: handleArtworkDecomposed
+        - event: AuctionScheduled(uint256,uint256,uint256,uint256)
+          handler: handleAuctionScheduled
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: PlatformRevenueClaimed(uint256)
+          handler: handlePlatformRevenueClaimed
+        - event: TraitsBought(indexed address,uint256[],uint256[])
+          handler: handleTraitsBought
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/studio.ts
