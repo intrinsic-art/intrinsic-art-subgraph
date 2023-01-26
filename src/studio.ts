@@ -18,25 +18,22 @@ import {
 
 export function handleStudioArtworkCreated(event: StudioArtworkCreatedEvent): void {
   let artwork = new Artwork(event.params.artworkTokenId.toString());
-  // artwork.tokenId = event.params.artworkTokenId;
-  // artwork.name = event.params.
-  // id: ID!
-  // tokenId: BigInt!
-  // owner: User!
-  // decomposed: Boolean!
+  artwork.tokenId = event.params.artworkTokenId;
+  artwork.creator = event.params.creator.toString();
+  artwork.owner = event.params.creator.toString();
+  artwork.decomposed = false;
+  artwork.save();
+}
+
+export function handleStudioArtworkDecomposed(event: StudioArtworkDecomposedEvent): void {
+  let artwork = Artwork.load(event.params.artworkTokenId.toString());
+  if(!artwork) return;
+  artwork.decomposed = true;
+  artwork.save();
 }
 
 export function handleStudioTransfer(event: StudioTransferEvent): void {
-  // let entity = new StudioTransfer(
-  //   event.transaction.hash.concatI32(event.logIndex.toI32())
-  // )
-  // entity.from = event.params.from
-  // entity.to = event.params.to
-  // entity.tokenId = event.params.tokenId
-
-  // entity.blockNumber = event.block.number
-  // entity.blockTimestamp = event.block.timestamp
-  // entity.transactionHash = event.transaction.hash
-
-  // entity.save()
+  let artwork = Artwork.load(event.params.tokenId.toString());
+  if(!artwork) return;
+  artwork.owner = event.params.to.toString();
 }

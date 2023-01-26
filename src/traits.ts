@@ -12,8 +12,7 @@ import {
 } from "../generated/schema"
 
 export function handleTraitsAndTypesCreated(event: TraitsAndTypesCreatedEvent): void {
-  // event.params.traitNames.forEach((traitName, index) => {
-  let traitCount = event.params.traitNames.length;
+  const traitCount = event.params.traitNames.length;
   for(let i = 0; i < traitCount; i++) {
     let trait = new Trait(i.toString());
     trait.tokenId = BigInt.fromString(i.toString());
