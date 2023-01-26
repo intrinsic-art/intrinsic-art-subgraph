@@ -1,266 +1,309 @@
 import { newMockEvent } from "matchstick-as"
 import { ethereum, Address, BigInt, Bytes } from "@graphprotocol/graph-ts"
 import {
-  Approval,
-  ApprovalForAll,
-  ArtistRevenueClaimed,
-  ArtworkCreated,
-  ArtworkDecomposed,
-  AuctionScheduled,
-  OwnershipTransferred,
-  PlatformRevenueClaimed,
-  TraitsBought,
-  Transfer
+  StudioApproval,
+  StudioApprovalForAll,
+  StudioArtistRevenueClaimed,
+  StudioArtworkCreated,
+  StudioArtworkDecomposed,
+  StudioAuctionScheduled,
+  StudioOwnershipTransferred,
+  StudioPlatformRevenueClaimed,
+  StudioProjectCreated,
+  StudioTraitsBought,
+  StudioTransfer
 } from "../generated/Studio/Studio"
 
-export function createApprovalEvent(
+export function createStudioApprovalEvent(
   owner: Address,
   approved: Address,
   tokenId: BigInt
-): Approval {
-  let approvalEvent = changetype<Approval>(newMockEvent())
+): StudioApproval {
+  let studioApprovalEvent = changetype<StudioApproval>(newMockEvent())
 
-  approvalEvent.parameters = new Array()
+  studioApprovalEvent.parameters = new Array()
 
-  approvalEvent.parameters.push(
+  studioApprovalEvent.parameters.push(
     new ethereum.EventParam("owner", ethereum.Value.fromAddress(owner))
   )
-  approvalEvent.parameters.push(
+  studioApprovalEvent.parameters.push(
     new ethereum.EventParam("approved", ethereum.Value.fromAddress(approved))
   )
-  approvalEvent.parameters.push(
+  studioApprovalEvent.parameters.push(
     new ethereum.EventParam(
       "tokenId",
       ethereum.Value.fromUnsignedBigInt(tokenId)
     )
   )
 
-  return approvalEvent
+  return studioApprovalEvent
 }
 
-export function createApprovalForAllEvent(
+export function createStudioApprovalForAllEvent(
   owner: Address,
   operator: Address,
   approved: boolean
-): ApprovalForAll {
-  let approvalForAllEvent = changetype<ApprovalForAll>(newMockEvent())
-
-  approvalForAllEvent.parameters = new Array()
-
-  approvalForAllEvent.parameters.push(
-    new ethereum.EventParam("owner", ethereum.Value.fromAddress(owner))
-  )
-  approvalForAllEvent.parameters.push(
-    new ethereum.EventParam("operator", ethereum.Value.fromAddress(operator))
-  )
-  approvalForAllEvent.parameters.push(
-    new ethereum.EventParam("approved", ethereum.Value.fromBoolean(approved))
-  )
-
-  return approvalForAllEvent
-}
-
-export function createArtistRevenueClaimedEvent(
-  claimedRevenue: BigInt
-): ArtistRevenueClaimed {
-  let artistRevenueClaimedEvent = changetype<ArtistRevenueClaimed>(
+): StudioApprovalForAll {
+  let studioApprovalForAllEvent = changetype<StudioApprovalForAll>(
     newMockEvent()
   )
 
-  artistRevenueClaimedEvent.parameters = new Array()
+  studioApprovalForAllEvent.parameters = new Array()
 
-  artistRevenueClaimedEvent.parameters.push(
+  studioApprovalForAllEvent.parameters.push(
+    new ethereum.EventParam("owner", ethereum.Value.fromAddress(owner))
+  )
+  studioApprovalForAllEvent.parameters.push(
+    new ethereum.EventParam("operator", ethereum.Value.fromAddress(operator))
+  )
+  studioApprovalForAllEvent.parameters.push(
+    new ethereum.EventParam("approved", ethereum.Value.fromBoolean(approved))
+  )
+
+  return studioApprovalForAllEvent
+}
+
+export function createStudioArtistRevenueClaimedEvent(
+  claimedRevenue: BigInt
+): StudioArtistRevenueClaimed {
+  let studioArtistRevenueClaimedEvent = changetype<StudioArtistRevenueClaimed>(
+    newMockEvent()
+  )
+
+  studioArtistRevenueClaimedEvent.parameters = new Array()
+
+  studioArtistRevenueClaimedEvent.parameters.push(
     new ethereum.EventParam(
       "claimedRevenue",
       ethereum.Value.fromUnsignedBigInt(claimedRevenue)
     )
   )
 
-  return artistRevenueClaimedEvent
+  return studioArtistRevenueClaimedEvent
 }
 
-export function createArtworkCreatedEvent(
+export function createStudioArtworkCreatedEvent(
   artworkTokenId: BigInt,
   traitTokenIds: Array<BigInt>,
   hash: Bytes,
   creator: Address
-): ArtworkCreated {
-  let artworkCreatedEvent = changetype<ArtworkCreated>(newMockEvent())
+): StudioArtworkCreated {
+  let studioArtworkCreatedEvent = changetype<StudioArtworkCreated>(
+    newMockEvent()
+  )
 
-  artworkCreatedEvent.parameters = new Array()
+  studioArtworkCreatedEvent.parameters = new Array()
 
-  artworkCreatedEvent.parameters.push(
+  studioArtworkCreatedEvent.parameters.push(
     new ethereum.EventParam(
       "artworkTokenId",
       ethereum.Value.fromUnsignedBigInt(artworkTokenId)
     )
   )
-  artworkCreatedEvent.parameters.push(
+  studioArtworkCreatedEvent.parameters.push(
     new ethereum.EventParam(
       "traitTokenIds",
       ethereum.Value.fromUnsignedBigIntArray(traitTokenIds)
     )
   )
-  artworkCreatedEvent.parameters.push(
+  studioArtworkCreatedEvent.parameters.push(
     new ethereum.EventParam("hash", ethereum.Value.fromFixedBytes(hash))
   )
-  artworkCreatedEvent.parameters.push(
+  studioArtworkCreatedEvent.parameters.push(
     new ethereum.EventParam("creator", ethereum.Value.fromAddress(creator))
   )
 
-  return artworkCreatedEvent
+  return studioArtworkCreatedEvent
 }
 
-export function createArtworkDecomposedEvent(
+export function createStudioArtworkDecomposedEvent(
   artworkTokenId: BigInt,
   caller: Address
-): ArtworkDecomposed {
-  let artworkDecomposedEvent = changetype<ArtworkDecomposed>(newMockEvent())
+): StudioArtworkDecomposed {
+  let studioArtworkDecomposedEvent = changetype<StudioArtworkDecomposed>(
+    newMockEvent()
+  )
 
-  artworkDecomposedEvent.parameters = new Array()
+  studioArtworkDecomposedEvent.parameters = new Array()
 
-  artworkDecomposedEvent.parameters.push(
+  studioArtworkDecomposedEvent.parameters.push(
     new ethereum.EventParam(
       "artworkTokenId",
       ethereum.Value.fromUnsignedBigInt(artworkTokenId)
     )
   )
-  artworkDecomposedEvent.parameters.push(
+  studioArtworkDecomposedEvent.parameters.push(
     new ethereum.EventParam("caller", ethereum.Value.fromAddress(caller))
   )
 
-  return artworkDecomposedEvent
+  return studioArtworkDecomposedEvent
 }
 
-export function createAuctionScheduledEvent(
+export function createStudioAuctionScheduledEvent(
   auctionStartTime: BigInt,
   auctionEndTime: BigInt,
   auctionStartPrice: BigInt,
   auctionEndPrice: BigInt
-): AuctionScheduled {
-  let auctionScheduledEvent = changetype<AuctionScheduled>(newMockEvent())
+): StudioAuctionScheduled {
+  let studioAuctionScheduledEvent = changetype<StudioAuctionScheduled>(
+    newMockEvent()
+  )
 
-  auctionScheduledEvent.parameters = new Array()
+  studioAuctionScheduledEvent.parameters = new Array()
 
-  auctionScheduledEvent.parameters.push(
+  studioAuctionScheduledEvent.parameters.push(
     new ethereum.EventParam(
       "auctionStartTime",
       ethereum.Value.fromUnsignedBigInt(auctionStartTime)
     )
   )
-  auctionScheduledEvent.parameters.push(
+  studioAuctionScheduledEvent.parameters.push(
     new ethereum.EventParam(
       "auctionEndTime",
       ethereum.Value.fromUnsignedBigInt(auctionEndTime)
     )
   )
-  auctionScheduledEvent.parameters.push(
+  studioAuctionScheduledEvent.parameters.push(
     new ethereum.EventParam(
       "auctionStartPrice",
       ethereum.Value.fromUnsignedBigInt(auctionStartPrice)
     )
   )
-  auctionScheduledEvent.parameters.push(
+  studioAuctionScheduledEvent.parameters.push(
     new ethereum.EventParam(
       "auctionEndPrice",
       ethereum.Value.fromUnsignedBigInt(auctionEndPrice)
     )
   )
 
-  return auctionScheduledEvent
+  return studioAuctionScheduledEvent
 }
 
-export function createOwnershipTransferredEvent(
+export function createStudioOwnershipTransferredEvent(
   previousOwner: Address,
   newOwner: Address
-): OwnershipTransferred {
-  let ownershipTransferredEvent = changetype<OwnershipTransferred>(
+): StudioOwnershipTransferred {
+  let studioOwnershipTransferredEvent = changetype<StudioOwnershipTransferred>(
     newMockEvent()
   )
 
-  ownershipTransferredEvent.parameters = new Array()
+  studioOwnershipTransferredEvent.parameters = new Array()
 
-  ownershipTransferredEvent.parameters.push(
+  studioOwnershipTransferredEvent.parameters.push(
     new ethereum.EventParam(
       "previousOwner",
       ethereum.Value.fromAddress(previousOwner)
     )
   )
-  ownershipTransferredEvent.parameters.push(
+  studioOwnershipTransferredEvent.parameters.push(
     new ethereum.EventParam("newOwner", ethereum.Value.fromAddress(newOwner))
   )
 
-  return ownershipTransferredEvent
+  return studioOwnershipTransferredEvent
 }
 
-export function createPlatformRevenueClaimedEvent(
+export function createStudioPlatformRevenueClaimedEvent(
   claimedRevenue: BigInt
-): PlatformRevenueClaimed {
-  let platformRevenueClaimedEvent = changetype<PlatformRevenueClaimed>(
-    newMockEvent()
-  )
+): StudioPlatformRevenueClaimed {
+  let studioPlatformRevenueClaimedEvent = changetype<
+    StudioPlatformRevenueClaimed
+  >(newMockEvent())
 
-  platformRevenueClaimedEvent.parameters = new Array()
+  studioPlatformRevenueClaimedEvent.parameters = new Array()
 
-  platformRevenueClaimedEvent.parameters.push(
+  studioPlatformRevenueClaimedEvent.parameters.push(
     new ethereum.EventParam(
       "claimedRevenue",
       ethereum.Value.fromUnsignedBigInt(claimedRevenue)
     )
   )
 
-  return platformRevenueClaimedEvent
+  return studioPlatformRevenueClaimedEvent
 }
 
-export function createTraitsBoughtEvent(
+export function createStudioProjectCreatedEvent(
+  baseURI: string,
+  artistAddress: Address,
+  maxSupply: BigInt,
+  metadata: string
+): StudioProjectCreated {
+  let studioProjectCreatedEvent = changetype<StudioProjectCreated>(
+    newMockEvent()
+  )
+
+  studioProjectCreatedEvent.parameters = new Array()
+
+  studioProjectCreatedEvent.parameters.push(
+    new ethereum.EventParam("baseURI", ethereum.Value.fromString(baseURI))
+  )
+  studioProjectCreatedEvent.parameters.push(
+    new ethereum.EventParam(
+      "artistAddress",
+      ethereum.Value.fromAddress(artistAddress)
+    )
+  )
+  studioProjectCreatedEvent.parameters.push(
+    new ethereum.EventParam(
+      "maxSupply",
+      ethereum.Value.fromUnsignedBigInt(maxSupply)
+    )
+  )
+  studioProjectCreatedEvent.parameters.push(
+    new ethereum.EventParam("metadata", ethereum.Value.fromString(metadata))
+  )
+
+  return studioProjectCreatedEvent
+}
+
+export function createStudioTraitsBoughtEvent(
   buyer: Address,
   traitTokenIds: Array<BigInt>,
   traitQuantities: Array<BigInt>
-): TraitsBought {
-  let traitsBoughtEvent = changetype<TraitsBought>(newMockEvent())
+): StudioTraitsBought {
+  let studioTraitsBoughtEvent = changetype<StudioTraitsBought>(newMockEvent())
 
-  traitsBoughtEvent.parameters = new Array()
+  studioTraitsBoughtEvent.parameters = new Array()
 
-  traitsBoughtEvent.parameters.push(
+  studioTraitsBoughtEvent.parameters.push(
     new ethereum.EventParam("buyer", ethereum.Value.fromAddress(buyer))
   )
-  traitsBoughtEvent.parameters.push(
+  studioTraitsBoughtEvent.parameters.push(
     new ethereum.EventParam(
       "traitTokenIds",
       ethereum.Value.fromUnsignedBigIntArray(traitTokenIds)
     )
   )
-  traitsBoughtEvent.parameters.push(
+  studioTraitsBoughtEvent.parameters.push(
     new ethereum.EventParam(
       "traitQuantities",
       ethereum.Value.fromUnsignedBigIntArray(traitQuantities)
     )
   )
 
-  return traitsBoughtEvent
+  return studioTraitsBoughtEvent
 }
 
-export function createTransferEvent(
+export function createStudioTransferEvent(
   from: Address,
   to: Address,
   tokenId: BigInt
-): Transfer {
-  let transferEvent = changetype<Transfer>(newMockEvent())
+): StudioTransfer {
+  let studioTransferEvent = changetype<StudioTransfer>(newMockEvent())
 
-  transferEvent.parameters = new Array()
+  studioTransferEvent.parameters = new Array()
 
-  transferEvent.parameters.push(
+  studioTransferEvent.parameters.push(
     new ethereum.EventParam("from", ethereum.Value.fromAddress(from))
   )
-  transferEvent.parameters.push(
+  studioTransferEvent.parameters.push(
     new ethereum.EventParam("to", ethereum.Value.fromAddress(to))
   )
-  transferEvent.parameters.push(
+  studioTransferEvent.parameters.push(
     new ethereum.EventParam(
       "tokenId",
       ethereum.Value.fromUnsignedBigInt(tokenId)
     )
   )
 
-  return transferEvent
+  return studioTransferEvent
 }

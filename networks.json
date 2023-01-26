@@ -1,7 +1,13 @@
 {
   "goerli": {
     "Studio": {
-      "address": "0x4687Fb6b8E02a7c14201Cda5fA79B9B24ae73963"
+      "address": "0x881937b059A9c2f54cb9eE69A1f1006E4D8bF1E7"
+    },
+    "Contract": {
+      "address": "0x881937b059A9c2f54cb9eE69A1f1006E4D8bF1E7"
+    },
+    "Traits": {
+      "address": "0x0d96A25185Dd2BD713BE15994D0b094Cd1E6a721"
     }
   }
 }

@@ -21,7 +21,7 @@
         "type": "uint256"
       }
     ],
-    "name": "StudioApproval",
+    "name": "Approval",
     "type": "event"
   },
   {
@@ -46,7 +46,7 @@
         "type": "bool"
       }
     ],
-    "name": "StudioApprovalForAll",
+    "name": "ApprovalForAll",
     "type": "event"
   },
   {
@@ -59,7 +59,7 @@
         "type": "uint256"
       }
     ],
-    "name": "StudioArtistRevenueClaimed",
+    "name": "ArtistRevenueClaimed",
     "type": "event"
   },
   {
@@ -90,7 +90,7 @@
         "type": "address"
       }
     ],
-    "name": "StudioArtworkCreated",
+    "name": "ArtworkCreated",
     "type": "event"
   },
   {
@@ -109,7 +109,7 @@
         "type": "address"
       }
     ],
-    "name": "StudioArtworkDecomposed",
+    "name": "ArtworkDecomposed",
     "type": "event"
   },
   {
@@ -140,7 +140,7 @@
         "type": "uint256"
       }
     ],
-    "name": "StudioAuctionScheduled",
+    "name": "AuctionScheduled",
     "type": "event"
   },
   {
@@ -159,7 +159,7 @@
         "type": "address"
       }
     ],
-    "name": "StudioOwnershipTransferred",
+    "name": "OwnershipTransferred",
     "type": "event"
   },
   {
@@ -172,7 +172,7 @@
         "type": "uint256"
       }
     ],
-    "name": "StudioPlatformRevenueClaimed",
+    "name": "PlatformRevenueClaimed",
     "type": "event"
   },
   {
@@ -203,7 +203,7 @@
         "type": "string"
       }
     ],
-    "name": "StudioProjectCreated",
+    "name": "ProjectCreated",
     "type": "event"
   },
   {
@@ -228,7 +228,7 @@
         "type": "uint256[]"
       }
     ],
-    "name": "StudioTraitsBought",
+    "name": "TraitsBought",
     "type": "event"
   },
   {
@@ -253,7 +253,7 @@
         "type": "uint256"
       }
     ],
-    "name": "StudioTransfer",
+    "name": "Transfer",
     "type": "event"
   },
   {

@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: Studio
@@ -26,7 +26,7 @@ dataSources:
         - StudioTransfer
       abis:
         - name: Studio
-          file: ./abis/Studio.json
+          file: Studio\abis\Studio.json
       eventHandlers:
         - event: StudioApproval(indexed address,indexed address,indexed uint256)
           handler: handleStudioApproval
@@ -50,7 +50,7 @@ dataSources:
           handler: handleStudioTraitsBought
         - event: StudioTransfer(indexed address,indexed address,indexed uint256)
           handler: handleStudioTransfer
-      file: ./src/studio.ts
+      file: Studio\Studio.wasm
   - kind: ethereum
     name: Traits
     network: goerli
@@ -70,7 +70,7 @@ dataSources:
         - URI
       abis:
         - name: Traits
-          file: ./abis/Traits.json
+          file: Traits\abis\Traits.json
       eventHandlers:
         - event: ApprovalForAll(indexed address,indexed address,bool)
           handler: handleApprovalForAll
@@ -84,4 +84,4 @@ dataSources:
           handler: handleTransferSingle
         - event: URI(string,indexed uint256)
           handler: handleURI
-      file: ./src/traits.ts
+      file: Traits\Traits.wasm

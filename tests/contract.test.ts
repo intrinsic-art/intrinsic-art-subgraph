@@ -7,10 +7,10 @@ import {
   afterAll
 } from "matchstick-as/assembly/index"
 import { Address, BigInt, Bytes } from "@graphprotocol/graph-ts"
-import { StudioApproval } from "../generated/schema"
-import { StudioApproval as StudioApprovalEvent } from "../generated/Studio/Studio"
-import { handleStudioApproval } from "../src/studio"
-import { createStudioApprovalEvent } from "./studio-utils"
+import { Approval } from "../generated/schema"
+import { Approval as ApprovalEvent } from "../generated/Contract/Contract"
+import { handleApproval } from "../src/contract"
+import { createApprovalEvent } from "./contract-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0
@@ -22,12 +22,8 @@ describe("Describe entity assertions", () => {
       "0x0000000000000000000000000000000000000001"
     )
     let tokenId = BigInt.fromI32(234)
-    let newStudioApprovalEvent = createStudioApprovalEvent(
-      owner,
-      approved,
-      tokenId
-    )
-    handleStudioApproval(newStudioApprovalEvent)
+    let newApprovalEvent = createApprovalEvent(owner, approved, tokenId)
+    handleApproval(newApprovalEvent)
   })
 
   afterAll(() => {
@@ -37,24 +33,24 @@ describe("Describe entity assertions", () => {
   // For more test scenarios, see:
   // https://thegraph.com/docs/en/developer/matchstick/#write-a-unit-test
 
-  test("StudioApproval created and stored", () => {
-    assert.entityCount("StudioApproval", 1)
+  test("Approval created and stored", () => {
+    assert.entityCount("Approval", 1)
 
     // 0xa16081f360e3847006db660bae1c6d1b2e17ec2a is the default address used in newMockEvent() function
     assert.fieldEquals(
-      "StudioApproval",
+      "Approval",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "owner",
       "0x0000000000000000000000000000000000000001"
     )
     assert.fieldEquals(
-      "StudioApproval",
+      "Approval",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "approved",
       "0x0000000000000000000000000000000000000001"
     )
     assert.fieldEquals(
-      "StudioApproval",
+      "Approval",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "tokenId",
       "234"
