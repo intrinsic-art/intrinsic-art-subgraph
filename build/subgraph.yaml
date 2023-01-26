@@ -20,6 +20,10 @@ dataSources:
         - name: Studio
           file: Studio\abis\Studio.json
       eventHandlers:
+        - event: StudioArtworkCreated(indexed uint256,uint256[],bytes32,indexed address)
+          handler: handleStudioArtworkCreated
+        - event: StudioArtworkDecomposed(indexed uint256,indexed address)
+          handler: handleStudioArtworkDecomposed
         - event: StudioTransfer(indexed address,indexed address,indexed uint256)
           handler: handleStudioTransfer
       file: Studio\Studio.wasm
