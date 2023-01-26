@@ -8,6 +8,7 @@ dataSources:
     source:
       address: "0x881937b059A9c2f54cb9eE69A1f1006E4D8bF1E7"
       abi: Studio
+      startBlock: 12287507
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -28,6 +29,7 @@ dataSources:
     source:
       address: "0x0d96A25185Dd2BD713BE15994D0b094Cd1E6a721"
       abi: Traits
+      startBlock: 12287507
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7

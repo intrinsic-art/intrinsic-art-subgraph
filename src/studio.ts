@@ -16,6 +16,16 @@ import {
   Artwork, User
 } from "../generated/schema"
 
+export function handleStudioArtworkCreated(event: StudioArtworkCreatedEvent): void {
+  let artwork = new Artwork(event.params.artworkTokenId.toString());
+  // artwork.tokenId = event.params.artworkTokenId;
+  // artwork.name = event.params.
+  // id: ID!
+  // tokenId: BigInt!
+  // owner: User!
+  // decomposed: Boolean!
+}
+
 export function handleStudioTransfer(event: StudioTransferEvent): void {
   // let entity = new StudioTransfer(
   //   event.transaction.hash.concatI32(event.logIndex.toI32())

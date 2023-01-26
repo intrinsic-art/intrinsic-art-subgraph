@@ -1,5 +1,6 @@
 type Artwork @entity {
   id: ID!
+  tokenId: BigInt!
   owner: User!
   decomposed: Boolean!
 }
