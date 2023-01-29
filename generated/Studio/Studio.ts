@@ -10,16 +10,16 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
-export class StudioApproval extends ethereum.Event {
-  get params(): StudioApproval__Params {
-    return new StudioApproval__Params(this);
+export class Approval extends ethereum.Event {
+  get params(): Approval__Params {
+    return new Approval__Params(this);
   }
 }
 
-export class StudioApproval__Params {
-  _event: StudioApproval;
+export class Approval__Params {
+  _event: Approval;
 
-  constructor(event: StudioApproval) {
+  constructor(event: Approval) {
     this._event = event;
   }
 
@@ -36,16 +36,16 @@ export class StudioApproval__Params {
   }
 }
 
-export class StudioApprovalForAll extends ethereum.Event {
-  get params(): StudioApprovalForAll__Params {
-    return new StudioApprovalForAll__Params(this);
+export class ApprovalForAll extends ethereum.Event {
+  get params(): ApprovalForAll__Params {
+    return new ApprovalForAll__Params(this);
   }
 }
 
-export class StudioApprovalForAll__Params {
-  _event: StudioApprovalForAll;
+export class ApprovalForAll__Params {
+  _event: ApprovalForAll;
 
-  constructor(event: StudioApprovalForAll) {
+  constructor(event: ApprovalForAll) {
     this._event = event;
   }
 
@@ -62,16 +62,16 @@ export class StudioApprovalForAll__Params {
   }
 }
 
-export class StudioArtistRevenueClaimed extends ethereum.Event {
-  get params(): StudioArtistRevenueClaimed__Params {
-    return new StudioArtistRevenueClaimed__Params(this);
+export class ArtistRevenueClaimed extends ethereum.Event {
+  get params(): ArtistRevenueClaimed__Params {
+    return new ArtistRevenueClaimed__Params(this);
   }
 }
 
-export class StudioArtistRevenueClaimed__Params {
-  _event: StudioArtistRevenueClaimed;
+export class ArtistRevenueClaimed__Params {
+  _event: ArtistRevenueClaimed;
 
-  constructor(event: StudioArtistRevenueClaimed) {
+  constructor(event: ArtistRevenueClaimed) {
     this._event = event;
   }
 
@@ -80,16 +80,16 @@ export class StudioArtistRevenueClaimed__Params {
   }
 }
 
-export class StudioArtworkCreated extends ethereum.Event {
-  get params(): StudioArtworkCreated__Params {
-    return new StudioArtworkCreated__Params(this);
+export class ArtworkCreated extends ethereum.Event {
+  get params(): ArtworkCreated__Params {
+    return new ArtworkCreated__Params(this);
   }
 }
 
-export class StudioArtworkCreated__Params {
-  _event: StudioArtworkCreated;
+export class ArtworkCreated__Params {
+  _event: ArtworkCreated;
 
-  constructor(event: StudioArtworkCreated) {
+  constructor(event: ArtworkCreated) {
     this._event = event;
   }
 
@@ -110,16 +110,16 @@ export class StudioArtworkCreated__Params {
   }
 }
 
-export class StudioArtworkDecomposed extends ethereum.Event {
-  get params(): StudioArtworkDecomposed__Params {
-    return new StudioArtworkDecomposed__Params(this);
+export class ArtworkDecomposed extends ethereum.Event {
+  get params(): ArtworkDecomposed__Params {
+    return new ArtworkDecomposed__Params(this);
   }
 }
 
-export class StudioArtworkDecomposed__Params {
-  _event: StudioArtworkDecomposed;
+export class ArtworkDecomposed__Params {
+  _event: ArtworkDecomposed;
 
-  constructor(event: StudioArtworkDecomposed) {
+  constructor(event: ArtworkDecomposed) {
     this._event = event;
   }
 
@@ -132,16 +132,16 @@ export class StudioArtworkDecomposed__Params {
   }
 }
 
-export class StudioAuctionScheduled extends ethereum.Event {
-  get params(): StudioAuctionScheduled__Params {
-    return new StudioAuctionScheduled__Params(this);
+export class AuctionScheduled extends ethereum.Event {
+  get params(): AuctionScheduled__Params {
+    return new AuctionScheduled__Params(this);
   }
 }
 
-export class StudioAuctionScheduled__Params {
-  _event: StudioAuctionScheduled;
+export class AuctionScheduled__Params {
+  _event: AuctionScheduled;
 
-  constructor(event: StudioAuctionScheduled) {
+  constructor(event: AuctionScheduled) {
     this._event = event;
   }
 
@@ -162,16 +162,16 @@ export class StudioAuctionScheduled__Params {
   }
 }
 
-export class StudioOwnershipTransferred extends ethereum.Event {
-  get params(): StudioOwnershipTransferred__Params {
-    return new StudioOwnershipTransferred__Params(this);
+export class OwnershipTransferred extends ethereum.Event {
+  get params(): OwnershipTransferred__Params {
+    return new OwnershipTransferred__Params(this);
   }
 }
 
-export class StudioOwnershipTransferred__Params {
-  _event: StudioOwnershipTransferred;
+export class OwnershipTransferred__Params {
+  _event: OwnershipTransferred;
 
-  constructor(event: StudioOwnershipTransferred) {
+  constructor(event: OwnershipTransferred) {
     this._event = event;
   }
 
@@ -184,16 +184,16 @@ export class StudioOwnershipTransferred__Params {
   }
 }
 
-export class StudioPlatformRevenueClaimed extends ethereum.Event {
-  get params(): StudioPlatformRevenueClaimed__Params {
-    return new StudioPlatformRevenueClaimed__Params(this);
+export class PlatformRevenueClaimed extends ethereum.Event {
+  get params(): PlatformRevenueClaimed__Params {
+    return new PlatformRevenueClaimed__Params(this);
   }
 }
 
-export class StudioPlatformRevenueClaimed__Params {
-  _event: StudioPlatformRevenueClaimed;
+export class PlatformRevenueClaimed__Params {
+  _event: PlatformRevenueClaimed;
 
-  constructor(event: StudioPlatformRevenueClaimed) {
+  constructor(event: PlatformRevenueClaimed) {
     this._event = event;
   }
 
@@ -202,16 +202,16 @@ export class StudioPlatformRevenueClaimed__Params {
   }
 }
 
-export class StudioProjectCreated extends ethereum.Event {
-  get params(): StudioProjectCreated__Params {
-    return new StudioProjectCreated__Params(this);
+export class ProjectCreated extends ethereum.Event {
+  get params(): ProjectCreated__Params {
+    return new ProjectCreated__Params(this);
   }
 }
 
-export class StudioProjectCreated__Params {
-  _event: StudioProjectCreated;
+export class ProjectCreated__Params {
+  _event: ProjectCreated;
 
-  constructor(event: StudioProjectCreated) {
+  constructor(event: ProjectCreated) {
     this._event = event;
   }
 
@@ -232,16 +232,16 @@ export class StudioProjectCreated__Params {
   }
 }
 
-export class StudioTraitsBought extends ethereum.Event {
-  get params(): StudioTraitsBought__Params {
-    return new StudioTraitsBought__Params(this);
+export class TraitsBought extends ethereum.Event {
+  get params(): TraitsBought__Params {
+    return new TraitsBought__Params(this);
   }
 }
 
-export class StudioTraitsBought__Params {
-  _event: StudioTraitsBought;
+export class TraitsBought__Params {
+  _event: TraitsBought;
 
-  constructor(event: StudioTraitsBought) {
+  constructor(event: TraitsBought) {
     this._event = event;
   }
 
@@ -258,16 +258,16 @@ export class StudioTraitsBought__Params {
   }
 }
 
-export class StudioTransfer extends ethereum.Event {
-  get params(): StudioTransfer__Params {
-    return new StudioTransfer__Params(this);
+export class Transfer extends ethereum.Event {
+  get params(): Transfer__Params {
+    return new Transfer__Params(this);
   }
 }
 
-export class StudioTransfer__Params {
-  _event: StudioTransfer;
+export class Transfer__Params {
+  _event: Transfer;
 
-  constructor(event: StudioTransfer) {
+  constructor(event: Transfer) {
     this._event = event;
   }
 

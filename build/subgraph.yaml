@@ -6,9 +6,9 @@ dataSources:
     name: Studio
     network: goerli
     source:
-      address: "0x881937b059A9c2f54cb9eE69A1f1006E4D8bF1E7"
+      address: "0x8E6A3A8cCC96aFa982082d83717AD018d78c1100"
       abi: Studio
-      startBlock: 12287507
+      startBlock: 8381900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -16,30 +16,33 @@ dataSources:
       entities:
         - Artwork
         - User
+        - Trait
+        - TraitType
       abis:
         - name: Studio
           file: Studio\abis\Studio.json
       eventHandlers:
-        - event: StudioArtworkCreated(indexed uint256,uint256[],bytes32,indexed address)
-          handler: handleStudioArtworkCreated
-        - event: StudioArtworkDecomposed(indexed uint256,indexed address)
-          handler: handleStudioArtworkDecomposed
-        - event: StudioTransfer(indexed address,indexed address,indexed uint256)
-          handler: handleStudioTransfer
+        - event: ArtworkCreated(indexed uint256,uint256[],bytes32,indexed address)
+          handler: handleArtworkCreated
+        - event: ArtworkDecomposed(indexed uint256,indexed address)
+          handler: handleArtworkDecomposed
       file: Studio\Studio.wasm
   - kind: ethereum
     name: Traits
     network: goerli
     source:
-      address: "0x0d96A25185Dd2BD713BE15994D0b094Cd1E6a721"
+      address: "0x7E87982b7a86bFf78ce5d1847fEa574854484593"
       abi: Traits
-      startBlock: 12287507
+      startBlock: 8381900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
+        - Artwork
+        - User
         - Trait
+        - TraitType
       abis:
         - name: Traits
           file: Traits\abis\Traits.json

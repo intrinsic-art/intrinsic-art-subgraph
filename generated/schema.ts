@@ -11,6 +11,193 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class Project extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Project entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Project must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Project", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Project | null {
+    return changetype<Project | null>(store.get("Project", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value!.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get symbol(): string {
+    let value = this.get("symbol");
+    return value!.toString();
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get baseURI(): string | null {
+    let value = this.get("baseURI");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set baseURI(value: string | null) {
+    if (!value) {
+      this.unset("baseURI");
+    } else {
+      this.set("baseURI", Value.fromString(<string>value));
+    }
+  }
+
+  get artistAddress(): string | null {
+    let value = this.get("artistAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set artistAddress(value: string | null) {
+    if (!value) {
+      this.unset("artistAddress");
+    } else {
+      this.set("artistAddress", Value.fromString(<string>value));
+    }
+  }
+
+  get maxSupply(): BigInt | null {
+    let value = this.get("maxSupply");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set maxSupply(value: BigInt | null) {
+    if (!value) {
+      this.unset("maxSupply");
+    } else {
+      this.set("maxSupply", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get metadata(): string | null {
+    let value = this.get("metadata");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set metadata(value: string | null) {
+    if (!value) {
+      this.unset("metadata");
+    } else {
+      this.set("metadata", Value.fromString(<string>value));
+    }
+  }
+
+  get traitTypes(): Array<string> | null {
+    let value = this.get("traitTypes");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set traitTypes(value: Array<string> | null) {
+    if (!value) {
+      this.unset("traitTypes");
+    } else {
+      this.set("traitTypes", Value.fromStringArray(<Array<string>>value));
+    }
+  }
+
+  get auctionStartPrice(): BigInt | null {
+    let value = this.get("auctionStartPrice");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set auctionStartPrice(value: BigInt | null) {
+    if (!value) {
+      this.unset("auctionStartPrice");
+    } else {
+      this.set("auctionStartPrice", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get auctionEndPrice(): BigInt | null {
+    let value = this.get("auctionEndPrice");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set auctionEndPrice(value: BigInt | null) {
+    if (!value) {
+      this.unset("auctionEndPrice");
+    } else {
+      this.set("auctionEndPrice", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get auctionStartTime(): i32 {
+    let value = this.get("auctionStartTime");
+    return value!.toI32();
+  }
+
+  set auctionStartTime(value: i32) {
+    this.set("auctionStartTime", Value.fromI32(value));
+  }
+
+  get auctionEndTime(): i32 {
+    let value = this.get("auctionEndTime");
+    return value!.toI32();
+  }
+
+  set auctionEndTime(value: i32) {
+    this.set("auctionEndTime", Value.fromI32(value));
+  }
+}
+
 export class Artwork extends Entity {
   constructor(id: string) {
     super();
@@ -51,15 +238,6 @@ export class Artwork extends Entity {
     this.set("tokenId", Value.fromBigInt(value));
   }
 
-  get creator(): string {
-    let value = this.get("creator");
-    return value!.toString();
-  }
-
-  set creator(value: string) {
-    this.set("creator", Value.fromString(value));
-  }
-
   get owner(): string {
     let value = this.get("owner");
     return value!.toString();
@@ -69,6 +247,15 @@ export class Artwork extends Entity {
     this.set("owner", Value.fromString(value));
   }
 
+  get creator(): string {
+    let value = this.get("creator");
+    return value!.toString();
+  }
+
+  set creator(value: string) {
+    this.set("creator", Value.fromString(value));
+  }
+
   get decomposed(): boolean {
     let value = this.get("decomposed");
     return value!.toBoolean();
@@ -76,6 +263,15 @@ export class Artwork extends Entity {
 
   set decomposed(value: boolean) {
     this.set("decomposed", Value.fromBoolean(value));
+  }
+
+  get traits(): Array<string> {
+    let value = this.get("traits");
+    return value!.toStringArray();
+  }
+
+  set traits(value: Array<string>) {
+    this.set("traits", Value.fromStringArray(value));
   }
 }
 
@@ -178,12 +374,89 @@ export class Trait extends Entity {
     this.set("value", Value.fromString(value));
   }
 
-  get traitTypeIndex(): BigInt {
-    let value = this.get("traitTypeIndex");
+  get maxSupply(): BigInt {
+    let value = this.get("maxSupply");
     return value!.toBigInt();
   }
 
-  set traitTypeIndex(value: BigInt) {
-    this.set("traitTypeIndex", Value.fromBigInt(value));
+  set maxSupply(value: BigInt) {
+    this.set("maxSupply", Value.fromBigInt(value));
+  }
+
+  get totalSupply(): BigInt {
+    let value = this.get("totalSupply");
+    return value!.toBigInt();
+  }
+
+  set totalSupply(value: BigInt) {
+    this.set("totalSupply", Value.fromBigInt(value));
+  }
+
+  get traitType(): string {
+    let value = this.get("traitType");
+    return value!.toString();
+  }
+
+  set traitType(value: string) {
+    this.set("traitType", Value.fromString(value));
+  }
+}
+
+export class TraitType extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TraitType entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TraitType must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TraitType", id.toString(), this);
+    }
+  }
+
+  static load(id: string): TraitType | null {
+    return changetype<TraitType | null>(store.get("TraitType", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value!.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get value(): string {
+    let value = this.get("value");
+    return value!.toString();
+  }
+
+  set value(value: string) {
+    this.set("value", Value.fromString(value));
+  }
+
+  get traits(): Array<string> {
+    let value = this.get("traits");
+    return value!.toStringArray();
+  }
+
+  set traits(value: Array<string>) {
+    this.set("traits", Value.fromStringArray(value));
   }
 }

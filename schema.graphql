@@ -1,9 +1,25 @@
+type Project @entity {
+  id: ID!
+  name: String!
+  symbol: String!
+  baseURI: String
+  artistAddress: String
+  maxSupply: BigInt
+  metadata: String
+  traitTypes: [TraitType!]
+  auctionStartPrice: BigInt
+  auctionEndPrice: BigInt
+  auctionStartTime: Int
+  auctionEndTime: Int
+}
+
 type Artwork @entity {
   id: ID!
   tokenId: BigInt!
-  creator: User!
   owner: User!
+  creator: User!
   decomposed: Boolean!
+  traits: [Trait!]!
 }
 
 type User @entity {
@@ -16,5 +32,14 @@ type Trait @entity {
   tokenId: BigInt!
   name: String!
   value: String!
-  traitTypeIndex: BigInt!
+  maxSupply: BigInt!
+  totalSupply: BigInt!
+  traitType: TraitType!
+}
+
+type TraitType @entity {
+  id: ID!
+  name: String!
+  value: String!
+  traits: [Trait!]! @derivedFrom(field: "traitType")
 }
