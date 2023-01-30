@@ -10,7 +10,7 @@ import {
   Artwork, User, Project
 } from "../generated/schema"
 
-export function handleCreateProject(event: ProjectCreatedEvent): void {
+export function handleProjectCreated(event: ProjectCreatedEvent): void {
   let project = new Project("0");
   project.baseURI = event.params.baseURI;
   project.artistAddress = event.params.artistAddress.toHexString();

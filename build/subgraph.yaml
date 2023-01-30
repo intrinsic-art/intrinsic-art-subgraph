@@ -18,6 +18,7 @@ dataSources:
         - User
         - Trait
         - TraitType
+        - TraitBalance
       abis:
         - name: Studio
           file: Studio\abis\Studio.json
@@ -26,6 +27,8 @@ dataSources:
           handler: handleArtworkCreated
         - event: ArtworkDecomposed(indexed uint256,indexed address)
           handler: handleArtworkDecomposed
+        - event: ProjectCreated(string,address,uint256,string)
+          handler: handleProjectCreated
       file: Studio\Studio.wasm
   - kind: ethereum
     name: Traits
@@ -43,10 +46,15 @@ dataSources:
         - User
         - Trait
         - TraitType
+        - TraitBalance
       abis:
         - name: Traits
           file: Traits\abis\Traits.json
       eventHandlers:
         - event: TraitsAndTypesCreated(string[],string[],string[],string[],uint256[],uint256[])
           handler: handleTraitsAndTypesCreated
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatch
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
       file: Traits\Traits.wasm

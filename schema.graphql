@@ -25,6 +25,7 @@ type Artwork @entity {
 type User @entity {
   id: ID!
   artworks: [Artwork!]! @derivedFrom(field: "owner")
+  traitBalances: [TraitBalance!]! @derivedFrom(field: "owner")
 }
 
 type Trait @entity {
@@ -35,6 +36,14 @@ type Trait @entity {
   maxSupply: BigInt!
   totalSupply: BigInt!
   traitType: TraitType!
+  traitBalances: [TraitBalance!]! @derivedFrom(field: "trait")
+}
+
+type TraitBalance @entity {
+  id: ID!
+  trait: Trait!
+  owner: User!
+  amount: BigInt!
 }
 
 type TraitType @entity {

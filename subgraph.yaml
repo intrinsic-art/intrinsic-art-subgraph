@@ -18,6 +18,7 @@ dataSources:
         - User
         - Trait
         - TraitType
+        - TraitBalance
       abis:
         - name: Studio
           file: ./abis/Studio.json
@@ -38,8 +39,8 @@ dataSources:
         #   handler: handleStudioOwnershipTransferred
         # - event: StudioPlatformRevenueClaimed(uint256)
         #   handler: handleStudioPlatformRevenueClaimed
-        # - event: StudioProjectCreated(string,address,uint256,string)
-        #   handler: handleStudioProjectCreated
+        - event: ProjectCreated(string,address,uint256,string)
+          handler: handleProjectCreated
         # - event: StudioTraitsBought(indexed address,uint256[],uint256[])
         #   handler: handleStudioTraitsBought
         # - event: Transfer(indexed address,indexed address,indexed uint256)
@@ -61,10 +62,15 @@ dataSources:
         - User
         - Trait
         - TraitType
+        - TraitBalance
       abis:
         - name: Traits
           file: ./abis/Traits.json
       eventHandlers:
         - event: TraitsAndTypesCreated(string[],string[],string[],string[],uint256[],uint256[])
           handler: handleTraitsAndTypesCreated
+        - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+          handler: handleTransferBatch
+        - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+          handler: handleTransferSingle
       file: ./src/traits.ts

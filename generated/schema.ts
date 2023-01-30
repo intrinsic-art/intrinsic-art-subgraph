@@ -314,6 +314,15 @@ export class User extends Entity {
   set artworks(value: Array<string>) {
     this.set("artworks", Value.fromStringArray(value));
   }
+
+  get traitBalances(): Array<string> {
+    let value = this.get("traitBalances");
+    return value!.toStringArray();
+  }
+
+  set traitBalances(value: Array<string>) {
+    this.set("traitBalances", Value.fromStringArray(value));
+  }
 }
 
 export class Trait extends Entity {
@@ -399,6 +408,74 @@ export class Trait extends Entity {
 
   set traitType(value: string) {
     this.set("traitType", Value.fromString(value));
+  }
+
+  get traitBalances(): Array<string> {
+    let value = this.get("traitBalances");
+    return value!.toStringArray();
+  }
+
+  set traitBalances(value: Array<string>) {
+    this.set("traitBalances", Value.fromStringArray(value));
+  }
+}
+
+export class TraitBalance extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TraitBalance entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TraitBalance must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TraitBalance", id.toString(), this);
+    }
+  }
+
+  static load(id: string): TraitBalance | null {
+    return changetype<TraitBalance | null>(store.get("TraitBalance", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get trait(): string {
+    let value = this.get("trait");
+    return value!.toString();
+  }
+
+  set trait(value: string) {
+    this.set("trait", Value.fromString(value));
+  }
+
+  get owner(): string {
+    let value = this.get("owner");
+    return value!.toString();
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value!.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
   }
 }
 
