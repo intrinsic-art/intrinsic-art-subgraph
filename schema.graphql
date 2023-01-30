@@ -29,25 +29,27 @@ type User @entity {
 }
 
 type Trait @entity {
-  id: ID!
+  id: ID! #TraitsContractAddress-TokenID
+  contract: String! #New
   tokenId: BigInt!
   name: String!
   value: String!
   maxSupply: BigInt!
   totalSupply: BigInt!
-  traitType: TraitType!
+  traitType: TraitType! #TraitsContractAddress-TraitTypeID
   traitBalances: [TraitBalance!]! @derivedFrom(field: "trait")
 }
 
 type TraitBalance @entity {
-  id: ID!
+  id: ID! #TraitsContractAddress-TokenID-UserAddress
   trait: Trait!
   owner: User!
   amount: BigInt!
 }
 
 type TraitType @entity {
-  id: ID!
+  id: ID! #TraitsContractAddress-TraitTypeID
+  contract: String! #New
   name: String!
   value: String!
   traits: [Trait!]! @derivedFrom(field: "traitType")
