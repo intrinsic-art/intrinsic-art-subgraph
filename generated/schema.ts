@@ -42,6 +42,24 @@ export class Project extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get studioContract(): string {
+    let value = this.get("studioContract");
+    return value!.toString();
+  }
+
+  set studioContract(value: string) {
+    this.set("studioContract", Value.fromString(value));
+  }
+
+  get traitsContract(): string {
+    let value = this.get("traitsContract");
+    return value!.toString();
+  }
+
+  set traitsContract(value: string) {
+    this.set("traitsContract", Value.fromString(value));
+  }
+
   get name(): string {
     let value = this.get("name");
     return value!.toString();
@@ -60,123 +78,76 @@ export class Project extends Entity {
     this.set("symbol", Value.fromString(value));
   }
 
-  get baseURI(): string | null {
+  get baseURI(): string {
     let value = this.get("baseURI");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
-  set baseURI(value: string | null) {
-    if (!value) {
-      this.unset("baseURI");
-    } else {
-      this.set("baseURI", Value.fromString(<string>value));
-    }
+  set baseURI(value: string) {
+    this.set("baseURI", Value.fromString(value));
   }
 
-  get artistAddress(): string | null {
+  get artistAddress(): string {
     let value = this.get("artistAddress");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
-  set artistAddress(value: string | null) {
-    if (!value) {
-      this.unset("artistAddress");
-    } else {
-      this.set("artistAddress", Value.fromString(<string>value));
-    }
+  set artistAddress(value: string) {
+    this.set("artistAddress", Value.fromString(value));
   }
 
-  get maxSupply(): BigInt | null {
+  get maxSupply(): BigInt {
     let value = this.get("maxSupply");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
-  set maxSupply(value: BigInt | null) {
-    if (!value) {
-      this.unset("maxSupply");
-    } else {
-      this.set("maxSupply", Value.fromBigInt(<BigInt>value));
-    }
+  set maxSupply(value: BigInt) {
+    this.set("maxSupply", Value.fromBigInt(value));
   }
 
-  get metadata(): string | null {
+  get totalSupply(): BigInt {
+    let value = this.get("totalSupply");
+    return value!.toBigInt();
+  }
+
+  set totalSupply(value: BigInt) {
+    this.set("totalSupply", Value.fromBigInt(value));
+  }
+
+  get metadata(): string {
     let value = this.get("metadata");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
-  set metadata(value: string | null) {
-    if (!value) {
-      this.unset("metadata");
-    } else {
-      this.set("metadata", Value.fromString(<string>value));
-    }
+  set metadata(value: string) {
+    this.set("metadata", Value.fromString(value));
   }
 
-  get traitTypes(): Array<string> | null {
+  get traitTypes(): Array<string> {
     let value = this.get("traitTypes");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
+    return value!.toStringArray();
   }
 
-  set traitTypes(value: Array<string> | null) {
-    if (!value) {
-      this.unset("traitTypes");
-    } else {
-      this.set("traitTypes", Value.fromStringArray(<Array<string>>value));
-    }
+  set traitTypes(value: Array<string>) {
+    this.set("traitTypes", Value.fromStringArray(value));
   }
 
-  get auctionStartPrice(): BigInt | null {
+  get auctionStartPrice(): BigInt {
     let value = this.get("auctionStartPrice");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
-  set auctionStartPrice(value: BigInt | null) {
-    if (!value) {
-      this.unset("auctionStartPrice");
-    } else {
-      this.set("auctionStartPrice", Value.fromBigInt(<BigInt>value));
-    }
+  set auctionStartPrice(value: BigInt) {
+    this.set("auctionStartPrice", Value.fromBigInt(value));
   }
 
-  get auctionEndPrice(): BigInt | null {
+  get auctionEndPrice(): BigInt {
     let value = this.get("auctionEndPrice");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
-  set auctionEndPrice(value: BigInt | null) {
-    if (!value) {
-      this.unset("auctionEndPrice");
-    } else {
-      this.set("auctionEndPrice", Value.fromBigInt(<BigInt>value));
-    }
+  set auctionEndPrice(value: BigInt) {
+    this.set("auctionEndPrice", Value.fromBigInt(value));
   }
 
   get auctionStartTime(): i32 {
@@ -195,6 +166,106 @@ export class Project extends Entity {
 
   set auctionEndTime(value: i32) {
     this.set("auctionEndTime", Value.fromI32(value));
+  }
+}
+
+export class StudioContract extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save StudioContract entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type StudioContract must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("StudioContract", id.toString(), this);
+    }
+  }
+
+  static load(id: string): StudioContract | null {
+    return changetype<StudioContract | null>(store.get("StudioContract", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get project(): string {
+    let value = this.get("project");
+    return value!.toString();
+  }
+
+  set project(value: string) {
+    this.set("project", Value.fromString(value));
+  }
+
+  get traitsContract(): string {
+    let value = this.get("traitsContract");
+    return value!.toString();
+  }
+
+  set traitsContract(value: string) {
+    this.set("traitsContract", Value.fromString(value));
+  }
+}
+
+export class TraitsContract extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TraitsContract entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TraitsContract must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TraitsContract", id.toString(), this);
+    }
+  }
+
+  static load(id: string): TraitsContract | null {
+    return changetype<TraitsContract | null>(store.get("TraitsContract", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get project(): string {
+    let value = this.get("project");
+    return value!.toString();
+  }
+
+  set project(value: string) {
+    this.set("project", Value.fromString(value));
+  }
+
+  get studioContract(): string {
+    let value = this.get("studioContract");
+    return value!.toString();
+  }
+
+  set studioContract(value: string) {
+    this.set("studioContract", Value.fromString(value));
   }
 }
 
@@ -227,6 +298,15 @@ export class Artwork extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get studioContract(): string {
+    let value = this.get("studioContract");
+    return value!.toString();
+  }
+
+  set studioContract(value: string) {
+    this.set("studioContract", Value.fromString(value));
   }
 
   get tokenId(): BigInt {
@@ -265,13 +345,21 @@ export class Artwork extends Entity {
     this.set("decomposed", Value.fromBoolean(value));
   }
 
-  get traits(): Array<string> {
+  get traits(): Array<string> | null {
     let value = this.get("traits");
-    return value!.toStringArray();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
   }
 
-  set traits(value: Array<string>) {
-    this.set("traits", Value.fromStringArray(value));
+  set traits(value: Array<string> | null) {
+    if (!value) {
+      this.unset("traits");
+    } else {
+      this.set("traits", Value.fromStringArray(<Array<string>>value));
+    }
   }
 }
 
@@ -354,6 +442,15 @@ export class Trait extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get traitsContract(): string {
+    let value = this.get("traitsContract");
+    return value!.toString();
+  }
+
+  set traitsContract(value: string) {
+    this.set("traitsContract", Value.fromString(value));
   }
 
   get tokenId(): BigInt {
@@ -508,6 +605,24 @@ export class TraitType extends Entity {
 
   set id(value: string) {
     this.set("id", Value.fromString(value));
+  }
+
+  get traitsContract(): string {
+    let value = this.get("traitsContract");
+    return value!.toString();
+  }
+
+  set traitsContract(value: string) {
+    this.set("traitsContract", Value.fromString(value));
+  }
+
+  get project(): string {
+    let value = this.get("project");
+    return value!.toString();
+  }
+
+  set project(value: string) {
+    this.set("project", Value.fromString(value));
   }
 
   get name(): string {

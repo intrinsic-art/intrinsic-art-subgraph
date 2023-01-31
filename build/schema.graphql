@@ -1,25 +1,41 @@
 type Project @entity {
   id: ID!
+  studioContract: StudioContract!
+  traitsContract: TraitsContract!
   name: String!
   symbol: String!
-  baseURI: String
-  artistAddress: String
-  maxSupply: BigInt
-  metadata: String
-  traitTypes: [TraitType!]
-  auctionStartPrice: BigInt
-  auctionEndPrice: BigInt
-  auctionStartTime: Int
-  auctionEndTime: Int
+  baseURI: String!
+  artistAddress: String!
+  maxSupply: BigInt!
+  totalSupply: BigInt!
+  metadata: String!
+  traitTypes: [TraitType!]! @derivedFrom(field: "project")
+  auctionStartPrice: BigInt!
+  auctionEndPrice: BigInt!
+  auctionStartTime: Int!
+  auctionEndTime: Int!
+}
+
+type StudioContract @entity {
+  id: ID!
+  project: Project!
+  traitsContract: TraitsContract!
+}
+
+type TraitsContract @entity {
+  id: ID!
+  project: Project!
+  studioContract: StudioContract!
 }
 
 type Artwork @entity {
-  id: ID!
+  id: ID! #StudioContractAddress-TokenID
+  studioContract: StudioContract! #New
   tokenId: BigInt!
   owner: User!
   creator: User!
   decomposed: Boolean!
-  traits: [Trait!]!
+  traits: [Trait!]
 }
 
 type User @entity {
@@ -29,25 +45,28 @@ type User @entity {
 }
 
 type Trait @entity {
-  id: ID!
+  id: ID! #TraitsContractAddress-TokenID
+  traitsContract: TraitsContract! #New
   tokenId: BigInt!
   name: String!
   value: String!
   maxSupply: BigInt!
   totalSupply: BigInt!
-  traitType: TraitType!
+  traitType: TraitType! #TraitsContractAddress-TraitTypeID
   traitBalances: [TraitBalance!]! @derivedFrom(field: "trait")
 }
 
 type TraitBalance @entity {
-  id: ID!
+  id: ID! #TraitsContractAddress-TokenID-UserAddress
   trait: Trait!
   owner: User!
   amount: BigInt!
 }
 
 type TraitType @entity {
-  id: ID!
+  id: ID! #TraitsContractAddress-TraitTypeID
+  traitsContract: String! #New
+  project: Project!
   name: String!
   value: String!
   traits: [Trait!]! @derivedFrom(field: "traitType")

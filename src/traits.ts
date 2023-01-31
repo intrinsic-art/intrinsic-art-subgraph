@@ -10,6 +10,7 @@ import {
   Trait, TraitType, TraitBalance, User
 } from "../generated/schema"
 import { ADDRESS_ZERO } from "./constants";
+import { concat2, concat3 } from "./helpers";
 
 export function handleTransferSingle(event: TransferSingleEvent): void {
   let receiver = User.load(event.params.to.toHexString());
@@ -25,9 +26,9 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
   }
 
   if (receiver.id != ADDRESS_ZERO) {
-    let receiverTraitBalance = TraitBalance.load(concat(receiver.id, event.params.id.toString()));
+    let receiverTraitBalance = TraitBalance.load(concat3(event.address.toHexString(), event.params.id.toString(), receiver.id));
     if (!receiverTraitBalance) {
-      receiverTraitBalance = new TraitBalance(concat(receiver.id, event.params.id.toString()));
+      receiverTraitBalance = new TraitBalance(concat3(event.address.toHexString(), event.params.id.toString(), receiver.id));
       receiverTraitBalance.trait = event.params.id.toString();
       receiverTraitBalance.owner = receiver.id;
       receiverTraitBalance.amount = event.params.value;
@@ -39,9 +40,9 @@ export function handleTransferSingle(event: TransferSingleEvent): void {
   }
 
   if (sender.id != ADDRESS_ZERO) {
-    let senderTraitBalance = TraitBalance.load(concat(sender.id, event.params.id.toString()));
+    let senderTraitBalance = TraitBalance.load(concat3(event.address.toHexString(), event.params.id.toString(), sender.id));
     if (!senderTraitBalance) {
-      senderTraitBalance = new TraitBalance(concat(sender.id, event.params.id.toString()));
+      senderTraitBalance = new TraitBalance(concat3(event.address.toHexString(), event.params.id.toString(), sender.id));
       senderTraitBalance.trait = event.params.id.toString();
       senderTraitBalance.owner = sender.id;
       senderTraitBalance.amount = BigInt.fromString("0");
@@ -69,9 +70,9 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
   const transferCount = event.params.ids.length;
   for (let i = 0; i < transferCount; i++) {
     if(receiver.id != ADDRESS_ZERO) {
-      let receiverTraitBalance = TraitBalance.load(concat(receiver.id, event.params.ids[i].toString()));
+      let receiverTraitBalance = TraitBalance.load(concat3(event.address.toHexString(), event.params.ids[i].toString(), receiver.id));
       if (!receiverTraitBalance) {
-        receiverTraitBalance = new TraitBalance(concat(receiver.id, event.params.ids[i].toString()));
+        receiverTraitBalance = new TraitBalance(concat3(event.address.toHexString(), event.params.ids[i].toString(), receiver.id));
         receiverTraitBalance.trait = event.params.ids[i].toString();
         receiverTraitBalance.owner = receiver.id;
         receiverTraitBalance.amount = event.params.values[i];
@@ -83,9 +84,9 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
     }
 
     if(sender.id != ADDRESS_ZERO) {
-      let senderTraitBalance = TraitBalance.load(concat(sender.id, event.params.ids[i].toString()));
+      let senderTraitBalance = TraitBalance.load(concat3(event.address.toHexString(), event.params.ids[i].toString(), sender.id));
       if (!senderTraitBalance) {
-        senderTraitBalance = new TraitBalance(concat(sender.id, event.params.ids[i].toString()));
+        senderTraitBalance = new TraitBalance(concat3(event.address.toHexString(), event.params.ids[i].toString(), sender.id));
         senderTraitBalance.trait = event.params.ids[i].toString();
         senderTraitBalance.owner = sender.id;
         senderTraitBalance.amount = BigInt.fromString("0");
@@ -102,7 +103,8 @@ export function handleTraitsAndTypesCreated(event: TraitsAndTypesCreatedEvent): 
   const traitCount = event.params.traitNames.length;
   for (let i = 0; i < traitCount; i++) {
     // todo: Update tokenIds to get from array once new contracts deployed
-    let trait = new Trait((i+1).toString());
+    let trait = new Trait(concat2(event.address.toHexString(), (i+1).toString()));
+    trait.traitsContract = event.address.toHexString();
     trait.tokenId = BigInt.fromString((i+1).toString());
     trait.name = event.params.traitNames[i];
     trait.value = event.params.traitValues[i];
@@ -112,19 +114,11 @@ export function handleTraitsAndTypesCreated(event: TraitsAndTypesCreatedEvent): 
     trait.save();
   };
 
-  const traitTypeCount = event.params.traitTypeNames.length;
-  for (let i = 0; i < traitTypeCount; i++) {
-    let traitType = new TraitType(i.toString());
-    traitType.name = event.params.traitTypeNames[i];
-    traitType.value = event.params.traitTypeValues[i];
-    traitType.save();
-  }
-}
-
-export function concat(str1: string, str2: string): string {
-  return str1 + '-' + str2;
-}
-
-export function concat3(str1: string, str2: string, str3: string): string {
-  return str1 + '-' + str2 + '-' + str3;
+  // const traitTypeCount = event.params.traitTypeNames.length;
+  // for (let i = 0; i < traitTypeCount; i++) {
+  //   let traitType = new TraitType(i.toString());
+  //   traitType.name = event.params.traitTypeNames[i];
+  //   traitType.value = event.params.traitTypeValues[i];
+  //   traitType.save();
+  // }
 }
