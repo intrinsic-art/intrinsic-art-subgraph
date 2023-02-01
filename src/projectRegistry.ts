@@ -38,6 +38,7 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   project.maxSupply = BigInt.fromString("0");
   project.totalSupply = BigInt.fromString("0");
   project.metadata = _studioContract.metadata();
+  project.script = _studioContract.getProjectScripts().join("");
   project.auctionStartPrice = _studioContract.auctionStartPrice();
   project.auctionEndPrice = _studioContract.auctionEndPrice();
   project.auctionStartTime = _studioContract.auctionStartTime().toI32();
@@ -57,7 +58,7 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
       traitType.save();
     }
 
-    let trait = new Trait(concat2(traitsContract.id, returnedTraits.get_traitNames()[i]));
+    let trait = new Trait(concat2(traitsContract.id, returnedTraits.get_traitTokenIds()[i].toString()));
     trait.traitsContract = traitsContract.id;
     trait.tokenId = returnedTraits.get_traitTokenIds()[i];
     trait.name = returnedTraits.get_traitNames()[i];

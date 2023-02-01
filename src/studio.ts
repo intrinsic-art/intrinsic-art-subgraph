@@ -17,8 +17,9 @@ export function handleArtworkCreated(event: ArtworkCreatedEvent): void {
   artwork.tokenId = event.params.artworkTokenId;
   artwork.owner = event.params.creator.toHexString();
   artwork.creator = event.params.creator.toHexString();
+  artwork.hash = event.params.hash.toHexString();
+  artwork.createdTimestamp = event.block.timestamp.toI32();
   artwork.decomposed = false;
-  // artwork.traits = event.params.traitTokenIds.map(traitTokenId => traitTokenId.toString());
   
   let studioContract = StudioContract.load(event.address.toHexString());
   if(!!studioContract) {
@@ -49,6 +50,6 @@ export function handleArtworkDecomposed(event: ArtworkDecomposedEvent): void {
 export function handleTransfer(event: TransferEvent): void {
   let artwork = Artwork.load(concat2(event.address.toHexString(), event.params.tokenId.toString()));
   if(!artwork) return;
-  artwork.owner = event.params.to.toString();
+  artwork.owner = event.params.to.toHexString();
   artwork.save();
 }

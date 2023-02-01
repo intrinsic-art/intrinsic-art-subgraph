@@ -123,6 +123,15 @@ export class Project extends Entity {
     this.set("metadata", Value.fromString(value));
   }
 
+  get script(): string {
+    let value = this.get("script");
+    return value!.toString();
+  }
+
+  set script(value: string) {
+    this.set("script", Value.fromString(value));
+  }
+
   get traitTypes(): Array<string> {
     let value = this.get("traitTypes");
     return value!.toStringArray();
@@ -318,6 +327,15 @@ export class Artwork extends Entity {
     this.set("tokenId", Value.fromBigInt(value));
   }
 
+  get hash(): string {
+    let value = this.get("hash");
+    return value!.toString();
+  }
+
+  set hash(value: string) {
+    this.set("hash", Value.fromString(value));
+  }
+
   get owner(): string {
     let value = this.get("owner");
     return value!.toString();
@@ -334,6 +352,15 @@ export class Artwork extends Entity {
 
   set creator(value: string) {
     this.set("creator", Value.fromString(value));
+  }
+
+  get createdTimestamp(): i32 {
+    let value = this.get("createdTimestamp");
+    return value!.toI32();
+  }
+
+  set createdTimestamp(value: i32) {
+    this.set("createdTimestamp", Value.fromI32(value));
   }
 
   get decomposed(): boolean {

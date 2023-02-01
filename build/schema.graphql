@@ -9,6 +9,7 @@ type Project @entity {
   maxSupply: BigInt!
   totalSupply: BigInt!
   metadata: String!
+  script: String!
   traitTypes: [TraitType!]! @derivedFrom(field: "project")
   auctionStartPrice: BigInt!
   auctionEndPrice: BigInt!
@@ -32,8 +33,10 @@ type Artwork @entity {
   id: ID! #StudioContractAddress-TokenID
   studioContract: StudioContract! #New
   tokenId: BigInt!
+  hash: String!
   owner: User!
   creator: User!
+  createdTimestamp: Int!
   decomposed: Boolean!
   traits: [Trait!]
 }

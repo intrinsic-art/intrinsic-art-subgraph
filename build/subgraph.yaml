@@ -53,8 +53,8 @@ templates:
           handler: handleArtworkCreated
         - event: ArtworkDecomposed(indexed uint256,indexed address)
           handler: handleArtworkDecomposed
-        - event: ProjectCreated(string,address,uint256,string)
-          handler: handleProjectCreated
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
       file: templates\Studio\Studio.wasm
   - name: Traits
     kind: ethereum
