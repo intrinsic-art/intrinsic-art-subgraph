@@ -96,15 +96,6 @@ export class Project extends Entity {
     this.set("artistAddress", Value.fromString(value));
   }
 
-  get maxSupply(): BigInt {
-    let value = this.get("maxSupply");
-    return value!.toBigInt();
-  }
-
-  set maxSupply(value: BigInt) {
-    this.set("maxSupply", Value.fromBigInt(value));
-  }
-
   get totalSupply(): BigInt {
     let value = this.get("totalSupply");
     return value!.toBigInt();
@@ -114,13 +105,13 @@ export class Project extends Entity {
     this.set("totalSupply", Value.fromBigInt(value));
   }
 
-  get metadata(): string {
-    let value = this.get("metadata");
+  get scriptJSON(): string {
+    let value = this.get("scriptJSON");
     return value!.toString();
   }
 
-  set metadata(value: string) {
-    this.set("metadata", Value.fromString(value));
+  set scriptJSON(value: string) {
+    this.set("scriptJSON", Value.fromString(value));
   }
 
   get script(): string {

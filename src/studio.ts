@@ -1,9 +1,8 @@
 import {
-  ProjectCreated as ProjectCreatedEvent,
   ArtworkCreated as ArtworkCreatedEvent,
   ArtworkDecomposed as ArtworkDecomposedEvent,
   Transfer as TransferEvent,
-} from "../generated/Studio/Studio"
+} from "../generated/templates/Studio/Studio"
 
 import {
   Artwork, User, Project, StudioContract

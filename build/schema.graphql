@@ -6,9 +6,8 @@ type Project @entity {
   symbol: String!
   baseURI: String!
   artistAddress: String!
-  maxSupply: BigInt!
   totalSupply: BigInt!
-  metadata: String!
+  scriptJSON: String!
   script: String!
   traitTypes: [TraitType!]! @derivedFrom(field: "project")
   auctionStartPrice: BigInt!

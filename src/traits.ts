@@ -1,11 +1,8 @@
 import { log, ByteArray, BigInt, Address, crypto, store } from "@graphprotocol/graph-ts"
 import {
-  TraitCreated as TraitCreatedEvent,
-  TraitsAndTypesCreated as TraitsAndTypesCreatedEvent,
   TransferBatch as TransferBatchEvent,
   TransferSingle as TransferSingleEvent,
-  URI as URIEvent
-} from "../generated/Traits/Traits"
+} from "../generated/templates/Traits/Traits"
 import {
   Trait, TraitType, TraitBalance, User
 } from "../generated/schema"
