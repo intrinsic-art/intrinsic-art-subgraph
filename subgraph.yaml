@@ -75,8 +75,6 @@ templates:
         - name: Traits
           file: ./abis/Traits.json
       eventHandlers:
-        - event: TraitsAndTypesCreated(string[],string[],string[],string[],uint256[],uint256[])
-          handler: handleTraitsAndTypesCreated
         - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
           handler: handleTransferBatch
         - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)

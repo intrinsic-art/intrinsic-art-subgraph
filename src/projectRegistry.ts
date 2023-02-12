@@ -51,6 +51,7 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
     let traitType = TraitType.load(concat2(traitsContract.id, returnedTraits.get_traitTypeIndexes()[i].toString()));
     if (!traitType) {
       traitType = new TraitType(concat2(traitsContract.id, returnedTraits.get_traitTypeIndexes()[i].toString()));
+      traitType.index = i;
       traitType.project = project.id;
       traitType.traitsContract = traitsContract.id;
       traitType.name = returnedTraits.get_traitTypeNames()[i];

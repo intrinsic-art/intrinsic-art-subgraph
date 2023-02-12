@@ -68,6 +68,7 @@ type TraitBalance @entity {
 
 type TraitType @entity {
   id: ID! #TraitsContractAddress-TraitTypeID
+  index: Int!
   traitsContract: String! #New
   project: Project!
   name: String!
