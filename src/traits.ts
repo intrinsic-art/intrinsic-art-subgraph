@@ -8,6 +8,7 @@ import {
 } from "../generated/schema"
 import { ADDRESS_ZERO } from "./constants";
 import { concat2, concat3 } from "./helpers";
+import { Traits as _TraitsContract } from "../generated/templates/Traits/Traits"
 
 export function handleTransferSingle(event: TransferSingleEvent): void {
   let receiver = User.load(event.params.to.toHexString());
@@ -65,6 +66,20 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
   }
 
   const transferCount = event.params.ids.length;
+  if (sender.id == ADDRESS_ZERO) {
+    // These traits were minted
+    let _traitsContract = _TraitsContract.bind(event.address);
+    for (let i = 0; i < transferCount; i++) {
+    let trait = Trait.load(concat2(event.address.toHexString(), event.params.ids[i].toString()));
+    if (trait) {
+      trait.totalSupply = trait.totalSupply.plus(event.params.values[i]);
+      trait.maxSupply = _traitsContract.maxSupply(event.params.ids[i]);
+      trait.save();
+    }
+    }
+  }
+
+
   for (let i = 0; i < transferCount; i++) {
     if(receiver.id != ADDRESS_ZERO) {
       let receiverTraitBalance = TraitBalance.load(concat3(event.address.toHexString(), event.params.ids[i].toString(), receiver.id));
