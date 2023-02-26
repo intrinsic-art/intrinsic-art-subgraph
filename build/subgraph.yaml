@@ -3,12 +3,38 @@ schema:
   file: schema.graphql
 dataSources:
   - kind: ethereum
-    name: Studio
+    name: ProjectRegsitry
     network: goerli
     source:
-      address: "0x8E6A3A8cCC96aFa982082d83717AD018d78c1100"
+      address: "0x3733aa84978394c5c2e82CAd4f5C8fB8a9eaBC03"
+      abi: ProjectRegistry
+      startBlock: 8502096
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ProjectRegsitry\ProjectRegsitry.wasm
+      entities:
+        - Project
+        - StudioContract
+        - TraitsContract
+        - Trait
+      abis:
+        - name: ProjectRegistry
+          file: ProjectRegsitry\abis\ProjectRegistry.json
+        - name: Traits
+          file: ProjectRegsitry\abis\Traits.json
+        - name: Studio
+          file: ProjectRegsitry\abis\Studio.json
+      eventHandlers:
+        - event: ProjectRegistered(uint256,address,address)
+          handler: handleProjectRegistered
+templates:
+  - name: Studio
+    kind: ethereum
+    network: goerli
+    source:
       abi: Studio
-      startBlock: 8381900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -27,16 +53,14 @@ dataSources:
           handler: handleArtworkCreated
         - event: ArtworkDecomposed(indexed uint256,indexed address)
           handler: handleArtworkDecomposed
-        - event: ProjectCreated(string,address,uint256,string)
-          handler: handleProjectCreated
-      file: Studio\Studio.wasm
-  - kind: ethereum
-    name: Traits
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: templates\Studio\Studio.wasm
+  - name: Traits
+    kind: ethereum
     network: goerli
     source:
-      address: "0x7E87982b7a86bFf78ce5d1847fEa574854484593"
       abi: Traits
-      startBlock: 8381900
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -51,10 +75,8 @@ dataSources:
         - name: Traits
           file: Traits\abis\Traits.json
       eventHandlers:
-        - event: TraitsAndTypesCreated(string[],string[],string[],string[],uint256[],uint256[])
-          handler: handleTraitsAndTypesCreated
         - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
           handler: handleTransferBatch
         - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTransferSingle
-      file: Traits\Traits.wasm
+      file: templates\Traits\Traits.wasm
