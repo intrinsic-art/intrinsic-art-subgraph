@@ -1,6 +1,6 @@
 type Project @entity {
   id: ID!
-  studioContract: StudioContract!
+  artworkContract: ArtworkContract!
   traitsContract: TraitsContract!
   name: String!
   symbol: String!
@@ -16,7 +16,7 @@ type Project @entity {
   auctionEndTime: Int!
 }
 
-type StudioContract @entity {
+type ArtworkContract @entity {
   id: ID!
   project: Project!
   traitsContract: TraitsContract!
@@ -25,12 +25,12 @@ type StudioContract @entity {
 type TraitsContract @entity {
   id: ID!
   project: Project!
-  studioContract: StudioContract!
+  artworkContract: ArtworkContract!
 }
 
 type Artwork @entity {
-  id: ID! #StudioContractAddress-TokenID
-  studioContract: StudioContract! #New
+  id: ID! #ArtworkContractAddress-TokenID
+  artworkContract: ArtworkContract!
   tokenId: BigInt!
   hash: String!
   owner: User!

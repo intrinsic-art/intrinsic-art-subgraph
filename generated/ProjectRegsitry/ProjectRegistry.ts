@@ -10,6 +10,24 @@ import {
   BigInt
 } from "@graphprotocol/graph-ts";
 
+export class Initialized extends ethereum.Event {
+  get params(): Initialized__Params {
+    return new Initialized__Params(this);
+  }
+}
+
+export class Initialized__Params {
+  _event: Initialized;
+
+  constructor(event: Initialized) {
+    this._event = event;
+  }
+
+  get version(): i32 {
+    return this._event.parameters[0].value.toI32();
+  }
+}
+
 export class OwnershipTransferred extends ethereum.Event {
   get params(): OwnershipTransferred__Params {
     return new OwnershipTransferred__Params(this);
@@ -49,7 +67,7 @@ export class ProjectRegistered__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
-  get studio(): Address {
+  get artwork(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 
@@ -74,7 +92,7 @@ export class ProjectRegistry__projectsResult {
     return map;
   }
 
-  getStudio(): Address {
+  getArtwork(): Address {
     return this.value0;
   }
 
@@ -120,6 +138,21 @@ export class ProjectRegistry extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  projectCount(): BigInt {
+    let result = super.call("projectCount", "projectCount():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_projectCount(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("projectCount", "projectCount():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   projects(param0: BigInt): ProjectRegistry__projectsResult {
@@ -235,7 +268,7 @@ export class RegisterProjectCall__Inputs {
     this._call = call;
   }
 
-  get _studio(): Address {
+  get _artwork(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 

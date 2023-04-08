@@ -1,6 +1,6 @@
 {
   "name": "intrinsic-art-subgraph",
-  "license": "UNLICENSED",
+  "license": "GNU GPLv3",
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
