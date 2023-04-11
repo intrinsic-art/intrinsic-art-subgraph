@@ -22,14 +22,14 @@ export function handleArtworkCreated(event: ArtworkCreatedEvent): void {
   
   let artworkContract = ArtworkContract.load(event.address.toHexString());
   if(!!artworkContract) {
-    let traitsContractAddress = artworkContract.traitsContract
-      const traitCount = event.params.traitTokenIds.length;
-      let traitIds: string[] = [];
-      for(let i=0; i < traitCount; i++) {
-        traitIds.push(concat2(traitsContractAddress, event.params.traitTokenIds[i].toString()));
-      }
-      artwork.traits = traitIds;
-      artwork.save();
+    let traitsContractAddress = artworkContract.traitsContract;
+    const traitCount = event.params.traitTokenIds.length;
+    let traitIds: string[] = [];
+    for(let i=0; i < traitCount; i++) {
+      traitIds.push(concat2(traitsContractAddress, event.params.traitTokenIds[i].toString()));
+    }
+    artwork.traits = traitIds;
+    artwork.save();
   }
 
   let user = User.load(event.params.creator.toHexString());

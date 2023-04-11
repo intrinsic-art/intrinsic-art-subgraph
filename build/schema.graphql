@@ -20,6 +20,7 @@ type ArtworkContract @entity {
   id: ID!
   project: Project!
   traitsContract: TraitsContract!
+  artworks: [Artwork!]! @derivedFrom(field: "artworkContract")
 }
 
 type TraitsContract @entity {

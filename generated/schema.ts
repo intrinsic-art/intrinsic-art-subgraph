@@ -217,6 +217,15 @@ export class ArtworkContract extends Entity {
   set traitsContract(value: string) {
     this.set("traitsContract", Value.fromString(value));
   }
+
+  get artworks(): Array<string> {
+    let value = this.get("artworks");
+    return value!.toStringArray();
+  }
+
+  set artworks(value: Array<string>) {
+    this.set("artworks", Value.fromStringArray(value));
+  }
 }
 
 export class TraitsContract extends Entity {
