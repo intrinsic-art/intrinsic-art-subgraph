@@ -7,6 +7,7 @@ type Project @entity {
   baseURI: String!
   artistAddress: String!
   totalSupply: BigInt!
+  nextTokenId: BigInt!
   scriptJSON: String!
   script: String!
   traitTypes: [TraitType!]! @derivedFrom(field: "project")

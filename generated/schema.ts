@@ -105,6 +105,15 @@ export class Project extends Entity {
     this.set("totalSupply", Value.fromBigInt(value));
   }
 
+  get nextTokenId(): BigInt {
+    let value = this.get("nextTokenId");
+    return value!.toBigInt();
+  }
+
+  set nextTokenId(value: BigInt) {
+    this.set("nextTokenId", Value.fromBigInt(value));
+  }
+
   get scriptJSON(): string {
     let value = this.get("scriptJSON");
     return value!.toString();

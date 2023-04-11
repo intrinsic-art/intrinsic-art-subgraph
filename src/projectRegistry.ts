@@ -40,6 +40,7 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   project.scriptJSON = _artworkContract.scriptJSON();
   project.script = _artworkContract.projectScripts().join("");
   project.totalSupply = BigInt.fromString("0");
+  project.nextTokenId = BigInt.fromString("0");
   project.auctionStartPrice = _traitsContract.auctionStartPrice();
   project.auctionEndPrice = _traitsContract.auctionEndPrice();
   project.auctionStartTime = _traitsContract.auctionStartTime().toI32();

@@ -3,12 +3,12 @@ import {
   ArtworkDecomposed as ArtworkDecomposedEvent,
   Transfer as TransferEvent,
 } from "../generated/templates/Artwork/Artwork"
-
+import { Artwork as ArtworkContractTemplate } from "../generated/templates/Artwork/Artwork"
 import {
   Artwork, User, Project, ArtworkContract
 } from "../generated/schema"
-
 import { concat2, concat3 } from "./helpers";
+import { BigInt } from '@graphprotocol/graph-ts'
 
 export function handleArtworkCreated(event: ArtworkCreatedEvent): void {
   let artwork = new Artwork(concat2(event.address.toHexString(), event.params.artworkTokenId.toString()));
@@ -30,6 +30,14 @@ export function handleArtworkCreated(event: ArtworkCreatedEvent): void {
     }
     artwork.traits = traitIds;
     artwork.save();
+
+    let _artworkContract = ArtworkContractTemplate.bind(event.address);
+    let project = Project.load(artworkContract.project);
+    if(!!project) {
+      project.totalSupply = project.totalSupply.plus(BigInt.fromI32(1));
+      project.nextTokenId = _artworkContract.nextTokenId();
+      project.save();
+    }
   }
 
   let user = User.load(event.params.creator.toHexString());
@@ -44,6 +52,13 @@ export function handleArtworkDecomposed(event: ArtworkDecomposedEvent): void {
   if(!artwork) return;
   artwork.decomposed = true;
   artwork.save();
+
+  let artworkContract = ArtworkContract.load(event.address.toHexString());
+  if(!artworkContract) return;
+  let project = Project.load(artworkContract.project);
+  if(!project) return;
+  project.totalSupply = project.totalSupply.minus(BigInt.fromI32(1));
+  project.save();
 }
 
 export function handleTransfer(event: TransferEvent): void {
