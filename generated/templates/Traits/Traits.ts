@@ -317,6 +317,8 @@ export class Traits__traitsResult {
   value3: Array<BigInt>;
   value4: Array<string>;
   value5: Array<string>;
+  value6: Array<BigInt>;
+  value7: Array<BigInt>;
 
   constructor(
     value0: Array<BigInt>,
@@ -324,7 +326,9 @@ export class Traits__traitsResult {
     value2: Array<string>,
     value3: Array<BigInt>,
     value4: Array<string>,
-    value5: Array<string>
+    value5: Array<string>,
+    value6: Array<BigInt>,
+    value7: Array<BigInt>
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -332,6 +336,8 @@ export class Traits__traitsResult {
     this.value3 = value3;
     this.value4 = value4;
     this.value5 = value5;
+    this.value6 = value6;
+    this.value7 = value7;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -342,6 +348,8 @@ export class Traits__traitsResult {
     map.set("value3", ethereum.Value.fromUnsignedBigIntArray(this.value3));
     map.set("value4", ethereum.Value.fromStringArray(this.value4));
     map.set("value5", ethereum.Value.fromStringArray(this.value5));
+    map.set("value6", ethereum.Value.fromUnsignedBigIntArray(this.value6));
+    map.set("value7", ethereum.Value.fromUnsignedBigIntArray(this.value7));
     return map;
   }
 
@@ -367,6 +375,14 @@ export class Traits__traitsResult {
 
   get_traitTypeValues(): Array<string> {
     return this.value5;
+  }
+
+  get_traitTotalSupplys(): Array<BigInt> {
+    return this.value6;
+  }
+
+  get_traitMaxSupplys(): Array<BigInt> {
+    return this.value7;
   }
 }
 
@@ -856,29 +872,6 @@ export class Traits extends ethereum.SmartContract {
     );
   }
 
-  traitMaxRevenue(_tokenId: BigInt): BigInt {
-    let result = super.call(
-      "traitMaxRevenue",
-      "traitMaxRevenue(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(_tokenId)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_traitMaxRevenue(_tokenId: BigInt): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "traitMaxRevenue",
-      "traitMaxRevenue(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(_tokenId)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   traitPrice(): BigInt {
     let result = super.call("traitPrice", "traitPrice():(uint256)", []);
 
@@ -887,29 +880,6 @@ export class Traits extends ethereum.SmartContract {
 
   try_traitPrice(): ethereum.CallResult<BigInt> {
     let result = super.tryCall("traitPrice", "traitPrice():(uint256)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  traitTotalRevenue(_tokenId: BigInt): BigInt {
-    let result = super.call(
-      "traitTotalRevenue",
-      "traitTotalRevenue(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(_tokenId)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_traitTotalRevenue(_tokenId: BigInt): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "traitTotalRevenue",
-      "traitTotalRevenue(uint256):(uint256)",
-      [ethereum.Value.fromUnsignedBigInt(_tokenId)]
-    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -951,7 +921,7 @@ export class Traits extends ethereum.SmartContract {
   traits(): Traits__traitsResult {
     let result = super.call(
       "traits",
-      "traits():(uint256[],string[],string[],uint256[],string[],string[])",
+      "traits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
       []
     );
 
@@ -961,14 +931,16 @@ export class Traits extends ethereum.SmartContract {
       result[2].toStringArray(),
       result[3].toBigIntArray(),
       result[4].toStringArray(),
-      result[5].toStringArray()
+      result[5].toStringArray(),
+      result[6].toBigIntArray(),
+      result[7].toBigIntArray()
     );
   }
 
   try_traits(): ethereum.CallResult<Traits__traitsResult> {
     let result = super.tryCall(
       "traits",
-      "traits():(uint256[],string[],string[],uint256[],string[],string[])",
+      "traits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
       []
     );
     if (result.reverted) {
@@ -982,7 +954,9 @@ export class Traits extends ethereum.SmartContract {
         value[2].toStringArray(),
         value[3].toBigIntArray(),
         value[4].toStringArray(),
-        value[5].toStringArray()
+        value[5].toStringArray(),
+        value[6].toBigIntArray(),
+        value[7].toBigIntArray()
       )
     );
   }
@@ -1180,7 +1154,7 @@ export class CreateTraitsAndTypesCall__Inputs {
     return this._call.inputValues[4].value.toBigIntArray();
   }
 
-  get _traitMaxRevenues(): Array<BigInt> {
+  get _traitMaxSupplys(): Array<BigInt> {
     return this._call.inputValues[5].value.toBigIntArray();
   }
 }

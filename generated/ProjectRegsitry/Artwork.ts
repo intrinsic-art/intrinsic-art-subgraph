@@ -265,6 +265,8 @@ export class Artwork__projectTraitsResult {
   value3: Array<BigInt>;
   value4: Array<string>;
   value5: Array<string>;
+  value6: Array<BigInt>;
+  value7: Array<BigInt>;
 
   constructor(
     value0: Array<BigInt>,
@@ -272,7 +274,9 @@ export class Artwork__projectTraitsResult {
     value2: Array<string>,
     value3: Array<BigInt>,
     value4: Array<string>,
-    value5: Array<string>
+    value5: Array<string>,
+    value6: Array<BigInt>,
+    value7: Array<BigInt>
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -280,6 +284,8 @@ export class Artwork__projectTraitsResult {
     this.value3 = value3;
     this.value4 = value4;
     this.value5 = value5;
+    this.value6 = value6;
+    this.value7 = value7;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -290,6 +296,8 @@ export class Artwork__projectTraitsResult {
     map.set("value3", ethereum.Value.fromUnsignedBigIntArray(this.value3));
     map.set("value4", ethereum.Value.fromStringArray(this.value4));
     map.set("value5", ethereum.Value.fromStringArray(this.value5));
+    map.set("value6", ethereum.Value.fromUnsignedBigIntArray(this.value6));
+    map.set("value7", ethereum.Value.fromUnsignedBigIntArray(this.value7));
     return map;
   }
 
@@ -315,6 +323,14 @@ export class Artwork__projectTraitsResult {
 
   get_traitTypeValues(): Array<string> {
     return this.value5;
+  }
+
+  get_traitTotalSupplys(): Array<BigInt> {
+    return this.value6;
+  }
+
+  get_traitMaxSupplys(): Array<BigInt> {
+    return this.value7;
   }
 }
 
@@ -726,7 +742,7 @@ export class Artwork extends ethereum.SmartContract {
   projectTraits(): Artwork__projectTraitsResult {
     let result = super.call(
       "projectTraits",
-      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[])",
+      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
       []
     );
 
@@ -736,14 +752,16 @@ export class Artwork extends ethereum.SmartContract {
       result[2].toStringArray(),
       result[3].toBigIntArray(),
       result[4].toStringArray(),
-      result[5].toStringArray()
+      result[5].toStringArray(),
+      result[6].toBigIntArray(),
+      result[7].toBigIntArray()
     );
   }
 
   try_projectTraits(): ethereum.CallResult<Artwork__projectTraitsResult> {
     let result = super.tryCall(
       "projectTraits",
-      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[])",
+      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
       []
     );
     if (result.reverted) {
@@ -757,7 +775,9 @@ export class Artwork extends ethereum.SmartContract {
         value[2].toStringArray(),
         value[3].toBigIntArray(),
         value[4].toStringArray(),
-        value[5].toStringArray()
+        value[5].toStringArray(),
+        value[6].toBigIntArray(),
+        value[7].toBigIntArray()
       )
     );
   }
