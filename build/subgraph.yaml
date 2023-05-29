@@ -6,9 +6,9 @@ dataSources:
     name: ProjectRegsitry
     network: goerli
     source:
-      address: "0x3733aa84978394c5c2e82CAd4f5C8fB8a9eaBC03"
+      address: "0xC801596cd690075B349dE2bbd6dDbF797E8238C7"
       abi: ProjectRegistry
-      startBlock: 8502096
+      startBlock: 8796030
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -16,7 +16,7 @@ dataSources:
       file: ProjectRegsitry\ProjectRegsitry.wasm
       entities:
         - Project
-        - StudioContract
+        - ArtworkContract
         - TraitsContract
         - Trait
       abis:
@@ -24,17 +24,17 @@ dataSources:
           file: ProjectRegsitry\abis\ProjectRegistry.json
         - name: Traits
           file: ProjectRegsitry\abis\Traits.json
-        - name: Studio
-          file: ProjectRegsitry\abis\Studio.json
+        - name: Artwork
+          file: ProjectRegsitry\abis\Artwork.json
       eventHandlers:
         - event: ProjectRegistered(uint256,address,address)
           handler: handleProjectRegistered
 templates:
-  - name: Studio
+  - name: Artwork
     kind: ethereum
     network: goerli
     source:
-      abi: Studio
+      abi: Artwork
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -46,8 +46,8 @@ templates:
         - TraitType
         - TraitBalance
       abis:
-        - name: Studio
-          file: Studio\abis\Studio.json
+        - name: Artwork
+          file: Artwork\abis\Artwork.json
       eventHandlers:
         - event: ArtworkCreated(indexed uint256,uint256[],bytes32,indexed address)
           handler: handleArtworkCreated
@@ -55,7 +55,7 @@ templates:
           handler: handleArtworkDecomposed
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: templates\Studio\Studio.wasm
+      file: templates\Artwork\Artwork.wasm
   - name: Traits
     kind: ethereum
     network: goerli

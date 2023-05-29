@@ -198,7 +198,7 @@ export class Transfer__Params {
   }
 }
 
-export class Studio__artworkResult {
+export class Artwork__artworkResult {
   value0: Array<BigInt>;
   value1: Array<string>;
   value2: Array<string>;
@@ -258,13 +258,15 @@ export class Studio__artworkResult {
   }
 }
 
-export class Studio__projectTraitsResult {
+export class Artwork__projectTraitsResult {
   value0: Array<BigInt>;
   value1: Array<string>;
   value2: Array<string>;
   value3: Array<BigInt>;
   value4: Array<string>;
   value5: Array<string>;
+  value6: Array<BigInt>;
+  value7: Array<BigInt>;
 
   constructor(
     value0: Array<BigInt>,
@@ -272,7 +274,9 @@ export class Studio__projectTraitsResult {
     value2: Array<string>,
     value3: Array<BigInt>,
     value4: Array<string>,
-    value5: Array<string>
+    value5: Array<string>,
+    value6: Array<BigInt>,
+    value7: Array<BigInt>
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -280,6 +284,8 @@ export class Studio__projectTraitsResult {
     this.value3 = value3;
     this.value4 = value4;
     this.value5 = value5;
+    this.value6 = value6;
+    this.value7 = value7;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -290,6 +296,8 @@ export class Studio__projectTraitsResult {
     map.set("value3", ethereum.Value.fromUnsignedBigIntArray(this.value3));
     map.set("value4", ethereum.Value.fromStringArray(this.value4));
     map.set("value5", ethereum.Value.fromStringArray(this.value5));
+    map.set("value6", ethereum.Value.fromUnsignedBigIntArray(this.value6));
+    map.set("value7", ethereum.Value.fromUnsignedBigIntArray(this.value7));
     return map;
   }
 
@@ -316,11 +324,34 @@ export class Studio__projectTraitsResult {
   get_traitTypeValues(): Array<string> {
     return this.value5;
   }
+
+  get_traitTotalSupplys(): Array<BigInt> {
+    return this.value6;
+  }
+
+  get_traitMaxSupplys(): Array<BigInt> {
+    return this.value7;
+  }
 }
 
-export class Studio extends ethereum.SmartContract {
-  static bind(address: Address): Studio {
-    return new Studio("Studio", address);
+export class Artwork extends ethereum.SmartContract {
+  static bind(address: Address): Artwork {
+    return new Artwork("Artwork", address);
+  }
+
+  VERSION(): string {
+    let result = super.call("VERSION", "VERSION():(string)", []);
+
+    return result[0].toString();
+  }
+
+  try_VERSION(): ethereum.CallResult<string> {
+    let result = super.tryCall("VERSION", "VERSION():(string)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
   }
 
   artistAddress(): Address {
@@ -342,14 +373,14 @@ export class Studio extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  artwork(_artworkTokenId: BigInt): Studio__artworkResult {
+  artwork(_artworkTokenId: BigInt): Artwork__artworkResult {
     let result = super.call(
       "artwork",
       "artwork(uint256):(uint256[],string[],string[],string[],string[],bytes32)",
       [ethereum.Value.fromUnsignedBigInt(_artworkTokenId)]
     );
 
-    return new Studio__artworkResult(
+    return new Artwork__artworkResult(
       result[0].toBigIntArray(),
       result[1].toStringArray(),
       result[2].toStringArray(),
@@ -361,7 +392,7 @@ export class Studio extends ethereum.SmartContract {
 
   try_artwork(
     _artworkTokenId: BigInt
-  ): ethereum.CallResult<Studio__artworkResult> {
+  ): ethereum.CallResult<Artwork__artworkResult> {
     let result = super.tryCall(
       "artwork",
       "artwork(uint256):(uint256[],string[],string[],string[],string[],bytes32)",
@@ -372,7 +403,7 @@ export class Studio extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Studio__artworkResult(
+      new Artwork__artworkResult(
         value[0].toBigIntArray(),
         value[1].toStringArray(),
         value[2].toStringArray(),
@@ -708,27 +739,29 @@ export class Studio extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toStringArray());
   }
 
-  projectTraits(): Studio__projectTraitsResult {
+  projectTraits(): Artwork__projectTraitsResult {
     let result = super.call(
       "projectTraits",
-      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[])",
+      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
       []
     );
 
-    return new Studio__projectTraitsResult(
+    return new Artwork__projectTraitsResult(
       result[0].toBigIntArray(),
       result[1].toStringArray(),
       result[2].toStringArray(),
       result[3].toBigIntArray(),
       result[4].toStringArray(),
-      result[5].toStringArray()
+      result[5].toStringArray(),
+      result[6].toBigIntArray(),
+      result[7].toBigIntArray()
     );
   }
 
-  try_projectTraits(): ethereum.CallResult<Studio__projectTraitsResult> {
+  try_projectTraits(): ethereum.CallResult<Artwork__projectTraitsResult> {
     let result = super.tryCall(
       "projectTraits",
-      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[])",
+      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
       []
     );
     if (result.reverted) {
@@ -736,13 +769,15 @@ export class Studio extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Studio__projectTraitsResult(
+      new Artwork__projectTraitsResult(
         value[0].toBigIntArray(),
         value[1].toStringArray(),
         value[2].toStringArray(),
         value[3].toBigIntArray(),
         value[4].toStringArray(),
-        value[5].toStringArray()
+        value[5].toStringArray(),
+        value[6].toBigIntArray(),
+        value[7].toBigIntArray()
       )
     );
   }
@@ -851,21 +886,6 @@ export class Studio extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  version(): string {
-    let result = super.call("version", "version():(string)", []);
-
-    return result[0].toString();
-  }
-
-  try_version(): ethereum.CallResult<string> {
-    let result = super.tryCall("version", "version():(string)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toString());
   }
 }
 

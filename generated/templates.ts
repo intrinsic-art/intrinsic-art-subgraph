@@ -6,13 +6,13 @@ import {
   DataSourceContext
 } from "@graphprotocol/graph-ts";
 
-export class Studio extends DataSourceTemplate {
+export class Artwork extends DataSourceTemplate {
   static create(address: Address): void {
-    DataSourceTemplate.create("Studio", [address.toHex()]);
+    DataSourceTemplate.create("Artwork", [address.toHex()]);
   }
 
   static createWithContext(address: Address, context: DataSourceContext): void {
-    DataSourceTemplate.createWithContext("Studio", [address.toHex()], context);
+    DataSourceTemplate.createWithContext("Artwork", [address.toHex()], context);
   }
 }
 

@@ -72,8 +72,7 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
     for (let i = 0; i < transferCount; i++) {
     let trait = Trait.load(concat2(event.address.toHexString(), event.params.ids[i].toString()));
     if (trait) {
-      trait.totalSupply = trait.totalSupply.plus(event.params.values[i]);
-      trait.maxSupply = _traitsContract.maxSupply(event.params.ids[i]);
+      trait.totalSupply = _traitsContract.totalSupply(event.params.ids[i]);
       trait.save();
     }
     }

@@ -317,6 +317,8 @@ export class Traits__traitsResult {
   value3: Array<BigInt>;
   value4: Array<string>;
   value5: Array<string>;
+  value6: Array<BigInt>;
+  value7: Array<BigInt>;
 
   constructor(
     value0: Array<BigInt>,
@@ -324,7 +326,9 @@ export class Traits__traitsResult {
     value2: Array<string>,
     value3: Array<BigInt>,
     value4: Array<string>,
-    value5: Array<string>
+    value5: Array<string>,
+    value6: Array<BigInt>,
+    value7: Array<BigInt>
   ) {
     this.value0 = value0;
     this.value1 = value1;
@@ -332,6 +336,8 @@ export class Traits__traitsResult {
     this.value3 = value3;
     this.value4 = value4;
     this.value5 = value5;
+    this.value6 = value6;
+    this.value7 = value7;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -342,6 +348,8 @@ export class Traits__traitsResult {
     map.set("value3", ethereum.Value.fromUnsignedBigIntArray(this.value3));
     map.set("value4", ethereum.Value.fromStringArray(this.value4));
     map.set("value5", ethereum.Value.fromStringArray(this.value5));
+    map.set("value6", ethereum.Value.fromUnsignedBigIntArray(this.value6));
+    map.set("value7", ethereum.Value.fromUnsignedBigIntArray(this.value7));
     return map;
   }
 
@@ -368,11 +376,42 @@ export class Traits__traitsResult {
   get_traitTypeValues(): Array<string> {
     return this.value5;
   }
+
+  get_traitTotalSupplys(): Array<BigInt> {
+    return this.value6;
+  }
+
+  get_traitMaxSupplys(): Array<BigInt> {
+    return this.value7;
+  }
 }
 
 export class Traits extends ethereum.SmartContract {
   static bind(address: Address): Traits {
     return new Traits("Traits", address);
+  }
+
+  AUCTION_PLATFORM_FEE_NUMERATOR(): BigInt {
+    let result = super.call(
+      "AUCTION_PLATFORM_FEE_NUMERATOR",
+      "AUCTION_PLATFORM_FEE_NUMERATOR():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_AUCTION_PLATFORM_FEE_NUMERATOR(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "AUCTION_PLATFORM_FEE_NUMERATOR",
+      "AUCTION_PLATFORM_FEE_NUMERATOR():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   FEE_DENOMINATOR(): BigInt {
@@ -396,6 +435,21 @@ export class Traits extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  VERSION(): string {
+    let result = super.call("VERSION", "VERSION():(string)", []);
+
+    return result[0].toString();
+  }
+
+  try_VERSION(): ethereum.CallResult<string> {
+    let result = super.tryCall("VERSION", "VERSION():(string)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toString());
   }
 
   artistClaimableRevenues(): BigInt {
@@ -444,6 +498,21 @@ export class Traits extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
+  artwork(): Address {
+    let result = super.call("artwork", "artwork():(address)", []);
+
+    return result[0].toAddress();
+  }
+
+  try_artwork(): ethereum.CallResult<Address> {
+    let result = super.tryCall("artwork", "artwork():(address)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
   auctionEndPrice(): BigInt {
     let result = super.call(
       "auctionEndPrice",
@@ -477,29 +546,6 @@ export class Traits extends ethereum.SmartContract {
     let result = super.tryCall(
       "auctionEndTime",
       "auctionEndTime():(uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  auctionPlatformFeeNumerator(): BigInt {
-    let result = super.call(
-      "auctionPlatformFeeNumerator",
-      "auctionPlatformFeeNumerator():(uint256)",
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_auctionPlatformFeeNumerator(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "auctionPlatformFeeNumerator",
-      "auctionPlatformFeeNumerator():(uint256)",
       []
     );
     if (result.reverted) {
@@ -747,21 +793,6 @@ export class Traits extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  studio(): Address {
-    let result = super.call("studio", "studio():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_studio(): ethereum.CallResult<Address> {
-    let result = super.tryCall("studio", "studio():(address)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
   supportsInterface(interfaceId: Bytes): boolean {
     let result = super.call(
       "supportsInterface",
@@ -890,7 +921,7 @@ export class Traits extends ethereum.SmartContract {
   traits(): Traits__traitsResult {
     let result = super.call(
       "traits",
-      "traits():(uint256[],string[],string[],uint256[],string[],string[])",
+      "traits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
       []
     );
 
@@ -900,14 +931,16 @@ export class Traits extends ethereum.SmartContract {
       result[2].toStringArray(),
       result[3].toBigIntArray(),
       result[4].toStringArray(),
-      result[5].toStringArray()
+      result[5].toStringArray(),
+      result[6].toBigIntArray(),
+      result[7].toBigIntArray()
     );
   }
 
   try_traits(): ethereum.CallResult<Traits__traitsResult> {
     let result = super.tryCall(
       "traits",
-      "traits():(uint256[],string[],string[],uint256[],string[],string[])",
+      "traits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
       []
     );
     if (result.reverted) {
@@ -921,7 +954,9 @@ export class Traits extends ethereum.SmartContract {
         value[2].toStringArray(),
         value[3].toBigIntArray(),
         value[4].toStringArray(),
-        value[5].toStringArray()
+        value[5].toStringArray(),
+        value[6].toBigIntArray(),
+        value[7].toBigIntArray()
       )
     );
   }
@@ -938,21 +973,6 @@ export class Traits extends ethereum.SmartContract {
     let result = super.tryCall("uri", "uri(uint256):(string)", [
       ethereum.Value.fromUnsignedBigInt(param0)
     ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toString());
-  }
-
-  version(): string {
-    let result = super.call("version", "version():(string)", []);
-
-    return result[0].toString();
-  }
-
-  try_version(): ethereum.CallResult<string> {
-    let result = super.tryCall("version", "version():(string)", []);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -978,7 +998,7 @@ export class ConstructorCall__Inputs {
     this._call = call;
   }
 
-  get _studio(): Address {
+  get _artwork(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 
@@ -1134,7 +1154,7 @@ export class CreateTraitsAndTypesCall__Inputs {
     return this._call.inputValues[4].value.toBigIntArray();
   }
 
-  get _traitMaxRevenues(): Array<BigInt> {
+  get _traitMaxSupplys(): Array<BigInt> {
     return this._call.inputValues[5].value.toBigIntArray();
   }
 }
@@ -1401,40 +1421,6 @@ export class TransferTraitsToCreateArtworkCall__Outputs {
   _call: TransferTraitsToCreateArtworkCall;
 
   constructor(call: TransferTraitsToCreateArtworkCall) {
-    this._call = call;
-  }
-}
-
-export class TransferTraitsToDecomposeArtworkCall extends ethereum.Call {
-  get inputs(): TransferTraitsToDecomposeArtworkCall__Inputs {
-    return new TransferTraitsToDecomposeArtworkCall__Inputs(this);
-  }
-
-  get outputs(): TransferTraitsToDecomposeArtworkCall__Outputs {
-    return new TransferTraitsToDecomposeArtworkCall__Outputs(this);
-  }
-}
-
-export class TransferTraitsToDecomposeArtworkCall__Inputs {
-  _call: TransferTraitsToDecomposeArtworkCall;
-
-  constructor(call: TransferTraitsToDecomposeArtworkCall) {
-    this._call = call;
-  }
-
-  get _caller(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _traitTokenIds(): Array<BigInt> {
-    return this._call.inputValues[1].value.toBigIntArray();
-  }
-}
-
-export class TransferTraitsToDecomposeArtworkCall__Outputs {
-  _call: TransferTraitsToDecomposeArtworkCall;
-
-  constructor(call: TransferTraitsToDecomposeArtworkCall) {
     this._call = call;
   }
 }

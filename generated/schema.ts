@@ -42,13 +42,13 @@ export class Project extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get studioContract(): string {
-    let value = this.get("studioContract");
+  get artworkContract(): string {
+    let value = this.get("artworkContract");
     return value!.toString();
   }
 
-  set studioContract(value: string) {
-    this.set("studioContract", Value.fromString(value));
+  set artworkContract(value: string) {
+    this.set("artworkContract", Value.fromString(value));
   }
 
   get traitsContract(): string {
@@ -103,6 +103,15 @@ export class Project extends Entity {
 
   set totalSupply(value: BigInt) {
     this.set("totalSupply", Value.fromBigInt(value));
+  }
+
+  get nextTokenId(): BigInt {
+    let value = this.get("nextTokenId");
+    return value!.toBigInt();
+  }
+
+  set nextTokenId(value: BigInt) {
+    this.set("nextTokenId", Value.fromBigInt(value));
   }
 
   get scriptJSON(): string {
@@ -169,7 +178,7 @@ export class Project extends Entity {
   }
 }
 
-export class StudioContract extends Entity {
+export class ArtworkContract extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -177,18 +186,18 @@ export class StudioContract extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save StudioContract entity without an ID");
+    assert(id != null, "Cannot save ArtworkContract entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        `Entities of type StudioContract must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        `Entities of type ArtworkContract must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("StudioContract", id.toString(), this);
+      store.set("ArtworkContract", id.toString(), this);
     }
   }
 
-  static load(id: string): StudioContract | null {
-    return changetype<StudioContract | null>(store.get("StudioContract", id));
+  static load(id: string): ArtworkContract | null {
+    return changetype<ArtworkContract | null>(store.get("ArtworkContract", id));
   }
 
   get id(): string {
@@ -216,6 +225,15 @@ export class StudioContract extends Entity {
 
   set traitsContract(value: string) {
     this.set("traitsContract", Value.fromString(value));
+  }
+
+  get artworks(): Array<string> {
+    let value = this.get("artworks");
+    return value!.toStringArray();
+  }
+
+  set artworks(value: Array<string>) {
+    this.set("artworks", Value.fromStringArray(value));
   }
 }
 
@@ -259,13 +277,13 @@ export class TraitsContract extends Entity {
     this.set("project", Value.fromString(value));
   }
 
-  get studioContract(): string {
-    let value = this.get("studioContract");
+  get artworkContract(): string {
+    let value = this.get("artworkContract");
     return value!.toString();
   }
 
-  set studioContract(value: string) {
-    this.set("studioContract", Value.fromString(value));
+  set artworkContract(value: string) {
+    this.set("artworkContract", Value.fromString(value));
   }
 }
 
@@ -300,13 +318,13 @@ export class Artwork extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get studioContract(): string {
-    let value = this.get("studioContract");
+  get artworkContract(): string {
+    let value = this.get("artworkContract");
     return value!.toString();
   }
 
-  set studioContract(value: string) {
-    this.set("studioContract", Value.fromString(value));
+  set artworkContract(value: string) {
+    this.set("artworkContract", Value.fromString(value));
   }
 
   get tokenId(): BigInt {
