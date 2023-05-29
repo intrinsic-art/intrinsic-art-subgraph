@@ -35,7 +35,6 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   project.name = _artworkContract.name();
   project.symbol = _artworkContract.symbol();
   project.baseURI = _artworkContract.baseURI();
-  project.artistAddress = _artworkContract.artistAddress().toHexString();
   project.totalSupply = BigInt.fromString("0");
   project.scriptJSON = _artworkContract.scriptJSON();
   project.script = _artworkContract.projectScripts().join("");

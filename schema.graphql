@@ -5,7 +5,6 @@ type Project @entity {
   name: String!
   symbol: String!
   baseURI: String!
-  artistAddress: String!
   totalSupply: BigInt!
   nextTokenId: BigInt!
   scriptJSON: String!

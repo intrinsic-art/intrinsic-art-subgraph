@@ -87,15 +87,6 @@ export class Project extends Entity {
     this.set("baseURI", Value.fromString(value));
   }
 
-  get artistAddress(): string {
-    let value = this.get("artistAddress");
-    return value!.toString();
-  }
-
-  set artistAddress(value: string) {
-    this.set("artistAddress", Value.fromString(value));
-  }
-
   get totalSupply(): BigInt {
     let value = this.get("totalSupply");
     return value!.toBigInt();

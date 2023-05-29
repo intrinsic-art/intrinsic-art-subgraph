@@ -258,79 +258,28 @@ export class Artwork__artworkResult {
   }
 }
 
-export class Artwork__projectTraitsResult {
-  value0: Array<BigInt>;
-  value1: Array<string>;
-  value2: Array<string>;
-  value3: Array<BigInt>;
-  value4: Array<string>;
-  value5: Array<string>;
-  value6: Array<BigInt>;
-  value7: Array<BigInt>;
+export class Artwork__royaltyInfoResult {
+  value0: Address;
+  value1: BigInt;
 
-  constructor(
-    value0: Array<BigInt>,
-    value1: Array<string>,
-    value2: Array<string>,
-    value3: Array<BigInt>,
-    value4: Array<string>,
-    value5: Array<string>,
-    value6: Array<BigInt>,
-    value7: Array<BigInt>
-  ) {
+  constructor(value0: Address, value1: BigInt) {
     this.value0 = value0;
     this.value1 = value1;
-    this.value2 = value2;
-    this.value3 = value3;
-    this.value4 = value4;
-    this.value5 = value5;
-    this.value6 = value6;
-    this.value7 = value7;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromUnsignedBigIntArray(this.value0));
-    map.set("value1", ethereum.Value.fromStringArray(this.value1));
-    map.set("value2", ethereum.Value.fromStringArray(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigIntArray(this.value3));
-    map.set("value4", ethereum.Value.fromStringArray(this.value4));
-    map.set("value5", ethereum.Value.fromStringArray(this.value5));
-    map.set("value6", ethereum.Value.fromUnsignedBigIntArray(this.value6));
-    map.set("value7", ethereum.Value.fromUnsignedBigIntArray(this.value7));
+    map.set("value0", ethereum.Value.fromAddress(this.value0));
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
     return map;
   }
 
-  get_traitTokenIds(): Array<BigInt> {
+  getValue0(): Address {
     return this.value0;
   }
 
-  get_traitNames(): Array<string> {
+  getValue1(): BigInt {
     return this.value1;
-  }
-
-  get_traitValues(): Array<string> {
-    return this.value2;
-  }
-
-  get_traitTypeIndexes(): Array<BigInt> {
-    return this.value3;
-  }
-
-  get_traitTypeNames(): Array<string> {
-    return this.value4;
-  }
-
-  get_traitTypeValues(): Array<string> {
-    return this.value5;
-  }
-
-  get_traitTotalSupplys(): Array<BigInt> {
-    return this.value6;
-  }
-
-  get_traitMaxSupplys(): Array<BigInt> {
-    return this.value7;
   }
 }
 
@@ -352,25 +301,6 @@ export class Artwork extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
-  }
-
-  artistAddress(): Address {
-    let result = super.call("artistAddress", "artistAddress():(address)", []);
-
-    return result[0].toAddress();
-  }
-
-  try_artistAddress(): ethereum.CallResult<Address> {
-    let result = super.tryCall(
-      "artistAddress",
-      "artistAddress():(address)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
   artwork(_artworkTokenId: BigInt): Artwork__artworkResult {
@@ -739,47 +669,67 @@ export class Artwork extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toStringArray());
   }
 
-  projectTraits(): Artwork__projectTraitsResult {
+  royaltyInfo(
+    _tokenId: BigInt,
+    _salePrice: BigInt
+  ): Artwork__royaltyInfoResult {
     let result = super.call(
-      "projectTraits",
-      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
-      []
+      "royaltyInfo",
+      "royaltyInfo(uint256,uint256):(address,uint256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_tokenId),
+        ethereum.Value.fromUnsignedBigInt(_salePrice)
+      ]
     );
 
-    return new Artwork__projectTraitsResult(
-      result[0].toBigIntArray(),
-      result[1].toStringArray(),
-      result[2].toStringArray(),
-      result[3].toBigIntArray(),
-      result[4].toStringArray(),
-      result[5].toStringArray(),
-      result[6].toBigIntArray(),
-      result[7].toBigIntArray()
+    return new Artwork__royaltyInfoResult(
+      result[0].toAddress(),
+      result[1].toBigInt()
     );
   }
 
-  try_projectTraits(): ethereum.CallResult<Artwork__projectTraitsResult> {
+  try_royaltyInfo(
+    _tokenId: BigInt,
+    _salePrice: BigInt
+  ): ethereum.CallResult<Artwork__royaltyInfoResult> {
     let result = super.tryCall(
-      "projectTraits",
-      "projectTraits():(uint256[],string[],string[],uint256[],string[],string[],uint256[],uint256[])",
-      []
+      "royaltyInfo",
+      "royaltyInfo(uint256,uint256):(address,uint256)",
+      [
+        ethereum.Value.fromUnsignedBigInt(_tokenId),
+        ethereum.Value.fromUnsignedBigInt(_salePrice)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(
-      new Artwork__projectTraitsResult(
-        value[0].toBigIntArray(),
-        value[1].toStringArray(),
-        value[2].toStringArray(),
-        value[3].toBigIntArray(),
-        value[4].toStringArray(),
-        value[5].toStringArray(),
-        value[6].toBigIntArray(),
-        value[7].toBigIntArray()
-      )
+      new Artwork__royaltyInfoResult(value[0].toAddress(), value[1].toBigInt())
     );
+  }
+
+  royaltySplitter(): Address {
+    let result = super.call(
+      "royaltySplitter",
+      "royaltySplitter():(address)",
+      []
+    );
+
+    return result[0].toAddress();
+  }
+
+  try_royaltySplitter(): ethereum.CallResult<Address> {
+    let result = super.tryCall(
+      "royaltySplitter",
+      "royaltySplitter():(address)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
   scriptJSON(): string {
@@ -835,17 +785,17 @@ export class Artwork extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
-  tokenURI(tokenId: BigInt): string {
+  tokenURI(_tokenId: BigInt): string {
     let result = super.call("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(_tokenId)
     ]);
 
     return result[0].toString();
   }
 
-  try_tokenURI(tokenId: BigInt): ethereum.CallResult<string> {
+  try_tokenURI(_tokenId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(_tokenId)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -906,28 +856,36 @@ export class ConstructorCall__Inputs {
     this._call = call;
   }
 
-  get _name(): string {
-    return this._call.inputValues[0].value.toString();
+  get _royaltyFeeNumerator(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 
-  get _symbol(): string {
+  get _name(): string {
     return this._call.inputValues[1].value.toString();
   }
 
-  get _baseURI(): string {
+  get _symbol(): string {
     return this._call.inputValues[2].value.toString();
   }
 
-  get _scriptJSON(): string {
+  get _baseURI(): string {
     return this._call.inputValues[3].value.toString();
   }
 
-  get _artistAddress(): Address {
-    return this._call.inputValues[4].value.toAddress();
+  get _scriptJSON(): string {
+    return this._call.inputValues[4].value.toString();
   }
 
   get _owner(): Address {
     return this._call.inputValues[5].value.toAddress();
+  }
+
+  get _royaltyPayees(): Array<Address> {
+    return this._call.inputValues[6].value.toAddressArray();
+  }
+
+  get _royaltyShares(): Array<BigInt> {
+    return this._call.inputValues[7].value.toBigIntArray();
   }
 }
 
@@ -994,7 +952,7 @@ export class BuyTraitsCreateArtworkCall__Inputs {
     return this._call.inputValues[0].value.toBigIntArray();
   }
 
-  get _traitQuantitiesToBuy(): Array<BigInt> {
+  get _traitAmountsToBuy(): Array<BigInt> {
     return this._call.inputValues[1].value.toBigIntArray();
   }
 
@@ -1435,36 +1393,6 @@ export class TransferOwnershipCall__Outputs {
   _call: TransferOwnershipCall;
 
   constructor(call: TransferOwnershipCall) {
-    this._call = call;
-  }
-}
-
-export class UpdateArtistAddressCall extends ethereum.Call {
-  get inputs(): UpdateArtistAddressCall__Inputs {
-    return new UpdateArtistAddressCall__Inputs(this);
-  }
-
-  get outputs(): UpdateArtistAddressCall__Outputs {
-    return new UpdateArtistAddressCall__Outputs(this);
-  }
-}
-
-export class UpdateArtistAddressCall__Inputs {
-  _call: UpdateArtistAddressCall;
-
-  constructor(call: UpdateArtistAddressCall) {
-    this._call = call;
-  }
-
-  get _artistAddress(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class UpdateArtistAddressCall__Outputs {
-  _call: UpdateArtistAddressCall;
-
-  constructor(call: UpdateArtistAddressCall) {
     this._call = call;
   }
 }

@@ -2,6 +2,11 @@
   {
     "inputs": [
       {
+        "internalType": "uint96",
+        "name": "_royaltyFeeNumerator",
+        "type": "uint96"
+      },
+      {
         "internalType": "string",
         "name": "_name",
         "type": "string"
@@ -23,13 +28,18 @@
       },
       {
         "internalType": "address",
-        "name": "_artistAddress",
+        "name": "_owner",
         "type": "address"
       },
       {
-        "internalType": "address",
-        "name": "_owner",
-        "type": "address"
+        "internalType": "address[]",
+        "name": "_royaltyPayees",
+        "type": "address[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "_royaltyShares",
+        "type": "uint256[]"
       }
     ],
     "stateMutability": "nonpayable",
@@ -53,6 +63,11 @@
   {
     "inputs": [],
     "name": "TraitsAlreadySet",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TraitsNotSet",
     "type": "error"
   },
   {
@@ -257,19 +272,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "artistAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -354,7 +356,7 @@
       },
       {
         "internalType": "uint256[]",
-        "name": "_traitQuantitiesToBuy",
+        "name": "_traitAmountsToBuy",
         "type": "uint256[]"
       },
       {
@@ -627,47 +629,35 @@
   },
   {
     "inputs": [],
-    "name": "projectTraits",
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_salePrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "royaltyInfo",
     "outputs": [
       {
-        "internalType": "uint256[]",
-        "name": "_traitTokenIds",
-        "type": "uint256[]"
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       },
       {
-        "internalType": "string[]",
-        "name": "_traitNames",
-        "type": "string[]"
-      },
-      {
-        "internalType": "string[]",
-        "name": "_traitValues",
-        "type": "string[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "_traitTypeIndexes",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "string[]",
-        "name": "_traitTypeNames",
-        "type": "string[]"
-      },
-      {
-        "internalType": "string[]",
-        "name": "_traitTypeValues",
-        "type": "string[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "_traitTotalSupplys",
-        "type": "uint256[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "_traitMaxSupplys",
-        "type": "uint256[]"
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -675,9 +665,15 @@
   },
   {
     "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "royaltySplitter",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -811,7 +807,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "tokenId",
+        "name": "_tokenId",
         "type": "uint256"
       }
     ],
@@ -871,19 +867,6 @@
       }
     ],
     "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_artistAddress",
-        "type": "address"
-      }
-    ],
-    "name": "updateArtistAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

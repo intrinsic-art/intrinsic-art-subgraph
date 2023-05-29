@@ -6,7 +6,7 @@ dataSources:
     name: ProjectRegsitry
     network: goerli
     source:
-      address: "0xC801596cd690075B349dE2bbd6dDbF797E8238C7"
+      address: "0x46A9e1dA73e160FAf6EADe678Bf099663e8d8664"
       abi: ProjectRegistry
       startBlock: 8796030
     mapping:
@@ -27,7 +27,7 @@ dataSources:
         - name: Artwork
           file: ProjectRegsitry\abis\Artwork.json
       eventHandlers:
-        - event: ProjectRegistered(uint256,address,address)
+        - event: ProjectRegistered(indexed uint256,indexed address,indexed address)
           handler: handleProjectRegistered
 templates:
   - name: Artwork
