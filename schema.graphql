@@ -49,14 +49,17 @@ type User @entity {
 
 type Trait @entity {
   id: ID! #TraitsContractAddress-TokenID
+  project: Project!
   traitsContract: TraitsContract! #New
   tokenId: BigInt!
   name: String!
   value: String!
   maxSupply: BigInt!
   totalSupply: BigInt!
-  traitType: TraitType! #TraitsContractAddress-TraitTypeID
   traitBalances: [TraitBalance!]! @derivedFrom(field: "trait")
+  typeIndex: Int!
+  typeName: String!
+  typeValue: String!
 }
 
 type TraitBalance @entity {
