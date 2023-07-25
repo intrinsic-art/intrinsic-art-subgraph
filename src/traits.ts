@@ -4,7 +4,7 @@ import {
   TransferSingle as TransferSingleEvent,
 } from "../generated/templates/Traits/Traits"
 import {
-  Trait, TraitType, TraitBalance, User
+  Trait, TraitBalance, User
 } from "../generated/schema"
 import { ADDRESS_ZERO } from "./constants";
 import { concat2, concat3 } from "./helpers";

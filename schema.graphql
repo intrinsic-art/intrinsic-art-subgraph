@@ -9,7 +9,7 @@ type Project @entity {
   nextTokenId: BigInt!
   scriptJSON: String!
   script: String!
-  traitTypes: [TraitType!]! @derivedFrom(field: "project")
+  traits: [Trait!]! @derivedFrom(field: "project")
   auctionStartPrice: BigInt!
   auctionEndPrice: BigInt!
   auctionStartTime: Int!
@@ -57,7 +57,7 @@ type Trait @entity {
   maxSupply: BigInt!
   totalSupply: BigInt!
   traitBalances: [TraitBalance!]! @derivedFrom(field: "trait")
-  typeIndex: Int!
+  typeIndex: BigInt!
   typeName: String!
   typeValue: String!
 }
@@ -67,14 +67,4 @@ type TraitBalance @entity {
   trait: Trait!
   owner: User!
   amount: BigInt!
-}
-
-type TraitType @entity {
-  id: ID! #TraitsContractAddress-TraitTypeID
-  index: Int!
-  traitsContract: String! #New
-  project: Project!
-  name: String!
-  value: String!
-  traits: [Trait!]! @derivedFrom(field: "traitType")
 }
