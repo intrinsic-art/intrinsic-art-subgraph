@@ -3,7 +3,7 @@ import {
   ProjectRegistered as ProjectRegisteredEvent,
 } from "../generated/ProjectRegsitry/ProjectRegistry"
 import {
-  Project, ArtworkContract, Trait, TraitType, TraitsContract
+  Project, ArtworkContract, Trait, TraitsContract
 } from "../generated/schema"
 import { Artwork, Traits } from '../generated/templates'
 import { Traits as TraitsContractTemplate } from "../generated/templates/Traits/Traits"
@@ -48,25 +48,17 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
 
   let returnedTraits = _traitsContract.traits();
   for (let i=0; i < returnedTraits.get_traitTokenIds().length; i++) {
-    let traitType = TraitType.load(concat2(traitsContract.id, returnedTraits.get_traitTypeIndexes()[i].toString()));
-    if (!traitType) {
-      traitType = new TraitType(concat2(traitsContract.id, returnedTraits.get_traitTypeIndexes()[i].toString()));
-      traitType.index = i;
-      traitType.project = project.id;
-      traitType.traitsContract = traitsContract.id;
-      traitType.name = returnedTraits.get_traitTypeNames()[i];
-      traitType.value = returnedTraits.get_traitTypeValues()[i];
-      traitType.save();
-    }
-
     let trait = new Trait(concat2(traitsContract.id, returnedTraits.get_traitTokenIds()[i].toString()));
+    trait.project = project.id;
     trait.traitsContract = traitsContract.id;
     trait.tokenId = returnedTraits.get_traitTokenIds()[i];
     trait.name = returnedTraits.get_traitNames()[i];
     trait.value = returnedTraits.get_traitValues()[i];
     trait.maxSupply = _traitsContract.maxSupply(returnedTraits.get_traitTokenIds()[i]);
     trait.totalSupply = BigInt.fromString("0");
-    trait.traitType = traitType.id;
+    trait.typeIndex = returnedTraits.get_traitTypeIndexes()[i];
+    trait.typeName = returnedTraits.get_traitTypeNames()[i];
+    trait.typeValue = returnedTraits.get_traitTypeValues()[i];
     trait.save();
   }
 }

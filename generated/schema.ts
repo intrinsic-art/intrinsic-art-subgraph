@@ -167,8 +167,8 @@ export class Project extends Entity {
     this.set("script", Value.fromString(value));
   }
 
-  get traitTypes(): Array<string> {
-    let value = this.get("traitTypes");
+  get traits(): Array<string> {
+    let value = this.get("traits");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -619,6 +619,19 @@ export class Trait extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get project(): string {
+    let value = this.get("project");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set project(value: string) {
+    this.set("project", Value.fromString(value));
+  }
+
   get traitsContract(): string {
     let value = this.get("traitsContract");
     if (!value || value.kind == ValueKind.NULL) {
@@ -697,19 +710,6 @@ export class Trait extends Entity {
     this.set("totalSupply", Value.fromBigInt(value));
   }
 
-  get traitType(): string {
-    let value = this.get("traitType");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set traitType(value: string) {
-    this.set("traitType", Value.fromString(value));
-  }
-
   get traitBalances(): Array<string> {
     let value = this.get("traitBalances");
     if (!value || value.kind == ValueKind.NULL) {
@@ -717,6 +717,45 @@ export class Trait extends Entity {
     } else {
       return value.toStringArray();
     }
+  }
+
+  get typeIndex(): BigInt {
+    let value = this.get("typeIndex");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set typeIndex(value: BigInt) {
+    this.set("typeIndex", Value.fromBigInt(value));
+  }
+
+  get typeName(): string {
+    let value = this.get("typeName");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set typeName(value: string) {
+    this.set("typeName", Value.fromString(value));
+  }
+
+  get typeValue(): string {
+    let value = this.get("typeValue");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set typeValue(value: string) {
+    this.set("typeValue", Value.fromString(value));
   }
 }
 
@@ -798,119 +837,5 @@ export class TraitBalance extends Entity {
 
   set amount(value: BigInt) {
     this.set("amount", Value.fromBigInt(value));
-  }
-}
-
-export class TraitType extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save TraitType entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type TraitType must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("TraitType", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): TraitType | null {
-    return changetype<TraitType | null>(store.get_in_block("TraitType", id));
-  }
-
-  static load(id: string): TraitType | null {
-    return changetype<TraitType | null>(store.get("TraitType", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get index(): i32 {
-    let value = this.get("index");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
-  }
-
-  set index(value: i32) {
-    this.set("index", Value.fromI32(value));
-  }
-
-  get traitsContract(): string {
-    let value = this.get("traitsContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set traitsContract(value: string) {
-    this.set("traitsContract", Value.fromString(value));
-  }
-
-  get project(): string {
-    let value = this.get("project");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set project(value: string) {
-    this.set("project", Value.fromString(value));
-  }
-
-  get name(): string {
-    let value = this.get("name");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set name(value: string) {
-    this.set("name", Value.fromString(value));
-  }
-
-  get value(): string {
-    let value = this.get("value");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set value(value: string) {
-    this.set("value", Value.fromString(value));
-  }
-
-  get traits(): Array<string> {
-    let value = this.get("traits");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toStringArray();
-    }
   }
 }
