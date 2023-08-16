@@ -125,19 +125,6 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "artistAddress",
-        "type": "address"
-      }
-    ],
-    "name": "ArtistAddressUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
         "internalType": "uint256",
         "name": "artworkTokenId",
         "type": "uint256"
@@ -162,25 +149,6 @@
       }
     ],
     "name": "ArtworkCreated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "artworkTokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "caller",
-        "type": "address"
-      }
-    ],
-    "name": "ArtworkDecomposed",
     "type": "event"
   },
   {
@@ -213,6 +181,25 @@
       }
     ],
     "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "artworkTokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "caller",
+        "type": "address"
+      }
+    ],
+    "name": "TraitsReclaimed",
     "type": "event"
   },
   {
@@ -363,6 +350,11 @@
         "internalType": "uint256[]",
         "name": "_traitTokenIdsToCreateArtwork",
         "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saltNonce",
+        "type": "uint256"
       }
     ],
     "name": "buyTraitsCreateArtwork",
@@ -376,6 +368,11 @@
         "internalType": "uint256[]",
         "name": "_traitTokenIds",
         "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saltNonce",
+        "type": "uint256"
       }
     ],
     "name": "createArtwork",
@@ -386,19 +383,6 @@
         "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_artworkTokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "decomposeArtwork",
-    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -625,6 +609,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_artworkTokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "reclaimTraits",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

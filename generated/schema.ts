@@ -227,6 +227,19 @@ export class Project extends Entity {
   set auctionEndTime(value: i32) {
     this.set("auctionEndTime", Value.fromI32(value));
   }
+
+  get traitsSaleStartTime(): i32 {
+    let value = this.get("traitsSaleStartTime");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set traitsSaleStartTime(value: i32) {
+    this.set("traitsSaleStartTime", Value.fromI32(value));
+  }
 }
 
 export class ArtworkContract extends Entity {
@@ -491,8 +504,8 @@ export class Artwork extends Entity {
     this.set("createdTimestamp", Value.fromI32(value));
   }
 
-  get decomposed(): boolean {
-    let value = this.get("decomposed");
+  get traitsReclaimed(): boolean {
+    let value = this.get("traitsReclaimed");
     if (!value || value.kind == ValueKind.NULL) {
       return false;
     } else {
@@ -500,8 +513,8 @@ export class Artwork extends Entity {
     }
   }
 
-  set decomposed(value: boolean) {
-    this.set("decomposed", Value.fromBoolean(value));
+  set traitsReclaimed(value: boolean) {
+    this.set("traitsReclaimed", Value.fromBoolean(value));
   }
 
   get traits(): Array<string> | null {

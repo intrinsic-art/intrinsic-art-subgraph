@@ -6,7 +6,7 @@ dataSources:
     name: ProjectRegsitry
     network: goerli
     source:
-      address: "0xAaa63214BA659f7553A3385A886d78C56F3925A4"
+      address: "0xfA6C596cCd1A51dEE74268Eb6776862BcF688BbC"
       abi: ProjectRegistry
       startBlock: 9335360
     mapping:
@@ -51,8 +51,8 @@ templates:
       eventHandlers:
         - event: ArtworkCreated(indexed uint256,uint256[],bytes32,indexed address)
           handler: handleArtworkCreated
-        - event: ArtworkDecomposed(indexed uint256,indexed address)
-          handler: handleArtworkDecomposed
+        - event: TraitsReclaimed(indexed uint256,indexed address)
+          handler: handleTraitsReclaimed
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/artwork.ts

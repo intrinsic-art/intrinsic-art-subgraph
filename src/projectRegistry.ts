@@ -44,6 +44,7 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   project.auctionEndPrice = _traitsContract.auctionEndPrice();
   project.auctionStartTime = _traitsContract.auctionStartTime().toI32();
   project.auctionEndTime = _traitsContract.auctionEndTime().toI32();
+  project.traitsSaleStartTime = _traitsContract.traitsSaleStartTime().toI32();
   project.save();
 
   let returnedTraits = _traitsContract.traits();
