@@ -62,24 +62,6 @@ export class ApprovalForAll__Params {
   }
 }
 
-export class ArtistAddressUpdated extends ethereum.Event {
-  get params(): ArtistAddressUpdated__Params {
-    return new ArtistAddressUpdated__Params(this);
-  }
-}
-
-export class ArtistAddressUpdated__Params {
-  _event: ArtistAddressUpdated;
-
-  constructor(event: ArtistAddressUpdated) {
-    this._event = event;
-  }
-
-  get artistAddress(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-}
-
 export class ArtworkCreated extends ethereum.Event {
   get params(): ArtworkCreated__Params {
     return new ArtworkCreated__Params(this);
@@ -107,28 +89,6 @@ export class ArtworkCreated__Params {
 
   get creator(): Address {
     return this._event.parameters[3].value.toAddress();
-  }
-}
-
-export class ArtworkDecomposed extends ethereum.Event {
-  get params(): ArtworkDecomposed__Params {
-    return new ArtworkDecomposed__Params(this);
-  }
-}
-
-export class ArtworkDecomposed__Params {
-  _event: ArtworkDecomposed;
-
-  constructor(event: ArtworkDecomposed) {
-    this._event = event;
-  }
-
-  get artworkTokenId(): BigInt {
-    return this._event.parameters[0].value.toBigInt();
-  }
-
-  get caller(): Address {
-    return this._event.parameters[1].value.toAddress();
   }
 }
 
@@ -168,6 +128,28 @@ export class OwnershipTransferred__Params {
   }
 
   get newOwner(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
+export class TraitsReclaimed extends ethereum.Event {
+  get params(): TraitsReclaimed__Params {
+    return new TraitsReclaimed__Params(this);
+  }
+}
+
+export class TraitsReclaimed__Params {
+  _event: TraitsReclaimed;
+
+  constructor(event: TraitsReclaimed) {
+    this._event = event;
+  }
+
+  get artworkTokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get caller(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 }
@@ -378,23 +360,30 @@ export class Artwork extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
-  createArtwork(_traitTokenIds: Array<BigInt>): BigInt {
+  createArtwork(_traitTokenIds: Array<BigInt>, _saltNonce: BigInt): BigInt {
     let result = super.call(
       "createArtwork",
-      "createArtwork(uint256[]):(uint256)",
-      [ethereum.Value.fromUnsignedBigIntArray(_traitTokenIds)]
+      "createArtwork(uint256[],uint256):(uint256)",
+      [
+        ethereum.Value.fromUnsignedBigIntArray(_traitTokenIds),
+        ethereum.Value.fromUnsignedBigInt(_saltNonce)
+      ]
     );
 
     return result[0].toBigInt();
   }
 
   try_createArtwork(
-    _traitTokenIds: Array<BigInt>
+    _traitTokenIds: Array<BigInt>,
+    _saltNonce: BigInt
   ): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
       "createArtwork",
-      "createArtwork(uint256[]):(uint256)",
-      [ethereum.Value.fromUnsignedBigIntArray(_traitTokenIds)]
+      "createArtwork(uint256[],uint256):(uint256)",
+      [
+        ethereum.Value.fromUnsignedBigIntArray(_traitTokenIds),
+        ethereum.Value.fromUnsignedBigInt(_saltNonce)
+      ]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -959,6 +948,10 @@ export class BuyTraitsCreateArtworkCall__Inputs {
   get _traitTokenIdsToCreateArtwork(): Array<BigInt> {
     return this._call.inputValues[2].value.toBigIntArray();
   }
+
+  get _saltNonce(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
 }
 
 export class BuyTraitsCreateArtworkCall__Outputs {
@@ -989,6 +982,10 @@ export class CreateArtworkCall__Inputs {
   get _traitTokenIds(): Array<BigInt> {
     return this._call.inputValues[0].value.toBigIntArray();
   }
+
+  get _saltNonce(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
 }
 
 export class CreateArtworkCall__Outputs {
@@ -1000,36 +997,6 @@ export class CreateArtworkCall__Outputs {
 
   get _artworkTokenId(): BigInt {
     return this._call.outputValues[0].value.toBigInt();
-  }
-}
-
-export class DecomposeArtworkCall extends ethereum.Call {
-  get inputs(): DecomposeArtworkCall__Inputs {
-    return new DecomposeArtworkCall__Inputs(this);
-  }
-
-  get outputs(): DecomposeArtworkCall__Outputs {
-    return new DecomposeArtworkCall__Outputs(this);
-  }
-}
-
-export class DecomposeArtworkCall__Inputs {
-  _call: DecomposeArtworkCall;
-
-  constructor(call: DecomposeArtworkCall) {
-    this._call = call;
-  }
-
-  get _artworkTokenId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class DecomposeArtworkCall__Outputs {
-  _call: DecomposeArtworkCall;
-
-  constructor(call: DecomposeArtworkCall) {
-    this._call = call;
   }
 }
 
@@ -1156,6 +1123,36 @@ export class OnERC1155ReceivedCall__Outputs {
 
   get value0(): Bytes {
     return this._call.outputValues[0].value.toBytes();
+  }
+}
+
+export class ReclaimTraitsCall extends ethereum.Call {
+  get inputs(): ReclaimTraitsCall__Inputs {
+    return new ReclaimTraitsCall__Inputs(this);
+  }
+
+  get outputs(): ReclaimTraitsCall__Outputs {
+    return new ReclaimTraitsCall__Outputs(this);
+  }
+}
+
+export class ReclaimTraitsCall__Inputs {
+  _call: ReclaimTraitsCall;
+
+  constructor(call: ReclaimTraitsCall) {
+    this._call = call;
+  }
+
+  get _artworkTokenId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class ReclaimTraitsCall__Outputs {
+  _call: ReclaimTraitsCall;
+
+  constructor(call: ReclaimTraitsCall) {
+    this._call = call;
   }
 }
 

@@ -1,6 +1,6 @@
 import {
   ArtworkCreated as ArtworkCreatedEvent,
-  ArtworkDecomposed as ArtworkDecomposedEvent,
+  TraitsReclaimed as TraitsReclaimedEvent,
   Transfer as TransferEvent,
 } from "../generated/templates/Artwork/Artwork"
 import { Artwork as ArtworkContractTemplate } from "../generated/templates/Artwork/Artwork"
@@ -18,7 +18,7 @@ export function handleArtworkCreated(event: ArtworkCreatedEvent): void {
   artwork.creator = event.params.creator.toHexString();
   artwork.hash = event.params.hash.toHexString();
   artwork.createdTimestamp = event.block.timestamp.toI32();
-  artwork.decomposed = false;
+  artwork.traitsReclaimed = false;
   
   let artworkContract = ArtworkContract.load(event.address.toHexString());
   if(!!artworkContract) {
@@ -47,10 +47,10 @@ export function handleArtworkCreated(event: ArtworkCreatedEvent): void {
   }
 }
 
-export function handleArtworkDecomposed(event: ArtworkDecomposedEvent): void {
+export function handleTraitsReclaimed(event: TraitsReclaimedEvent): void {
   let artwork = Artwork.load(concat2(event.address.toHexString(), event.params.artworkTokenId.toString()));
   if(!artwork) return;
-  artwork.decomposed = true;
+  artwork.traitsReclaimed = true;
   artwork.save();
 
   let artworkContract = ArtworkContract.load(event.address.toHexString());

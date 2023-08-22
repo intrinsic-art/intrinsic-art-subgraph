@@ -1109,6 +1109,29 @@ export class Traits extends ethereum.SmartContract {
     );
   }
 
+  traitsSaleStartTime(): BigInt {
+    let result = super.call(
+      "traitsSaleStartTime",
+      "traitsSaleStartTime():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_traitsSaleStartTime(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "traitsSaleStartTime",
+      "traitsSaleStartTime():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   uri(_tokenId: BigInt): string {
     let result = super.call("uri", "uri(uint256):(string)", [
       ethereum.Value.fromUnsignedBigInt(_tokenId)
@@ -1488,6 +1511,10 @@ export class ScheduleAuctionCall__Inputs {
 
   get _auctionEndPrice(): BigInt {
     return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _traitsSaleStartTime(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
   }
 }
 

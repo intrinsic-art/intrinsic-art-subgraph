@@ -14,6 +14,7 @@ type Project @entity {
   auctionEndPrice: BigInt!
   auctionStartTime: Int!
   auctionEndTime: Int!
+  traitsSaleStartTime: Int!
 }
 
 type ArtworkContract @entity {
@@ -37,7 +38,7 @@ type Artwork @entity {
   owner: User!
   creator: User!
   createdTimestamp: Int!
-  decomposed: Boolean!
+  traitsReclaimed: Boolean!
   traits: [Trait!]
 }
 
