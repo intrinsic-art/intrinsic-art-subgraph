@@ -6,7 +6,7 @@ dataSources:
     name: ProjectRegsitry
     network: goerli
     source:
-      address: "0xc909BB8c91f7a38c49D46A7889Af3D1c8425D003"
+      address: "0xCfc59642e3c42A671B6cf2c3324293C20e42b23e"
       abi: ProjectRegistry
       startBlock: 9563700
     mapping:
