@@ -29,21 +29,13 @@ export class Project extends Entity {
     }
   }
 
-  static loadInBlock(id: string): Project | null {
-    return changetype<Project | null>(store.get_in_block("Project", id));
-  }
-
   static load(id: string): Project | null {
     return changetype<Project | null>(store.get("Project", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -52,11 +44,7 @@ export class Project extends Entity {
 
   get artworkContract(): string {
     let value = this.get("artworkContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set artworkContract(value: string) {
@@ -65,11 +53,7 @@ export class Project extends Entity {
 
   get traitsContract(): string {
     let value = this.get("traitsContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set traitsContract(value: string) {
@@ -78,11 +62,7 @@ export class Project extends Entity {
 
   get name(): string {
     let value = this.get("name");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set name(value: string) {
@@ -91,11 +71,7 @@ export class Project extends Entity {
 
   get symbol(): string {
     let value = this.get("symbol");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set symbol(value: string) {
@@ -104,11 +80,7 @@ export class Project extends Entity {
 
   get baseURI(): string {
     let value = this.get("baseURI");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set baseURI(value: string) {
@@ -117,11 +89,7 @@ export class Project extends Entity {
 
   get totalSupply(): BigInt {
     let value = this.get("totalSupply");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set totalSupply(value: BigInt) {
@@ -130,11 +98,7 @@ export class Project extends Entity {
 
   get nextTokenId(): BigInt {
     let value = this.get("nextTokenId");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set nextTokenId(value: BigInt) {
@@ -143,11 +107,7 @@ export class Project extends Entity {
 
   get scriptJSON(): string {
     let value = this.get("scriptJSON");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set scriptJSON(value: string) {
@@ -156,11 +116,7 @@ export class Project extends Entity {
 
   get script(): string {
     let value = this.get("script");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set script(value: string) {
@@ -169,20 +125,16 @@ export class Project extends Entity {
 
   get traits(): Array<string> {
     let value = this.get("traits");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toStringArray();
-    }
+    return value!.toStringArray();
+  }
+
+  set traits(value: Array<string>) {
+    this.set("traits", Value.fromStringArray(value));
   }
 
   get auctionStartPrice(): BigInt {
     let value = this.get("auctionStartPrice");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set auctionStartPrice(value: BigInt) {
@@ -191,11 +143,7 @@ export class Project extends Entity {
 
   get auctionEndPrice(): BigInt {
     let value = this.get("auctionEndPrice");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set auctionEndPrice(value: BigInt) {
@@ -204,11 +152,7 @@ export class Project extends Entity {
 
   get auctionStartTime(): i32 {
     let value = this.get("auctionStartTime");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
+    return value!.toI32();
   }
 
   set auctionStartTime(value: i32) {
@@ -217,11 +161,7 @@ export class Project extends Entity {
 
   get auctionEndTime(): i32 {
     let value = this.get("auctionEndTime");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
+    return value!.toI32();
   }
 
   set auctionEndTime(value: i32) {
@@ -230,11 +170,7 @@ export class Project extends Entity {
 
   get traitsSaleStartTime(): i32 {
     let value = this.get("traitsSaleStartTime");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
+    return value!.toI32();
   }
 
   set traitsSaleStartTime(value: i32) {
@@ -260,23 +196,13 @@ export class ArtworkContract extends Entity {
     }
   }
 
-  static loadInBlock(id: string): ArtworkContract | null {
-    return changetype<ArtworkContract | null>(
-      store.get_in_block("ArtworkContract", id)
-    );
-  }
-
   static load(id: string): ArtworkContract | null {
     return changetype<ArtworkContract | null>(store.get("ArtworkContract", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -285,11 +211,7 @@ export class ArtworkContract extends Entity {
 
   get project(): string {
     let value = this.get("project");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set project(value: string) {
@@ -298,11 +220,7 @@ export class ArtworkContract extends Entity {
 
   get traitsContract(): string {
     let value = this.get("traitsContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set traitsContract(value: string) {
@@ -311,11 +229,11 @@ export class ArtworkContract extends Entity {
 
   get artworks(): Array<string> {
     let value = this.get("artworks");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toStringArray();
-    }
+    return value!.toStringArray();
+  }
+
+  set artworks(value: Array<string>) {
+    this.set("artworks", Value.fromStringArray(value));
   }
 }
 
@@ -337,23 +255,13 @@ export class TraitsContract extends Entity {
     }
   }
 
-  static loadInBlock(id: string): TraitsContract | null {
-    return changetype<TraitsContract | null>(
-      store.get_in_block("TraitsContract", id)
-    );
-  }
-
   static load(id: string): TraitsContract | null {
     return changetype<TraitsContract | null>(store.get("TraitsContract", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -362,11 +270,7 @@ export class TraitsContract extends Entity {
 
   get project(): string {
     let value = this.get("project");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set project(value: string) {
@@ -375,11 +279,7 @@ export class TraitsContract extends Entity {
 
   get artworkContract(): string {
     let value = this.get("artworkContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set artworkContract(value: string) {
@@ -405,21 +305,13 @@ export class Artwork extends Entity {
     }
   }
 
-  static loadInBlock(id: string): Artwork | null {
-    return changetype<Artwork | null>(store.get_in_block("Artwork", id));
-  }
-
   static load(id: string): Artwork | null {
     return changetype<Artwork | null>(store.get("Artwork", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -428,11 +320,7 @@ export class Artwork extends Entity {
 
   get artworkContract(): string {
     let value = this.get("artworkContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set artworkContract(value: string) {
@@ -441,11 +329,7 @@ export class Artwork extends Entity {
 
   get tokenId(): BigInt {
     let value = this.get("tokenId");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set tokenId(value: BigInt) {
@@ -454,11 +338,7 @@ export class Artwork extends Entity {
 
   get hash(): string {
     let value = this.get("hash");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set hash(value: string) {
@@ -467,11 +347,7 @@ export class Artwork extends Entity {
 
   get owner(): string {
     let value = this.get("owner");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set owner(value: string) {
@@ -480,11 +356,7 @@ export class Artwork extends Entity {
 
   get creator(): string {
     let value = this.get("creator");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set creator(value: string) {
@@ -493,11 +365,7 @@ export class Artwork extends Entity {
 
   get createdTimestamp(): i32 {
     let value = this.get("createdTimestamp");
-    if (!value || value.kind == ValueKind.NULL) {
-      return 0;
-    } else {
-      return value.toI32();
-    }
+    return value!.toI32();
   }
 
   set createdTimestamp(value: i32) {
@@ -506,11 +374,7 @@ export class Artwork extends Entity {
 
   get traitsReclaimed(): boolean {
     let value = this.get("traitsReclaimed");
-    if (!value || value.kind == ValueKind.NULL) {
-      return false;
-    } else {
-      return value.toBoolean();
-    }
+    return value!.toBoolean();
   }
 
   set traitsReclaimed(value: boolean) {
@@ -553,21 +417,13 @@ export class User extends Entity {
     }
   }
 
-  static loadInBlock(id: string): User | null {
-    return changetype<User | null>(store.get_in_block("User", id));
-  }
-
   static load(id: string): User | null {
     return changetype<User | null>(store.get("User", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -576,20 +432,20 @@ export class User extends Entity {
 
   get artworks(): Array<string> {
     let value = this.get("artworks");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toStringArray();
-    }
+    return value!.toStringArray();
+  }
+
+  set artworks(value: Array<string>) {
+    this.set("artworks", Value.fromStringArray(value));
   }
 
   get traitBalances(): Array<string> {
     let value = this.get("traitBalances");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toStringArray();
-    }
+    return value!.toStringArray();
+  }
+
+  set traitBalances(value: Array<string>) {
+    this.set("traitBalances", Value.fromStringArray(value));
   }
 }
 
@@ -611,21 +467,13 @@ export class Trait extends Entity {
     }
   }
 
-  static loadInBlock(id: string): Trait | null {
-    return changetype<Trait | null>(store.get_in_block("Trait", id));
-  }
-
   static load(id: string): Trait | null {
     return changetype<Trait | null>(store.get("Trait", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -634,11 +482,7 @@ export class Trait extends Entity {
 
   get project(): string {
     let value = this.get("project");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set project(value: string) {
@@ -647,11 +491,7 @@ export class Trait extends Entity {
 
   get traitsContract(): string {
     let value = this.get("traitsContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set traitsContract(value: string) {
@@ -660,11 +500,7 @@ export class Trait extends Entity {
 
   get tokenId(): BigInt {
     let value = this.get("tokenId");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set tokenId(value: BigInt) {
@@ -673,11 +509,7 @@ export class Trait extends Entity {
 
   get name(): string {
     let value = this.get("name");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set name(value: string) {
@@ -686,11 +518,7 @@ export class Trait extends Entity {
 
   get value(): string {
     let value = this.get("value");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set value(value: string) {
@@ -699,11 +527,7 @@ export class Trait extends Entity {
 
   get maxSupply(): BigInt {
     let value = this.get("maxSupply");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set maxSupply(value: BigInt) {
@@ -712,11 +536,7 @@ export class Trait extends Entity {
 
   get totalSupply(): BigInt {
     let value = this.get("totalSupply");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set totalSupply(value: BigInt) {
@@ -725,20 +545,16 @@ export class Trait extends Entity {
 
   get traitBalances(): Array<string> {
     let value = this.get("traitBalances");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toStringArray();
-    }
+    return value!.toStringArray();
+  }
+
+  set traitBalances(value: Array<string>) {
+    this.set("traitBalances", Value.fromStringArray(value));
   }
 
   get typeIndex(): BigInt {
     let value = this.get("typeIndex");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set typeIndex(value: BigInt) {
@@ -747,11 +563,7 @@ export class Trait extends Entity {
 
   get typeName(): string {
     let value = this.get("typeName");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set typeName(value: string) {
@@ -760,11 +572,7 @@ export class Trait extends Entity {
 
   get typeValue(): string {
     let value = this.get("typeValue");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set typeValue(value: string) {
@@ -790,23 +598,13 @@ export class TraitBalance extends Entity {
     }
   }
 
-  static loadInBlock(id: string): TraitBalance | null {
-    return changetype<TraitBalance | null>(
-      store.get_in_block("TraitBalance", id)
-    );
-  }
-
   static load(id: string): TraitBalance | null {
     return changetype<TraitBalance | null>(store.get("TraitBalance", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -815,11 +613,7 @@ export class TraitBalance extends Entity {
 
   get trait(): string {
     let value = this.get("trait");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set trait(value: string) {
@@ -828,11 +622,7 @@ export class TraitBalance extends Entity {
 
   get owner(): string {
     let value = this.get("owner");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
   set owner(value: string) {
@@ -841,11 +631,7 @@ export class TraitBalance extends Entity {
 
   get amount(): BigInt {
     let value = this.get("amount");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
+    return value!.toBigInt();
   }
 
   set amount(value: BigInt) {
