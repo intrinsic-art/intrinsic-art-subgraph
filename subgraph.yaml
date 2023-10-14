@@ -6,9 +6,9 @@ dataSources:
     name: ProjectRegsitry
     network: goerli
     source:
-      address: "0x716273AB377b3d267e3056fedBFC8e2003B444d5"
+      address: "0x872E1432a6b4DefD2b11107e5dEc142e8E6376B4"
       abi: ProjectRegistry
-      startBlock: 9832050
+      startBlock: 9866030
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
