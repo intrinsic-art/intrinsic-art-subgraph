@@ -34,6 +34,7 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   project.traitsContract = traitsContract.id;
   project.name = _artworkContract.name();
   project.symbol = _artworkContract.symbol();
+  project.artistAddress = _artworkContract.artistAddress();
   project.totalSupply = BigInt.fromString("0");
   project.metadataJSON = _artworkContract.metadataJSON();
   project.script = _artworkContract.script();
@@ -43,7 +44,9 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   project.auctionEndPrice = _traitsContract.auctionEndPrice();
   project.auctionStartTime = _traitsContract.auctionStartTime().toI32();
   project.auctionEndTime = _traitsContract.auctionEndTime().toI32();
+  project.auctionPriceSteps = _traitsContract.auctionPriceSteps().toI32();
   project.traitsSaleStartTime = _traitsContract.traitsSaleStartTime().toI32();
+  project.whitelistStartTime = _traitsContract.whitelistStartTime().toI32();
   project.save();
 
   let returnedTraits = _traitsContract.traits();

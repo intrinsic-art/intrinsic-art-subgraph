@@ -102,6 +102,19 @@ export class Project extends Entity {
     this.set("symbol", Value.fromString(value));
   }
 
+  get artistAddress(): Bytes {
+    let value = this.get("artistAddress");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set artistAddress(value: Bytes) {
+    this.set("artistAddress", Value.fromBytes(value));
+  }
+
   get totalSupply(): BigInt {
     let value = this.get("totalSupply");
     if (!value || value.kind == ValueKind.NULL) {
@@ -210,6 +223,19 @@ export class Project extends Entity {
     this.set("auctionEndTime", Value.fromI32(value));
   }
 
+  get auctionPriceSteps(): i32 {
+    let value = this.get("auctionPriceSteps");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set auctionPriceSteps(value: i32) {
+    this.set("auctionPriceSteps", Value.fromI32(value));
+  }
+
   get traitsSaleStartTime(): i32 {
     let value = this.get("traitsSaleStartTime");
     if (!value || value.kind == ValueKind.NULL) {
@@ -221,6 +247,19 @@ export class Project extends Entity {
 
   set traitsSaleStartTime(value: i32) {
     this.set("traitsSaleStartTime", Value.fromI32(value));
+  }
+
+  get whitelistStartTime(): i32 {
+    let value = this.get("whitelistStartTime");
+    if (!value || value.kind == ValueKind.NULL) {
+      return 0;
+    } else {
+      return value.toI32();
+    }
+  }
+
+  set whitelistStartTime(value: i32) {
+    this.set("whitelistStartTime", Value.fromI32(value));
   }
 }
 

@@ -4,6 +4,7 @@ type Project @entity {
   traitsContract: TraitsContract!
   name: String!
   symbol: String!
+  artistAddress: Bytes!
   totalSupply: BigInt!
   nextTokenId: BigInt!
   metadataJSON: String!
@@ -13,7 +14,9 @@ type Project @entity {
   auctionEndPrice: BigInt!
   auctionStartTime: Int!
   auctionEndTime: Int!
+  auctionPriceSteps: Int!
   traitsSaleStartTime: Int!
+  whitelistStartTime: Int!
 }
 
 type ArtworkContract @entity {
