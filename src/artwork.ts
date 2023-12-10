@@ -1,5 +1,5 @@
 import {
-  ArtworkCreated as ArtworkCreatedEvent,
+  ArtworkMinted as ArtworkMintedEvent,
   TraitsReclaimed as TraitsReclaimedEvent,
   Transfer as TransferEvent,
 } from "../generated/templates/Artwork/Artwork"
@@ -10,7 +10,7 @@ import {
 import { concat2, concat3 } from "./helpers";
 import { BigInt } from '@graphprotocol/graph-ts'
 
-export function handleArtworkCreated(event: ArtworkCreatedEvent): void {
+export function handleArtworkMinted(event: ArtworkMintedEvent): void {
   let artwork = new Artwork(concat2(event.address.toHexString(), event.params.artworkTokenId.toString()));
   artwork.artworkContract = event.address.toHexString();
   artwork.tokenId = event.params.artworkTokenId;

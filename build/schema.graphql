@@ -4,10 +4,9 @@ type Project @entity {
   traitsContract: TraitsContract!
   name: String!
   symbol: String!
-  baseURI: String!
   totalSupply: BigInt!
   nextTokenId: BigInt!
-  scriptJSON: String!
+  metadataJSON: String!
   script: String!
   traits: [Trait!]! @derivedFrom(field: "project")
   auctionStartPrice: BigInt!
