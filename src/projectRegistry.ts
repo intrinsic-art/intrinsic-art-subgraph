@@ -3,7 +3,7 @@ import {
   ProjectRegistered as ProjectRegisteredEvent,
 } from "../generated/ProjectRegsitry/ProjectRegistry"
 import {
-  Project, ArtworkContract, Trait, TraitsContract
+  Project, ArtworkContract, Trait, TraitsContract, PrimarySalesSplit, SecondarySalesSplit
 } from "../generated/schema"
 import { Artwork, Traits } from '../generated/templates'
 import { Traits as TraitsContractTemplate } from "../generated/templates/Traits/Traits"
@@ -64,4 +64,32 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
     trait.typeValue = returnedTraits.get_traitTypeValues()[i];
     trait.save();
   }
+
+  // Update primary sales payees
+  const primarySalesPayeesData = _traitsContract.payees();
+  const primarySalesPayees = primarySalesPayeesData.getPayees_();
+  const primarySalesShares = primarySalesPayeesData.getShares_();
+
+  for (let i=0; i < primarySalesPayees.length; i++) {
+    let primarySalesPayee = new PrimarySalesSplit(concat2(traitsContract.id, primarySalesPayees[i].toHexString()));
+    primarySalesPayee.traitsContract = traitsContract.id;
+    primarySalesPayee.payee = primarySalesPayees[i].toHexString();
+    primarySalesPayee.shares = primarySalesShares[i];
+
+    primarySalesPayee.save();
+  }
+
+    // Update secondary sales payees
+    const secondarySalesPayeesData = _traitsContract.payees();
+    const secondarySalesPayees = secondarySalesPayeesData.getPayees_();
+    const secondarySalesShares = secondarySalesPayeesData.getShares_();
+  
+    for (let i=0; i < secondarySalesPayees.length; i++) {
+      let secondarySalesPayee = new SecondarySalesSplit(concat2(artworkContract.id, secondarySalesPayees[i].toHexString()));
+      secondarySalesPayee.artworkContract = artworkContract.id;
+      secondarySalesPayee.payee = secondarySalesPayees[i].toHexString();
+      secondarySalesPayee.shares = secondarySalesShares[i];
+  
+      secondarySalesPayee.save();
+    }
 }

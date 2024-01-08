@@ -6,7 +6,7 @@ import {
   WhitelistArtworkMint as WhitelistArtworkMintEvent,
 } from "../generated/templates/Traits/Traits"
 import {
-  Trait, TraitBalance, User, WhitelistBalance
+  Trait, TraitBalance, User, WhitelistBalance, TraitsContract, Project
 } from "../generated/schema"
 import { ADDRESS_ZERO } from "./constants";
 import { concat2, concat3 } from "./helpers";
@@ -113,6 +113,12 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
 }
 
 export function handleWhitelistUpdated(event: WhitelistUpdatedEvent): void {
+  let traitsContract = TraitsContract.load(event.address.toHexString());
+  if (!traitsContract) return;
+
+  let project = Project.load(traitsContract.project);
+  if (!project) return;
+
   const whitelistLength = event.params.whitelistAddresses.length;
 
   for (let i = 0; i < whitelistLength; i++) {
@@ -130,6 +136,7 @@ export function handleWhitelistUpdated(event: WhitelistUpdatedEvent): void {
     }
 
     whitelistBalance.amount = event.params.whitelistAmounts[i];
+    whitelistBalance.project = project.id;
 
     whitelistUser.save();
     whitelistBalance.save();

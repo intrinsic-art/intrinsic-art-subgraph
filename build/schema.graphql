@@ -10,6 +10,7 @@ type Project @entity {
   metadataJSON: String!
   script: String!
   traits: [Trait!]! @derivedFrom(field: "project")
+  whitelistBalances: [WhitelistBalance!]! @derivedFrom(field: "project")
   auctionStartPrice: BigInt!
   auctionEndPrice: BigInt!
   auctionStartTime: Int!
@@ -24,12 +25,14 @@ type ArtworkContract @entity {
   project: Project!
   traitsContract: TraitsContract!
   artworks: [Artwork!]! @derivedFrom(field: "artworkContract")
+  secondarySalesSplits: [SecondarySalesSplit!]! @derivedFrom(field: "artworkContract")
 }
 
 type TraitsContract @entity {
   id: ID!
   project: Project!
   artworkContract: ArtworkContract!
+  primarySalesSplits: [PrimarySalesSplit!]! @derivedFrom(field: "traitsContract")
 }
 
 type Artwork @entity {
@@ -49,6 +52,8 @@ type User @entity {
   artworks: [Artwork!]! @derivedFrom(field: "owner")
   traitBalances: [TraitBalance!]! @derivedFrom(field: "owner")
   whitelistBalances: [WhitelistBalance!]! @derivedFrom(field: "owner")
+  primarySalesSplit: [PrimarySalesSplit!]! @derivedFrom(field: "payee")
+  secondarySalesSplit: [SecondarySalesSplit!]! @derivedFrom(field: "payee")
 }
 
 type Trait @entity {
@@ -75,6 +80,21 @@ type TraitBalance @entity {
 
 type WhitelistBalance @entity {
   id: ID! #TraitsContractAddress-UserAddress
+  project: Project!
   owner: User!
   amount: BigInt! 
+}
+
+type PrimarySalesSplit @entity {
+  id: ID! #TraitsContractAddress-UserAddress
+  traitsContract: TraitsContract!
+  payee: User!
+  shares: BigInt!
+}
+
+type SecondarySalesSplit @entity {
+  id: ID! #ArtworkContractAddress-UserAddress
+  artworkContract: ArtworkContract!
+  payee: User!
+  shares: BigInt!
 }
