@@ -269,6 +269,19 @@ export class Project extends Entity {
   set whitelistStartTime(value: i32) {
     this.set("whitelistStartTime", Value.fromI32(value));
   }
+
+  get proofMinted(): boolean {
+    let value = this.get("proofMinted");
+    if (!value || value.kind == ValueKind.NULL) {
+      return false;
+    } else {
+      return value.toBoolean();
+    }
+  }
+
+  set proofMinted(value: boolean) {
+    this.set("proofMinted", Value.fromBoolean(value));
+  }
 }
 
 export class ArtworkContract extends Entity {

@@ -47,6 +47,7 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   project.auctionPriceSteps = _traitsContract.auctionPriceSteps().toI32();
   project.traitsSaleStartTime = _traitsContract.traitsSaleStartTime().toI32();
   project.whitelistStartTime = _traitsContract.whitelistStartTime().toI32();
+  project.proofMinted = false;
   project.save();
 
   let returnedTraits = _traitsContract.traits();

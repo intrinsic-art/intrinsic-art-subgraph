@@ -148,29 +148,21 @@ export class PaymentReleased__Params {
   }
 }
 
-export class TraitsMinted extends ethereum.Event {
-  get params(): TraitsMinted__Params {
-    return new TraitsMinted__Params(this);
+export class ProofArtworkMint extends ethereum.Event {
+  get params(): ProofArtworkMint__Params {
+    return new ProofArtworkMint__Params(this);
   }
 }
 
-export class TraitsMinted__Params {
-  _event: TraitsMinted;
+export class ProofArtworkMint__Params {
+  _event: ProofArtworkMint;
 
-  constructor(event: TraitsMinted) {
+  constructor(event: ProofArtworkMint) {
     this._event = event;
   }
 
-  get recipient(): Address {
+  get caller(): Address {
     return this._event.parameters[0].value.toAddress();
-  }
-
-  get traitTokenIds(): Array<BigInt> {
-    return this._event.parameters[1].value.toBigIntArray();
-  }
-
-  get traitAmounts(): Array<BigInt> {
-    return this._event.parameters[2].value.toBigIntArray();
   }
 }
 
@@ -1477,7 +1469,7 @@ export class MintTraitsArtistProofCall__Inputs {
     this._call = call;
   }
 
-  get _artistAddress(): Address {
+  get _caller(): Address {
     return this._call.inputValues[0].value.toAddress();
   }
 

@@ -4,6 +4,7 @@ import {
   TransferSingle as TransferSingleEvent,
   WhitelistUpdated as WhitelistUpdatedEvent,
   WhitelistArtworkMint as WhitelistArtworkMintEvent,
+  ProofArtworkMint as ProofArtworkMintEvent,
 } from "../generated/templates/Traits/Traits"
 import {
   Trait, TraitBalance, User, WhitelistBalance, TraitsContract, Project
@@ -161,4 +162,16 @@ export function handleWhitelistArtworkMint(event: WhitelistArtworkMintEvent): vo
 
   whitelistUser.save();
   whitelistBalance.save();
+}
+
+export function handleProofArtworkMint(event: ProofArtworkMintEvent): void {
+  let traitsContract = TraitsContract.load(event.address.toHexString());
+  if (!traitsContract) return;
+
+  let project = Project.load(traitsContract.project);
+  if (!project) return;
+
+  project.proofMinted = true;
+
+  project.save();
 }

@@ -6,7 +6,7 @@ dataSources:
     name: ProjectRegsitry
     network: sepolia
     source:
-      address: "0xE4C8D521856C0b10d04440b0117A820A5a22EcE6"
+      address: "0xBA396f5721012719293688d9e2e029543553cc4e"
       abi: ProjectRegistry
       startBlock: 5028640
     mapping:

@@ -18,6 +18,7 @@ type Project @entity {
   auctionPriceSteps: Int!
   traitsSaleStartTime: Int!
   whitelistStartTime: Int!
+  proofMinted: Boolean!
 }
 
 type ArtworkContract @entity {
