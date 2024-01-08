@@ -2,9 +2,11 @@ import { log, ByteArray, BigInt, Address, crypto, store } from "@graphprotocol/g
 import {
   TransferBatch as TransferBatchEvent,
   TransferSingle as TransferSingleEvent,
+  WhitelistUpdated as WhitelistUpdatedEvent,
+  WhitelistArtworkMint as WhitelistArtworkMintEvent,
 } from "../generated/templates/Traits/Traits"
 import {
-  Trait, TraitBalance, User
+  Trait, TraitBalance, User, WhitelistBalance
 } from "../generated/schema"
 import { ADDRESS_ZERO } from "./constants";
 import { concat2, concat3 } from "./helpers";
@@ -108,4 +110,48 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
       }
     }
   }
+}
+
+export function handleWhitelistUpdated(event: WhitelistUpdatedEvent): void {
+  const whitelistLength = event.params.whitelistAddresses.length;
+
+  for (let i = 0; i < whitelistLength; i++) {
+    let whitelistUser = User.load(event.params.whitelistAddresses[i].toHexString());
+
+    if (!whitelistUser) {
+      whitelistUser = new User(event.params.whitelistAddresses[i].toHexString());
+    }
+
+    let whitelistBalance = WhitelistBalance.load(concat2(event.address.toHexString(), whitelistUser.id));
+
+    if(!whitelistBalance) {
+      whitelistBalance = new WhitelistBalance(concat2(event.address.toHexString(), whitelistUser.id));
+      whitelistBalance.owner = whitelistUser.id;
+    }
+
+    whitelistBalance.amount = event.params.whitelistAmounts[i];
+
+    whitelistUser.save();
+    whitelistBalance.save();
+  }
+}
+
+export function handleWhitelistArtworkMint(event: WhitelistArtworkMintEvent): void {
+  let whitelistUser = User.load(event.params.caller.toHexString());
+
+  if (!whitelistUser) {
+    whitelistUser = new User(event.params.caller.toHexString());
+  }
+
+  let whitelistBalance = WhitelistBalance.load(concat2(event.address.toHexString(), whitelistUser.id));
+
+  if(!whitelistBalance) {
+    whitelistBalance = new WhitelistBalance(concat2(event.address.toHexString(), whitelistUser.id));
+    whitelistBalance.owner = whitelistUser.id;
+  }
+
+  whitelistBalance.amount = whitelistBalance.amount.minus(BigInt.fromString("1"));
+
+  whitelistUser.save();
+  whitelistBalance.save();
 }

@@ -48,6 +48,7 @@ type User @entity {
   id: ID!
   artworks: [Artwork!]! @derivedFrom(field: "owner")
   traitBalances: [TraitBalance!]! @derivedFrom(field: "owner")
+  whitelistBalances: [WhitelistBalance!]! @derivedFrom(field: "owner")
 }
 
 type Trait @entity {
@@ -70,4 +71,10 @@ type TraitBalance @entity {
   trait: Trait!
   owner: User!
   amount: BigInt!
+}
+
+type WhitelistBalance @entity {
+  id: ID! #TraitsContractAddress-UserAddress
+  owner: User!
+  amount: BigInt! 
 }
