@@ -103,7 +103,7 @@ export function handleWhitelistUpdated(event: WhitelistUpdatedEvent): void {
   }
 }
 
-export function handleWhitelistArtworkMint(event: WhitelistArtworkMintedEvent): void {
+export function handleWhitelistArtworkMinted(event: WhitelistArtworkMintedEvent): void {
   let whitelistUser = User.load(event.params.caller.toHexString());
 
   if (!whitelistUser) {
@@ -123,7 +123,7 @@ export function handleWhitelistArtworkMint(event: WhitelistArtworkMintedEvent): 
   whitelistBalance.save();
 }
 
-export function handleProofArtworkMint(event: ProofArtworkMintedEvent): void {
+export function handleProofArtworkMinted(event: ProofArtworkMintedEvent): void {
   let traitsContract = TraitsContract.load(event.address.toHexString());
   if (!traitsContract) return;
 

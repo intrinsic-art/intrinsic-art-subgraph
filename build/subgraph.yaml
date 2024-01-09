@@ -55,6 +55,12 @@ templates:
           handler: handleTraitsReclaimed
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+        - event: WhitelistUpdated(uint256,address[],uint256[])
+          handler: handleWhitelistUpdated
+        - event: WhitelistArtworkMinted(indexed uint256,indexed address)
+          handler: handleWhitelistArtworkMinted
+        - event: ProofArtworkMinted(indexed uint256,indexed address)
+          handler: handleProofArtworkMinted
       file: templates/Artwork/Artwork.wasm
   - name: Traits
     kind: ethereum
@@ -79,8 +85,4 @@ templates:
           handler: handleTransferBatch
         - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTransferSingle
-        - event: WhitelistUpdated(uint256,address[],uint256[])
-          handler: handleWhitelistUpdated
-        - event: WhitelistArtworkMint(indexed address)
-          handler: handleWhitelistArtworkMint
       file: templates/Traits/Traits.wasm
