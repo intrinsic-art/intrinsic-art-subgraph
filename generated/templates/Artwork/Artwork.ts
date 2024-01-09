@@ -162,6 +162,28 @@ export class PaymentReleased__Params {
   }
 }
 
+export class ProofArtworkMinted extends ethereum.Event {
+  get params(): ProofArtworkMinted__Params {
+    return new ProofArtworkMinted__Params(this);
+  }
+}
+
+export class ProofArtworkMinted__Params {
+  _event: ProofArtworkMinted;
+
+  constructor(event: ProofArtworkMinted) {
+    this._event = event;
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get caller(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class TraitsReclaimed extends ethereum.Event {
   get params(): TraitsReclaimed__Params {
     return new TraitsReclaimed__Params(this);
@@ -207,6 +229,54 @@ export class Transfer__Params {
 
   get tokenId(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+}
+
+export class WhitelistArtworkMinted extends ethereum.Event {
+  get params(): WhitelistArtworkMinted__Params {
+    return new WhitelistArtworkMinted__Params(this);
+  }
+}
+
+export class WhitelistArtworkMinted__Params {
+  _event: WhitelistArtworkMinted;
+
+  constructor(event: WhitelistArtworkMinted) {
+    this._event = event;
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get caller(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
+export class WhitelistUpdated extends ethereum.Event {
+  get params(): WhitelistUpdated__Params {
+    return new WhitelistUpdated__Params(this);
+  }
+}
+
+export class WhitelistUpdated__Params {
+  _event: WhitelistUpdated;
+
+  constructor(event: WhitelistUpdated) {
+    this._event = event;
+  }
+
+  get whitelistStartTime(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get whitelistAddresses(): Array<Address> {
+    return this._event.parameters[1].value.toAddressArray();
+  }
+
+  get whitelistAmounts(): Array<BigInt> {
+    return this._event.parameters[2].value.toBigIntArray();
   }
 }
 
@@ -1179,6 +1249,52 @@ export class Artwork extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
+
+  whitelistMintsRemaining(param0: Address): BigInt {
+    let result = super.call(
+      "whitelistMintsRemaining",
+      "whitelistMintsRemaining(address):(uint256)",
+      [ethereum.Value.fromAddress(param0)]
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_whitelistMintsRemaining(param0: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "whitelistMintsRemaining",
+      "whitelistMintsRemaining(address):(uint256)",
+      [ethereum.Value.fromAddress(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  whitelistStartTime(): BigInt {
+    let result = super.call(
+      "whitelistStartTime",
+      "whitelistStartTime():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try_whitelistStartTime(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "whitelistStartTime",
+      "whitelistStartTime():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
 }
 
 export class ConstructorCall extends ethereum.Call {
@@ -1813,6 +1929,44 @@ export class TransferFromCall__Outputs {
   _call: TransferFromCall;
 
   constructor(call: TransferFromCall) {
+    this._call = call;
+  }
+}
+
+export class UpdateWhitelistCall extends ethereum.Call {
+  get inputs(): UpdateWhitelistCall__Inputs {
+    return new UpdateWhitelistCall__Inputs(this);
+  }
+
+  get outputs(): UpdateWhitelistCall__Outputs {
+    return new UpdateWhitelistCall__Outputs(this);
+  }
+}
+
+export class UpdateWhitelistCall__Inputs {
+  _call: UpdateWhitelistCall;
+
+  constructor(call: UpdateWhitelistCall) {
+    this._call = call;
+  }
+
+  get _whitelistStartTime(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get _whitelistAddresses(): Array<Address> {
+    return this._call.inputValues[1].value.toAddressArray();
+  }
+
+  get _whitelistAmounts(): Array<BigInt> {
+    return this._call.inputValues[2].value.toBigIntArray();
+  }
+}
+
+export class UpdateWhitelistCall__Outputs {
+  _call: UpdateWhitelistCall;
+
+  constructor(call: UpdateWhitelistCall) {
     this._call = call;
   }
 }

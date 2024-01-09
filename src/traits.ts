@@ -1,13 +1,11 @@
-import { log, ByteArray, BigInt, Address, crypto, store } from "@graphprotocol/graph-ts"
+import { BigInt } from "@graphprotocol/graph-ts"
 import {
   TransferBatch as TransferBatchEvent,
   TransferSingle as TransferSingleEvent,
-  WhitelistUpdated as WhitelistUpdatedEvent,
-  WhitelistArtworkMint as WhitelistArtworkMintEvent,
-  ProofArtworkMint as ProofArtworkMintEvent,
+
 } from "../generated/templates/Traits/Traits"
 import {
-  Trait, TraitBalance, User, WhitelistBalance, TraitsContract, Project
+  Trait, TraitBalance, User
 } from "../generated/schema"
 import { ADDRESS_ZERO } from "./constants";
 import { concat2, concat3 } from "./helpers";
@@ -111,67 +109,4 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
       }
     }
   }
-}
-
-export function handleWhitelistUpdated(event: WhitelistUpdatedEvent): void {
-  let traitsContract = TraitsContract.load(event.address.toHexString());
-  if (!traitsContract) return;
-
-  let project = Project.load(traitsContract.project);
-  if (!project) return;
-
-  const whitelistLength = event.params.whitelistAddresses.length;
-
-  for (let i = 0; i < whitelistLength; i++) {
-    let whitelistUser = User.load(event.params.whitelistAddresses[i].toHexString());
-
-    if (!whitelistUser) {
-      whitelistUser = new User(event.params.whitelistAddresses[i].toHexString());
-    }
-
-    let whitelistBalance = WhitelistBalance.load(concat2(event.address.toHexString(), whitelistUser.id));
-
-    if(!whitelistBalance) {
-      whitelistBalance = new WhitelistBalance(concat2(event.address.toHexString(), whitelistUser.id));
-      whitelistBalance.owner = whitelistUser.id;
-    }
-
-    whitelistBalance.amount = event.params.whitelistAmounts[i];
-    whitelistBalance.project = project.id;
-
-    whitelistUser.save();
-    whitelistBalance.save();
-  }
-}
-
-export function handleWhitelistArtworkMint(event: WhitelistArtworkMintEvent): void {
-  let whitelistUser = User.load(event.params.caller.toHexString());
-
-  if (!whitelistUser) {
-    whitelistUser = new User(event.params.caller.toHexString());
-  }
-
-  let whitelistBalance = WhitelistBalance.load(concat2(event.address.toHexString(), whitelistUser.id));
-
-  if(!whitelistBalance) {
-    whitelistBalance = new WhitelistBalance(concat2(event.address.toHexString(), whitelistUser.id));
-    whitelistBalance.owner = whitelistUser.id;
-  }
-
-  whitelistBalance.amount = whitelistBalance.amount.minus(BigInt.fromString("1"));
-
-  whitelistUser.save();
-  whitelistBalance.save();
-}
-
-export function handleProofArtworkMint(event: ProofArtworkMintEvent): void {
-  let traitsContract = TraitsContract.load(event.address.toHexString());
-  if (!traitsContract) return;
-
-  let project = Project.load(traitsContract.project);
-  if (!project) return;
-
-  project.proofMinted = true;
-
-  project.save();
 }

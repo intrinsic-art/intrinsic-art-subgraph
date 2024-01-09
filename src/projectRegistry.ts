@@ -46,7 +46,7 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   project.auctionEndTime = _traitsContract.auctionEndTime().toI32();
   project.auctionPriceSteps = _traitsContract.auctionPriceSteps().toI32();
   project.traitsSaleStartTime = _traitsContract.traitsSaleStartTime().toI32();
-  project.whitelistStartTime = _traitsContract.whitelistStartTime().toI32();
+  project.whitelistStartTime = _artworkContract.whitelistStartTime().toI32();
   project.proofMinted = false;
   project.save();
 
