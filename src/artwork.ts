@@ -8,7 +8,7 @@ import {
 } from "../generated/templates/Artwork/Artwork"
 import { Artwork as ArtworkContractTemplate } from "../generated/templates/Artwork/Artwork"
 import {
-  Artwork, User, Project, ArtworkContract, TraitsContract, WhitelistBalance
+  Artwork, User, Project, ArtworkContract, WhitelistBalance
 } from "../generated/schema"
 import { concat2 } from "./helpers";
 import { BigInt } from '@graphprotocol/graph-ts'
@@ -73,10 +73,10 @@ export function handleTransfer(event: TransferEvent): void {
 
 
 export function handleWhitelistUpdated(event: WhitelistUpdatedEvent): void {
-  let traitsContract = TraitsContract.load(event.address.toHexString());
-  if (!traitsContract) return;
+  let artworkContract = ArtworkContract.load(event.address.toHexString());
+  if (!artworkContract) return;
 
-  let project = Project.load(traitsContract.project);
+  let project = Project.load(artworkContract.project);
   if (!project) return;
 
   const whitelistLength = event.params.whitelistAddresses.length;
@@ -124,10 +124,10 @@ export function handleWhitelistArtworkMinted(event: WhitelistArtworkMintedEvent)
 }
 
 export function handleProofArtworkMinted(event: ProofArtworkMintedEvent): void {
-  let traitsContract = TraitsContract.load(event.address.toHexString());
-  if (!traitsContract) return;
+  let artworkContract = ArtworkContract.load(event.address.toHexString());
+  if (!artworkContract) return;
 
-  let project = Project.load(traitsContract.project);
+  let project = Project.load(artworkContract.project);
   if (!project) return;
 
   project.proofMinted = true;

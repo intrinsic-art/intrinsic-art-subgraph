@@ -80,7 +80,7 @@ type TraitBalance @entity {
 }
 
 type WhitelistBalance @entity {
-  id: ID! #TraitsContractAddress-UserAddress
+  id: ID! #ArtworkContractAddress-UserAddress
   project: Project!
   owner: User!
   amount: BigInt! 
