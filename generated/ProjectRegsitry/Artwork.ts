@@ -592,6 +592,25 @@ export class Artwork extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
+  isHashUsed(_hash: Bytes): boolean {
+    let result = super.call("isHashUsed", "isHashUsed(bytes32):(bool)", [
+      ethereum.Value.fromFixedBytes(_hash)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_isHashUsed(_hash: Bytes): ethereum.CallResult<boolean> {
+    let result = super.tryCall("isHashUsed", "isHashUsed(bytes32):(bool)", [
+      ethereum.Value.fromFixedBytes(_hash)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
   metadataJSON(): string {
     let result = super.call("metadataJSON", "metadataJSON():(string)", []);
 
@@ -1229,25 +1248,6 @@ export class Artwork extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  userNonce(_user: Address): BigInt {
-    let result = super.call("userNonce", "userNonce(address):(uint256)", [
-      ethereum.Value.fromAddress(_user)
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_userNonce(_user: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("userNonce", "userNonce(address):(uint256)", [
-      ethereum.Value.fromAddress(_user)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   whitelistMintsRemaining(param0: Address): BigInt {
