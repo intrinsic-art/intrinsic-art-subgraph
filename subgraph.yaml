@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: ProjectRegsitry
-    network: goerli
+    network: base-sepolia
     source:
-      address: "0x2ad6CCCE7589783FdFfFef4473FE67971Cb395B0"
+      address: "0x3D5c4604059A4F3a3C572b9a3236C693aB88a6FB"
       abi: ProjectRegistry
-      startBlock: 9689960
+      startBlock: 7469000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -32,7 +32,7 @@ dataSources:
 templates:
   - name: Artwork
     kind: ethereum
-    network: goerli
+    network: base-sepolia
     source:
       abi: Artwork
     mapping:
@@ -49,16 +49,22 @@ templates:
         - name: Artwork
           file: ./abis/Artwork.json
       eventHandlers:
-        - event: ArtworkCreated(indexed uint256,uint256[],bytes32,indexed address)
-          handler: handleArtworkCreated
+        - event: ArtworkMinted(indexed uint256,uint256[],bytes32,indexed address)
+          handler: handleArtworkMinted
         - event: TraitsReclaimed(indexed uint256,indexed address)
           handler: handleTraitsReclaimed
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+        - event: WhitelistUpdated(uint256,address[],uint256[])
+          handler: handleWhitelistUpdated
+        - event: WhitelistArtworkMinted(indexed uint256,indexed address)
+          handler: handleWhitelistArtworkMinted
+        - event: ProofArtworkMinted(indexed uint256,indexed address)
+          handler: handleProofArtworkMinted
       file: ./src/artwork.ts
   - name: Traits
     kind: ethereum
-    network: goerli
+    network: base-sepolia
     source:
       abi: Traits
     mapping:

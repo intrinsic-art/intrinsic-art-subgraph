@@ -1,7 +1,8 @@
-import { log, ByteArray, BigInt, Address, crypto, store } from "@graphprotocol/graph-ts"
+import { BigInt } from "@graphprotocol/graph-ts"
 import {
   TransferBatch as TransferBatchEvent,
   TransferSingle as TransferSingleEvent,
+
 } from "../generated/templates/Traits/Traits"
 import {
   Trait, TraitBalance, User

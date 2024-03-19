@@ -4,16 +4,16 @@ schema:
 dataSources:
   - kind: ethereum
     name: ProjectRegsitry
-    network: goerli
+    network: base-sepolia
     source:
-      address: "0x2ad6CCCE7589783FdFfFef4473FE67971Cb395B0"
+      address: "0x3D5c4604059A4F3a3C572b9a3236C693aB88a6FB"
       abi: ProjectRegistry
-      startBlock: 9689960
+      startBlock: 7469000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
-      file: ProjectRegsitry\ProjectRegsitry.wasm
+      file: ProjectRegsitry/ProjectRegsitry.wasm
       entities:
         - Project
         - ArtworkContract
@@ -21,18 +21,18 @@ dataSources:
         - Trait
       abis:
         - name: ProjectRegistry
-          file: ProjectRegsitry\abis\ProjectRegistry.json
+          file: ProjectRegsitry/abis/ProjectRegistry.json
         - name: Traits
-          file: ProjectRegsitry\abis\Traits.json
+          file: ProjectRegsitry/abis/Traits.json
         - name: Artwork
-          file: ProjectRegsitry\abis\Artwork.json
+          file: ProjectRegsitry/abis/Artwork.json
       eventHandlers:
         - event: ProjectRegistered(indexed uint256,indexed address,indexed address)
           handler: handleProjectRegistered
 templates:
   - name: Artwork
     kind: ethereum
-    network: goerli
+    network: base-sepolia
     source:
       abi: Artwork
     mapping:
@@ -47,18 +47,24 @@ templates:
         - TraitBalance
       abis:
         - name: Artwork
-          file: Artwork\abis\Artwork.json
+          file: Artwork/abis/Artwork.json
       eventHandlers:
-        - event: ArtworkCreated(indexed uint256,uint256[],bytes32,indexed address)
-          handler: handleArtworkCreated
+        - event: ArtworkMinted(indexed uint256,uint256[],bytes32,indexed address)
+          handler: handleArtworkMinted
         - event: TraitsReclaimed(indexed uint256,indexed address)
           handler: handleTraitsReclaimed
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: templates\Artwork\Artwork.wasm
+        - event: WhitelistUpdated(uint256,address[],uint256[])
+          handler: handleWhitelistUpdated
+        - event: WhitelistArtworkMinted(indexed uint256,indexed address)
+          handler: handleWhitelistArtworkMinted
+        - event: ProofArtworkMinted(indexed uint256,indexed address)
+          handler: handleProofArtworkMinted
+      file: templates/Artwork/Artwork.wasm
   - name: Traits
     kind: ethereum
-    network: goerli
+    network: base-sepolia
     source:
       abi: Traits
     mapping:
@@ -73,10 +79,10 @@ templates:
         - TraitBalance
       abis:
         - name: Traits
-          file: Traits\abis\Traits.json
+          file: Traits/abis/Traits.json
       eventHandlers:
         - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
           handler: handleTransferBatch
         - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTransferSingle
-      file: templates\Traits\Traits.wasm
+      file: templates/Traits/Traits.wasm

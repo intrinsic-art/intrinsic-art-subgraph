@@ -3,7 +3,7 @@ import {
   ProjectRegistered as ProjectRegisteredEvent,
 } from "../generated/ProjectRegsitry/ProjectRegistry"
 import {
-  Project, ArtworkContract, Trait, TraitsContract
+  Project, ArtworkContract, Trait, TraitsContract, PrimarySalesSplit, SecondarySalesSplit
 } from "../generated/schema"
 import { Artwork, Traits } from '../generated/templates'
 import { Traits as TraitsContractTemplate } from "../generated/templates/Traits/Traits"
@@ -34,17 +34,20 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   project.traitsContract = traitsContract.id;
   project.name = _artworkContract.name();
   project.symbol = _artworkContract.symbol();
-  project.baseURI = _artworkContract.baseURI();
+  project.artistAddress = _artworkContract.artistAddress();
   project.totalSupply = BigInt.fromString("0");
-  project.scriptJSON = _artworkContract.scriptJSON();
-  project.script = _artworkContract.projectScripts().join("");
+  project.metadataJSON = _artworkContract.metadataJSON();
+  project.script = _artworkContract.script();
   project.totalSupply = BigInt.fromString("0");
   project.nextTokenId = BigInt.fromString("0");
   project.auctionStartPrice = _traitsContract.auctionStartPrice();
   project.auctionEndPrice = _traitsContract.auctionEndPrice();
   project.auctionStartTime = _traitsContract.auctionStartTime().toI32();
   project.auctionEndTime = _traitsContract.auctionEndTime().toI32();
+  project.auctionPriceSteps = _traitsContract.auctionPriceSteps().toI32();
   project.traitsSaleStartTime = _traitsContract.traitsSaleStartTime().toI32();
+  project.whitelistStartTime = _artworkContract.whitelistStartTime().toI32();
+  project.proofMinted = false;
   project.save();
 
   let returnedTraits = _traitsContract.traits();
@@ -62,4 +65,32 @@ export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
     trait.typeValue = returnedTraits.get_traitTypeValues()[i];
     trait.save();
   }
+
+  // Update primary sales payees
+  const primarySalesPayeesData = _traitsContract.payees();
+  const primarySalesPayees = primarySalesPayeesData.getPayees_();
+  const primarySalesShares = primarySalesPayeesData.getShares_();
+
+  for (let i=0; i < primarySalesPayees.length; i++) {
+    let primarySalesPayee = new PrimarySalesSplit(concat2(traitsContract.id, primarySalesPayees[i].toHexString()));
+    primarySalesPayee.traitsContract = traitsContract.id;
+    primarySalesPayee.payee = primarySalesPayees[i].toHexString();
+    primarySalesPayee.shares = primarySalesShares[i];
+
+    primarySalesPayee.save();
+  }
+
+    // Update secondary sales payees
+    const secondarySalesPayeesData = _traitsContract.payees();
+    const secondarySalesPayees = secondarySalesPayeesData.getPayees_();
+    const secondarySalesShares = secondarySalesPayeesData.getShares_();
+  
+    for (let i=0; i < secondarySalesPayees.length; i++) {
+      let secondarySalesPayee = new SecondarySalesSplit(concat2(artworkContract.id, secondarySalesPayees[i].toHexString()));
+      secondarySalesPayee.artworkContract = artworkContract.id;
+      secondarySalesPayee.payee = secondarySalesPayees[i].toHexString();
+      secondarySalesPayee.shares = secondarySalesShares[i];
+  
+      secondarySalesPayee.save();
+    }
 }
