@@ -108,6 +108,24 @@ export class OwnershipTransferred__Params {
   }
 }
 
+export class ProjectDeregistered extends ethereum.Event {
+  get params(): ProjectDeregistered__Params {
+    return new ProjectDeregistered__Params(this);
+  }
+}
+
+export class ProjectDeregistered__Params {
+  _event: ProjectDeregistered;
+
+  constructor(event: ProjectDeregistered) {
+    this._event = event;
+  }
+
+  get projectId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class ProjectRegistered extends ethereum.Event {
   get params(): ProjectRegistered__Params {
     return new ProjectRegistered__Params(this);
@@ -365,6 +383,36 @@ export class AddAdminsCall__Outputs {
   _call: AddAdminsCall;
 
   constructor(call: AddAdminsCall) {
+    this._call = call;
+  }
+}
+
+export class DeregisterProjectCall extends ethereum.Call {
+  get inputs(): DeregisterProjectCall__Inputs {
+    return new DeregisterProjectCall__Inputs(this);
+  }
+
+  get outputs(): DeregisterProjectCall__Outputs {
+    return new DeregisterProjectCall__Outputs(this);
+  }
+}
+
+export class DeregisterProjectCall__Inputs {
+  _call: DeregisterProjectCall;
+
+  constructor(call: DeregisterProjectCall) {
+    this._call = call;
+  }
+
+  get _projectId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class DeregisterProjectCall__Outputs {
+  _call: DeregisterProjectCall;
+
+  constructor(call: DeregisterProjectCall) {
     this._call = call;
   }
 }
