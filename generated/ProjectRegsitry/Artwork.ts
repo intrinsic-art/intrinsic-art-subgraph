@@ -92,76 +92,6 @@ export class ArtworkMinted__Params {
   }
 }
 
-export class ERC20PaymentReleased extends ethereum.Event {
-  get params(): ERC20PaymentReleased__Params {
-    return new ERC20PaymentReleased__Params(this);
-  }
-}
-
-export class ERC20PaymentReleased__Params {
-  _event: ERC20PaymentReleased;
-
-  constructor(event: ERC20PaymentReleased) {
-    this._event = event;
-  }
-
-  get token(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get to(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
-export class PayeeAdded extends ethereum.Event {
-  get params(): PayeeAdded__Params {
-    return new PayeeAdded__Params(this);
-  }
-}
-
-export class PayeeAdded__Params {
-  _event: PayeeAdded;
-
-  constructor(event: PayeeAdded) {
-    this._event = event;
-  }
-
-  get account(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get shares(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-}
-
-export class PaymentReleased extends ethereum.Event {
-  get params(): PaymentReleased__Params {
-    return new PaymentReleased__Params(this);
-  }
-}
-
-export class PaymentReleased__Params {
-  _event: PaymentReleased;
-
-  constructor(event: PaymentReleased) {
-    this._event = event;
-  }
-
-  get to(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-}
-
 export class ProofArtworkMinted extends ethereum.Event {
   get params(): ProofArtworkMinted__Params {
     return new ProofArtworkMinted__Params(this);
@@ -368,31 +298,6 @@ export class Artwork__metadataJSONStringStorageResult {
   }
 }
 
-export class Artwork__payeesResult {
-  value0: Array<Address>;
-  value1: Array<BigInt>;
-
-  constructor(value0: Array<Address>, value1: Array<BigInt>) {
-    this.value0 = value0;
-    this.value1 = value1;
-  }
-
-  toMap(): TypedMap<string, ethereum.Value> {
-    let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromAddressArray(this.value0));
-    map.set("value1", ethereum.Value.fromUnsignedBigIntArray(this.value1));
-    return map;
-  }
-
-  getPayees_(): Array<Address> {
-    return this.value0;
-  }
-
-  getShares_(): Array<BigInt> {
-    return this.value1;
-  }
-}
-
 export class Artwork__royaltyInfoResult {
   value0: Address;
   value1: BigInt;
@@ -543,6 +448,21 @@ export class Artwork extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  cancelled(): boolean {
+    let result = super.call("cancelled", "cancelled():(bool)", []);
+
+    return result[0].toBoolean();
+  }
+
+  try_cancelled(): ethereum.CallResult<boolean> {
+    let result = super.tryCall("cancelled", "cancelled():(bool)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   getApproved(tokenId: BigInt): Address {
@@ -834,48 +754,6 @@ export class Artwork extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  payee(index: BigInt): Address {
-    let result = super.call("payee", "payee(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(index)
-    ]);
-
-    return result[0].toAddress();
-  }
-
-  try_payee(index: BigInt): ethereum.CallResult<Address> {
-    let result = super.tryCall("payee", "payee(uint256):(address)", [
-      ethereum.Value.fromUnsignedBigInt(index)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toAddress());
-  }
-
-  payees(): Artwork__payeesResult {
-    let result = super.call("payees", "payees():(address[],uint256[])", []);
-
-    return new Artwork__payeesResult(
-      result[0].toAddressArray(),
-      result[1].toBigIntArray()
-    );
-  }
-
-  try_payees(): ethereum.CallResult<Artwork__payeesResult> {
-    let result = super.tryCall("payees", "payees():(address[],uint256[])", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new Artwork__payeesResult(
-        value[0].toAddressArray(),
-        value[1].toBigIntArray()
-      )
-    );
-  }
-
   projectRegistry(): Address {
     let result = super.call(
       "projectRegistry",
@@ -912,102 +790,6 @@ export class Artwork extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  releasableERC20(token: Address, account: Address): BigInt {
-    let result = super.call(
-      "releasableERC20",
-      "releasableERC20(address,address):(uint256)",
-      [ethereum.Value.fromAddress(token), ethereum.Value.fromAddress(account)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_releasableERC20(
-    token: Address,
-    account: Address
-  ): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "releasableERC20",
-      "releasableERC20(address,address):(uint256)",
-      [ethereum.Value.fromAddress(token), ethereum.Value.fromAddress(account)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  releasableETH(account: Address): BigInt {
-    let result = super.call(
-      "releasableETH",
-      "releasableETH(address):(uint256)",
-      [ethereum.Value.fromAddress(account)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_releasableETH(account: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "releasableETH",
-      "releasableETH(address):(uint256)",
-      [ethereum.Value.fromAddress(account)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  releasedERC20(token: Address, account: Address): BigInt {
-    let result = super.call(
-      "releasedERC20",
-      "releasedERC20(address,address):(uint256)",
-      [ethereum.Value.fromAddress(token), ethereum.Value.fromAddress(account)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_releasedERC20(
-    token: Address,
-    account: Address
-  ): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "releasedERC20",
-      "releasedERC20(address,address):(uint256)",
-      [ethereum.Value.fromAddress(token), ethereum.Value.fromAddress(account)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  releasedETH(account: Address): BigInt {
-    let result = super.call("releasedETH", "releasedETH(address):(uint256)", [
-      ethereum.Value.fromAddress(account)
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_releasedETH(account: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "releasedETH",
-      "releasedETH(address):(uint256)",
-      [ethereum.Value.fromAddress(account)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   royaltyInfo(
@@ -1098,25 +880,6 @@ export class Artwork extends ethereum.SmartContract {
     );
   }
 
-  shares(account: Address): BigInt {
-    let result = super.call("shares", "shares(address):(uint256)", [
-      ethereum.Value.fromAddress(account)
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_shares(account: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("shares", "shares(address):(uint256)", [
-      ethereum.Value.fromAddress(account)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   supportsInterface(interfaceId: Bytes): boolean {
     let result = super.call(
       "supportsInterface",
@@ -1172,67 +935,6 @@ export class Artwork extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
-  }
-
-  totalReleasedERC20(token: Address): BigInt {
-    let result = super.call(
-      "totalReleasedERC20",
-      "totalReleasedERC20(address):(uint256)",
-      [ethereum.Value.fromAddress(token)]
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_totalReleasedERC20(token: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "totalReleasedERC20",
-      "totalReleasedERC20(address):(uint256)",
-      [ethereum.Value.fromAddress(token)]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  totalReleasedETH(): BigInt {
-    let result = super.call(
-      "totalReleasedETH",
-      "totalReleasedETH():(uint256)",
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_totalReleasedETH(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "totalReleasedETH",
-      "totalReleasedETH():(uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  totalShares(): BigInt {
-    let result = super.call("totalShares", "totalShares():(uint256)", []);
-
-    return result[0].toBigInt();
-  }
-
-  try_totalShares(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("totalShares", "totalShares():(uint256)", []);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   traits(): Address {
@@ -1330,27 +1032,19 @@ export class ConstructorCall__Inputs {
     return this._call.inputValues[3].value.toAddress();
   }
 
-  get _royaltyFeeNumerator(): BigInt {
-    return this._call.inputValues[4].value.toBigInt();
-  }
-
-  get _royaltyPayees(): Array<Address> {
-    return this._call.inputValues[5].value.toAddressArray();
-  }
-
-  get _royaltyShares(): Array<BigInt> {
-    return this._call.inputValues[6].value.toBigIntArray();
+  get _royaltyReceiver(): Address {
+    return this._call.inputValues[4].value.toAddress();
   }
 
   get _metadataJSONStringStorage(): ConstructorCall_metadataJSONStringStorageStruct {
     return changetype<ConstructorCall_metadataJSONStringStorageStruct>(
-      this._call.inputValues[7].value.toTuple()
+      this._call.inputValues[5].value.toTuple()
     );
   }
 
   get _scriptStringStorage(): ConstructorCall_scriptStringStorageStruct {
     return changetype<ConstructorCall_scriptStringStorageStruct>(
-      this._call.inputValues[8].value.toTuple()
+      this._call.inputValues[6].value.toTuple()
     );
   }
 }
@@ -1413,6 +1107,32 @@ export class ApproveCall__Outputs {
   _call: ApproveCall;
 
   constructor(call: ApproveCall) {
+    this._call = call;
+  }
+}
+
+export class CancelCall extends ethereum.Call {
+  get inputs(): CancelCall__Inputs {
+    return new CancelCall__Inputs(this);
+  }
+
+  get outputs(): CancelCall__Outputs {
+    return new CancelCall__Outputs(this);
+  }
+}
+
+export class CancelCall__Inputs {
+  _call: CancelCall;
+
+  constructor(call: CancelCall) {
+    this._call = call;
+  }
+}
+
+export class CancelCall__Outputs {
+  _call: CancelCall;
+
+  constructor(call: CancelCall) {
     this._call = call;
   }
 }
@@ -1691,62 +1411,6 @@ export class ReclaimTraitsCall__Outputs {
   _call: ReclaimTraitsCall;
 
   constructor(call: ReclaimTraitsCall) {
-    this._call = call;
-  }
-}
-
-export class ReleaseERC20Call extends ethereum.Call {
-  get inputs(): ReleaseERC20Call__Inputs {
-    return new ReleaseERC20Call__Inputs(this);
-  }
-
-  get outputs(): ReleaseERC20Call__Outputs {
-    return new ReleaseERC20Call__Outputs(this);
-  }
-}
-
-export class ReleaseERC20Call__Inputs {
-  _call: ReleaseERC20Call;
-
-  constructor(call: ReleaseERC20Call) {
-    this._call = call;
-  }
-
-  get token(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class ReleaseERC20Call__Outputs {
-  _call: ReleaseERC20Call;
-
-  constructor(call: ReleaseERC20Call) {
-    this._call = call;
-  }
-}
-
-export class ReleaseETHCall extends ethereum.Call {
-  get inputs(): ReleaseETHCall__Inputs {
-    return new ReleaseETHCall__Inputs(this);
-  }
-
-  get outputs(): ReleaseETHCall__Outputs {
-    return new ReleaseETHCall__Outputs(this);
-  }
-}
-
-export class ReleaseETHCall__Inputs {
-  _call: ReleaseETHCall;
-
-  constructor(call: ReleaseETHCall) {
-    this._call = call;
-  }
-}
-
-export class ReleaseETHCall__Outputs {
-  _call: ReleaseETHCall;
-
-  constructor(call: ReleaseETHCall) {
     this._call = call;
   }
 }

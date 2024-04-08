@@ -115,6 +115,32 @@ export class Project extends Entity {
     this.set("artistAddress", Value.fromBytes(value));
   }
 
+  get primarySalesReceiver(): Bytes {
+    let value = this.get("primarySalesReceiver");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set primarySalesReceiver(value: Bytes) {
+    this.set("primarySalesReceiver", Value.fromBytes(value));
+  }
+
+  get secondarySalesReceiver(): Bytes {
+    let value = this.get("secondarySalesReceiver");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set secondarySalesReceiver(value: Bytes) {
+    this.set("secondarySalesReceiver", Value.fromBytes(value));
+  }
+
   get totalSupply(): BigInt {
     let value = this.get("totalSupply");
     if (!value || value.kind == ValueKind.NULL) {
@@ -358,14 +384,6 @@ export class ArtworkContract extends Entity {
       "artworks"
     );
   }
-
-  get secondarySalesSplits(): SecondarySalesSplitLoader {
-    return new SecondarySalesSplitLoader(
-      "ArtworkContract",
-      this.get("id")!.toString(),
-      "secondarySalesSplits"
-    );
-  }
 }
 
 export class TraitsContract extends Entity {
@@ -433,14 +451,6 @@ export class TraitsContract extends Entity {
 
   set artworkContract(value: string) {
     this.set("artworkContract", Value.fromString(value));
-  }
-
-  get primarySalesSplits(): PrimarySalesSplitLoader {
-    return new PrimarySalesSplitLoader(
-      "TraitsContract",
-      this.get("id")!.toString(),
-      "primarySalesSplits"
-    );
   }
 }
 
@@ -648,22 +658,6 @@ export class User extends Entity {
       "User",
       this.get("id")!.toString(),
       "whitelistBalances"
-    );
-  }
-
-  get primarySalesSplit(): PrimarySalesSplitLoader {
-    return new PrimarySalesSplitLoader(
-      "User",
-      this.get("id")!.toString(),
-      "primarySalesSplit"
-    );
-  }
-
-  get secondarySalesSplit(): SecondarySalesSplitLoader {
-    return new SecondarySalesSplitLoader(
-      "User",
-      this.get("id")!.toString(),
-      "secondarySalesSplit"
     );
   }
 }
@@ -1010,172 +1004,6 @@ export class WhitelistBalance extends Entity {
   }
 }
 
-export class PrimarySalesSplit extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save PrimarySalesSplit entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type PrimarySalesSplit must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("PrimarySalesSplit", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): PrimarySalesSplit | null {
-    return changetype<PrimarySalesSplit | null>(
-      store.get_in_block("PrimarySalesSplit", id)
-    );
-  }
-
-  static load(id: string): PrimarySalesSplit | null {
-    return changetype<PrimarySalesSplit | null>(
-      store.get("PrimarySalesSplit", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get traitsContract(): string {
-    let value = this.get("traitsContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set traitsContract(value: string) {
-    this.set("traitsContract", Value.fromString(value));
-  }
-
-  get payee(): string {
-    let value = this.get("payee");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set payee(value: string) {
-    this.set("payee", Value.fromString(value));
-  }
-
-  get shares(): BigInt {
-    let value = this.get("shares");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set shares(value: BigInt) {
-    this.set("shares", Value.fromBigInt(value));
-  }
-}
-
-export class SecondarySalesSplit extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save SecondarySalesSplit entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        `Entities of type SecondarySalesSplit must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("SecondarySalesSplit", id.toString(), this);
-    }
-  }
-
-  static loadInBlock(id: string): SecondarySalesSplit | null {
-    return changetype<SecondarySalesSplit | null>(
-      store.get_in_block("SecondarySalesSplit", id)
-    );
-  }
-
-  static load(id: string): SecondarySalesSplit | null {
-    return changetype<SecondarySalesSplit | null>(
-      store.get("SecondarySalesSplit", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get artworkContract(): string {
-    let value = this.get("artworkContract");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set artworkContract(value: string) {
-    this.set("artworkContract", Value.fromString(value));
-  }
-
-  get payee(): string {
-    let value = this.get("payee");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set payee(value: string) {
-    this.set("payee", Value.fromString(value));
-  }
-
-  get shares(): BigInt {
-    let value = this.get("shares");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set shares(value: BigInt) {
-    this.set("shares", Value.fromBigInt(value));
-  }
-}
-
 export class TraitLoader extends Entity {
   _entity: string;
   _field: string;
@@ -1227,42 +1055,6 @@ export class ArtworkLoader extends Entity {
   load(): Artwork[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
     return changetype<Artwork[]>(value);
-  }
-}
-
-export class SecondarySalesSplitLoader extends Entity {
-  _entity: string;
-  _field: string;
-  _id: string;
-
-  constructor(entity: string, id: string, field: string) {
-    super();
-    this._entity = entity;
-    this._id = id;
-    this._field = field;
-  }
-
-  load(): SecondarySalesSplit[] {
-    let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<SecondarySalesSplit[]>(value);
-  }
-}
-
-export class PrimarySalesSplitLoader extends Entity {
-  _entity: string;
-  _field: string;
-  _id: string;
-
-  constructor(entity: string, id: string, field: string) {
-    super();
-    this._entity = entity;
-    this._id = id;
-    this._field = field;
-  }
-
-  load(): PrimarySalesSplit[] {
-    let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<PrimarySalesSplit[]>(value);
   }
 }
 
