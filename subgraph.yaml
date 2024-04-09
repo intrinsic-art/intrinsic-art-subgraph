@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: ProjectRegsitry
-    network: base-sepolia
+    network: base
     source:
-      address: "0xa875715340f399D7c58D849878D08A7E56d0Daf0"
+      address: "0x0B42791C436B91ACD668Ee630650C666ec29237b"
       abi: ProjectRegistry
-      startBlock: 7469000
+      startBlock: 12915700
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -32,7 +32,7 @@ dataSources:
 templates:
   - name: Artwork
     kind: ethereum
-    network: base-sepolia
+    network: base
     source:
       abi: Artwork
     mapping:
@@ -64,7 +64,7 @@ templates:
       file: ./src/artwork.ts
   - name: Traits
     kind: ethereum
-    network: base-sepolia
+    network: base
     source:
       abi: Traits
     mapping:
