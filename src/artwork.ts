@@ -69,6 +69,12 @@ export function handleTransfer(event: TransferEvent): void {
   if(!artwork) return;
   artwork.owner = event.params.to.toHexString();
   artwork.save();
+
+  let user = User.load(event.params.to.toHexString());
+  if(!user) {
+    user = new User(event.params.to.toHexString());
+    user.save();
+  }
 }
 
 
