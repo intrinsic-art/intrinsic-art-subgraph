@@ -1,6 +1,7 @@
 import { log, ByteArray, BigInt, Address, crypto, store } from "@graphprotocol/graph-ts"
 import {
   ProjectRegistered as ProjectRegisteredEvent,
+  ProjectDeregistered as ProjectDeregisteredEvent
 } from "../generated/ProjectRegsitry/ProjectRegistry"
 import {
   Project, ArtworkContract, Trait, TraitsContract
@@ -9,6 +10,23 @@ import { Artwork, Traits } from '../generated/templates'
 import { Traits as TraitsContractTemplate } from "../generated/templates/Traits/Traits"
 import { Artwork as ArtworkContractTemplate } from "../generated/templates/Artwork/Artwork"
 import { concat2 } from "./helpers"
+
+export function handleProjectDeregistered(event: ProjectDeregisteredEvent): void {
+  let projectId = event.params.projectId.toString();
+
+  let project = Project.load(projectId);
+
+  if (project) {
+    // Remove all traits associated with the deregistered project
+    let traits = project.traits.load();
+    for (let i = 0; i < traits.length; i++) {
+      store.remove('Trait', traits[i].id);
+    }
+
+    // Remove the project
+    store.remove('Project', projectId);
+  }
+}
 
 export function handleProjectRegistered(event: ProjectRegisteredEvent): void {
   Artwork.create(event.params.artwork);
