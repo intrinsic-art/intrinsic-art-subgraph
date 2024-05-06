@@ -29,6 +29,8 @@ dataSources:
       eventHandlers:
         - event: ProjectRegistered(indexed uint256,indexed address,indexed address)
           handler: handleProjectRegistered
+        - event: ProjectDeregistered(indexed uint256)
+          handler: handleProjectDeregistered
 templates:
   - name: Artwork
     kind: ethereum
